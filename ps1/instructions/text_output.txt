@@ -1,0 +1,203 @@
+Advanced Macroeconomics (cod. 20285)
+Problem set 1
+Instructor: Antonella Trigari
+Teaching Assistant: Henri Graul
+A.Y. 2025–26
+• Due date: March 1 st, by 23:59 CEST;
+• Write your solutions with a word processor (L ATEX would be preferred);
+• Grading is based on either Exercise 1 or 2 (randomly chosen) and Exercise 3 ;
+• Optional questions will not be graded . They serve as additional practice exercises;
+• Please submit your solutions to henri.graul@unibocconi.it;
+• Submit only one PDF for each group, don’t forget to specify the names of the
+members of the group on the ﬁrst page. Please also indicate your names in the
+document title , i.e., for example ”PS1Graul/Trigari.pdf”.
+Exercise 1
+Part 1: Sequential formulation
+Consider the deterministic neoclassical growth model in its sequential formulation. The
+problem of the planner is
+max
+{ct,k t+1}→
+t=0
+→∑
+t=0
+ωt c1↑ω
+t → 1
+1 → ε
+s.t.
+
+
+
+ct + kt+1 ↑ kε
+t +( 1 → ϑ) kt
+ct,k t+1 ↓ 0
+k0 given
+1. Use L’Hopital’s rule to prove that, as ε ↔ 1, the within period utility function,
+u(ct)= c1↑ω
+t ↑1
+1↑ω , goes to ln( ct).
+[HINT: You can re-write c1↑ω
+t as e(1↑ω)l n (ct)].
+2. Brieﬂy discuss which of the constraints above are binding or non-binding.
+1
+
+3. Deﬁne the Lagrangian associated to the maximization problem above. Derive the
+ﬁrst order necessary conditions.
+4. Clearly list all the equations that you need to solve the model. Also state the steady
+state.
+5. Approximate the system of non-linear di!erence equations around the model’s de-
+terministic steady state by a ﬁrst-order Taylor expansion, i.e. log-linearize it. Give
+a brief intuition why this is helpful to solve the model.
+6. After deriving the optimal sequence for consumption and capital in period
+t = 0, denoted {c↓
+t ,k ↓
+t+1}→
+t=0, let’s assume our planner reassesses the situation in
+period 1, one period later. Does she need to redo all the algebra, i.e., solve the entire
+maximization problem starting from t = 1, or can she simply follow the plan set
+in the previous period? What happens if, unexpectedly, there’s a small change to
+the capital stock at the start of period 1 in form of a so-called MIT shock, so that
+the available capital k1 di!ers from what was planned in the optimal sequence, i.e.,
+k1 ↗= k↓
+1 ?
+[Note: First, we are not asking you to solve for the optimal sequence. The purpose
+of this question is to build intuition about the conceptual similarities and di!erences
+between sequential and recursive solutions. Second, by the nature of MIT shocks, we
+still consider a deterministic environment in the second case after the unexpected
+change in capital. An MIT shock is a ”surprise shock” introduced in a deterministic
+model that happens a single time and no agent in that model doubts that the model
+remains deterministic after the shock.
+Part 2: Recursive formulation
+Again, consider the deterministic neoclassical growth model in its sequential formulation
+as stated above.
+7. Now, formulate the problem in recursive form: Clearly identify the state variable,
+the control variables, and write down the Bellman equation.
+8. Derive the ﬁrst order necessary conditions for the problem from the Bellman equation
+you derived in the previous point.
+[HINT: you can deﬁne a Lagragian associated to the Bellman equation to take the
+constraint into account].
+9. Exploit the envelope condition(s) to express the ﬁrst order conditions above in terms
+of the variables of the model. Comment on the Euler equation you obtain and
+compare it to the one you obtained in Part 1 .
+[HINT: you need to use as many envelope conditions as the number of endogenous
+state variables].
+2
+
+10. Consider the nested case where (i) ε = 1, (ii) ϑ = 1.
+Guess the following policy functions for the optimal decisions of ct and kt+1 in terms
+of the state kt:
+ct = f (kt)= Ak ε
+t
+kt+1 = g(kt)= Bk ε
+t .
+Find the values for the undetermined coe”cients A and B.
+[HINT: You have two equations - the Euler equation and the resource constraint
+- and two unknowns - A and B. Also, note that the guess above also implies that
+ct+1 = Akε
+t+1.]
+11. After deriving the policy functions for consumption and capital , let’s again
+assume our planner reassesses the situation in period 1, one period later. Should she
+still follow the consumption-saving choices prescribed by the policy functions, given
+capital stock k1 = g(k0)= ϖωk ε
+0 ? What if, unexpectedly, there’s a change to the
+capital stock in period 1, so that the available capital k1 di!ers from what she saved
+according to the policy functions, i.e., k1 ↗= ϖωk ε
+0 .
+Exercise 2: Recursive Formulation
+Consider the following modiﬁcation of the neoclassical growth model, where we assume
+that investments made in period t will become productive only in period t + 2. That is,
+the budget constraint is given by:
+ct + kt+1 = f (kt↑1)+( 1 → ϑ)kt.
+The maximization problem is hence given by:
+max
+{ct,kt+1}→
+t=0
+→∑
+t=0
+ωt c1↑ω
+t
+1 → ε
+s.t.
+
+
+
+ct + kt+1 = f (kt↑1)+( 1 → ϑ)kt
+ct,k t+1 ↓ 0
+k↑1,k 0 given
+where production only uses capital, according to f (kt↑1)= kε
+t↑1.
+1. Formulate the problem in recursive form: identify the state and the control variables
+of the problem, and write down the Bellman equation.
+[HINT: there are two endogenous state variables].
+3
+
+2. Derive the ﬁrst order necessary conditions for the problem from the Bellman equation
+you derived in the previous point.
+[HINT: you can deﬁne a Lagragian associated to the Bellman equation to take the
+constraint into account].
+3. Exploit the envelope condition(s) to express the ﬁrst order conditions above in terms
+of the variables of the model. Comment on the Euler equation you obtain.
+[HINT: you need to use as many envelope conditions as the number of endogenous
+state variables].
+Exercise 3: Macro Data Analysis and Policy Discussion
+In this exercise, you’ll explore key macroeconomic time series, analyze relationships be-
+tween di!erent variables, and consider recent monetary policy decisions. You may be
+asked to comment on data and policy choices that we haven’t covered in depth yet. This
+is intentional—provide your best answer based on your current understanding.
+Part 1: Analysis of Key Macro Variables
+In this part, you will work with real-world data to study the co-movements and dynamics of
+key macroeconomic variables. Download the relevant time series data for the U.S. economy
+from FRED (https://fred.stlouisfed.org/), at the quarterly frequency, from 1964 (or when
+ﬁrst available) until the most recent data available. The data should include Real GDP,
+Real Investment (Real Gross Fixed Capital Formation), Real Consumption (Real Personal
+Consumption Expenditures), Inﬂation (Personal Consumption Expenditures: Chain-type
+Price Index; Percent Change from Year Ago), Interest Rates (Federal Funds Rate), and
+the Unemployment Rate.
+1. Compute the growth rates for GDP (percent change from year ago), consumption,
+and investment over time. Plot these growth rates, and discuss any notable trend
+or cyclical pattern. Analyze the co-movements between GDP, consumption, and in-
+vestment growth. How do these variables evolve together during periods of economic
+expansion and recession? What can you infer about their relationships?
+2. Examine the relationship between unemployment and GDP growth using the data
+you have gathered. Plot both variables over time and describe any pattern you
+observe. How does the unemployment rate behave during periods of economic ex-
+pansion or contraction? Discuss how recessions and recoveries are reﬂected in the
+dynamics of both GDP and unemployment.
+3. Analyze the relationship between inﬂation (percent change from one year ago of the
+price index) and interest rates using the data you have gathered. Plot inﬂation and
+4
+
+nominal interest rates over time and discuss any correlations or lagged e!ects you
+observe. Do higher interest rates appear to follow periods of higher inﬂation, or
+the reverse? Discuss how inﬂation and interest rates tend to move together during
+di!erent phases of the business cycle.
+Part 2: Labor Market Dynamics
+In this section, you will investigate the dynamics of unemployment, real wage growth,
+labor market tightness, and labor force participation. Download the relevant time series
+data from FRED for the U.S. economy, at the quarterly frequency, from 2000 (or when
+ﬁrst available) until the most recent data available. The data should include the Job
+Openings Level (Total Non Farm), the Labor Force Participation Rate, Nominal Wages
+(Average Hourly Earnings of All Employees, Total Private), the Price Level (Personal
+Consumption Expenditures: Chain-type Price Index), and both the Unemployment Level
+and the Unemployment Rate.
+1. Compute the vacancy-to-unemployment (V/U) ratio and discuss its relevance in as-
+sessing labor market tightness. Plot the V/U ratio alongside with the unemployment
+rate and analyze their comovement. Additionally, examine whether the labor force
+participation rate exhibits any cyclical pattern.
+2. Compute real wage growth (percent change from year ago) and plot it alongside the
+unemployment rate and the V/U ratio. Assess whether the data suggests a strong
+or weak relationship between real wage growth and either the unemployment rate
+or the V/U ratio. Discuss potential explanations for the observed patterns.
+Part 3: Monetary Policy and Central Bank Decisions
+In the ﬁnal section, you will engage with recent monetary policy decisions, focusing on the
+Federal Reserve’s (Fed) and the European Central Bank’s (ECB) approaches to managing
+inﬂation and economic stability.
+1. Read the o”cial statement from the latest Federal Open Market Committee (FOMC)
+meeting, held on January 27/28, 2026. Summarize the main takeaways from the
+meeting. What decision was made regarding interest rates, and what rationale did
+the FOMC provide for their decision?
+2. Compare the Federal Reserve’s decision with the European Central Bank’s latest
+monetary policy decision from February 5, 2026. What are the similarities and
+di!erences in their approaches to inﬂation, employment, and economic growth?
+5
+
+

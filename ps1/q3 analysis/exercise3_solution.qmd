@@ -1,0 +1,280 @@
+---
+title: "Exercise 3: Macro Data Analysis and Policy Discussion"
+author: "Group Name"
+format: pdf
+editor: visual
+---
+
+```{r setup, include=FALSE}
+# Install packages if not present
+if (!require("tidyverse")) install.packages("tidyverse", repos = "http://cran.us.r-project.org")
+if (!require("tidyquant")) install.packages("tidyquant", repos = "http://cran.us.r-project.org")
+if (!require("lubridate")) install.packages("lubridate", repos = "http://cran.us.r-project.org")
+
+library(tidyverse)
+library(tidyquant)
+library(lubridate)
+
+# Ensure output directories exist
+if (!dir.exists("../data/raw")) dir.create("../data/raw", recursive = TRUE)
+if (!dir.exists("../output")) dir.create("../output", recursive = TRUE)
+
+# Set a publication-quality ggplot theme
+theme_pub <- theme_minimal(base_size = 14) + 
+  theme(
+    plot.title = element_text(face = "bold", size = 16, hjust = 0.5),
+    plot.subtitle = element_text(size = 14, hjust = 0.5),
+    axis.title = element_text(face = "bold", size = 12),
+    axis.text = element_text(size = 11, color = "black"),
+    legend.position = "bottom",
+    legend.title = element_blank(),
+    legend.text = element_text(size = 12),
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_line(color = "gray90")
+  )
+theme_set(theme_pub)
+```
+
+## Part 1: Analysis of Key Macro Variables
+
+In this section, we analyze the dynamics of key macroeconomic variables in the U.S. economy: Real GDP, Real Consumption, Real Investment, Inflation, the Federal Funds Rate, and the Unemployment Rate.
+
+```{r get-data-p1, message=FALSE, warning=FALSE}
+# Define FRED series IDs
+# GDPC1: Real Gross Domestic Product (Billions of Chained 2017 Dollars, Quarterly)
+# PCECC96: Real Personal Consumption Expenditures (Billions of Chained 2017 Dollars, Quarterly)
+# GPDIC1: Real Gross Private Domestic Investment (Billions of Chained 2017 Dollars, Quarterly)
+# PCECTPI: Personal Consumption Expenditures: Chain-type Price Index (Index 2017=100, Monthly/Quarterly)
+# FEDFUNDS: Federal Funds Effective Rate (Percent, Monthly)
+# UNRATE: Unemployment Rate (Percent, Monthly)
+
+series_p1 <- c("GDPC1", "PCECC96", "GPDIC1", "PCECTPI", "FEDFUNDS", "UNRATE")
+
+# Helper function to download directly from FRED
+get_fred_data <- function(series_ids, from_date) {
+  purrr::map_dfr(series_ids, function(id) {
+    url <- paste0("https://fred.stlouisfed.org/graph/fredgraph.csv?id=", id)
+    # Some FRED series use '.' to indicate missing observations
+    df <- readr::read_csv(url, na = c("", "NA", "."), show_col_types = FALSE)
+    df <- df %>% 
+      dplyr::rename(date = 1, price = 2) %>% 
+      dplyr::mutate(symbol = id, price = as.numeric(price)) %>% 
+      dplyr::filter(date >= as.Date(from_date)) %>%
+      dplyr::select(symbol, date, price)
+    return(df)
+  })
+}
+
+# Download data from 1964 onwards
+raw_data_p1 <- get_fred_data(series_p1, "1964-01-01")
+
+# Save raw data
+write_csv(raw_data_p1, "../data/raw/raw_data_p1.csv")
+
+# Aggregate to quarterly if needed and compute Year-over-Year (YoY) growth rates
+data_p1 <- raw_data_p1 %>%
+  mutate(quarter = floor_date(date, "quarter")) %>%
+  group_by(symbol, quarter) %>%
+  summarize(price = mean(price, na.rm = TRUE), .groups = 'drop') %>%
+  group_by(symbol) %>%
+  arrange(quarter) %>%
+  mutate(yoy_growth = (price / lag(price, 4) - 1) * 100) %>%
+  ungroup()
+
+# Pivot for easier plotting
+data_wide_p1 <- data_p1 %>%
+  select(quarter, symbol, price, yoy_growth) %>%
+  pivot_wider(names_from = symbol, values_from = c(price, yoy_growth))
+```
+
+### 1. Growth Rates of GDP, Consumption, and Investment
+
+```{r plot-growth-rates, fig.width=8, fig.height=5, warning=FALSE}
+# Create a dataframe specific for the first plot
+growth_data <- data_p1 %>%
+  filter(symbol %in% c("GDPC1", "PCECC96", "GPDIC1")) %>%
+  mutate(Variable = case_when(
+    symbol == "GDPC1" ~ "Real GDP",
+    symbol == "PCECC96" ~ "Real Consumption",
+    symbol == "GPDIC1" ~ "Real Investment"
+  ))
+
+p_growth <- ggplot(growth_data, aes(x = quarter, y = yoy_growth, color = Variable)) +
+  geom_line(linewidth = 1) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "gray50") +
+  labs(title = "YoY Growth Rates: GDP, Consumption, and Investment",
+       x = "Quarter", y = "Growth Rate (%)",
+       caption = "Source: FRED (GDPC1, PCECC96, GPDIC1)") +
+  scale_color_manual(values = c("Real GDP" = "black", 
+                                "Real Consumption" = "steelblue", 
+                                "Real Investment" = "firebrick"))
+
+print(p_growth)
+ggsave("../output/01_growth_rates.pdf", plot = p_growth, width = 10, height = 6)
+```
+
+**Discussion:**
+*(Insert your discussion here regarding trends, cyclical patterns, and co-movements. Note that investment is typically much more volatile than GDP and consumption, displaying larger swings during business cycles. Consumption is usually the smoothest series.)*
+
+### 2. Unemployment and GDP Growth
+
+```{r plot-unemp-gdp, fig.width=8, fig.height=5, warning=FALSE}
+unemp_gdp_data <- data_wide_p1 %>%
+  select(quarter, yoy_growth_GDPC1, price_UNRATE) %>%
+  rename(GDP_Growth = yoy_growth_GDPC1, Unemployment_Rate = price_UNRATE) %>%
+  drop_na()
+
+coeff <- max(unemp_gdp_data$Unemployment_Rate, na.rm=T) / max(unemp_gdp_data$GDP_Growth, na.rm=T)
+
+p_unemp <- ggplot(unemp_gdp_data, aes(x = quarter)) +
+  geom_line(aes(y = GDP_Growth, color = "Real GDP Growth (YoY)"), linewidth = 1) +
+  geom_line(aes(y = Unemployment_Rate / 2, color = "Unemployment Rate"), linewidth = 1) +
+  scale_y_continuous(
+    name = "GDP Growth (%)",
+    sec.axis = sec_axis(~ . * 2, name = "Unemployment Rate (%)")
+  ) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "gray50") +
+  labs(title = "Real GDP Growth vs Unemployment Rate",
+       x = "Quarter",
+       caption = "Source: FRED (GDPC1, UNRATE)") +
+  scale_color_manual(name = "", values = c("Real GDP Growth (YoY)" = "black", "Unemployment Rate" = "darkorange"))
+
+print(p_unemp)
+ggsave("../output/02_unemp_gdp.pdf", plot = p_unemp, width = 10, height = 6)
+```
+
+**Discussion:**
+*(Insert your discussion here. Mention Okun's Law: there is a clear negative relationship between output growth and changes in unemployment. During recessions, GDP growth falls and unemployment spikes.)*
+
+### 3. Inflation and Interest Rates
+
+```{r plot-inf-rates, fig.width=8, fig.height=5, warning=FALSE}
+inf_rates_data <- data_wide_p1 %>%
+  select(quarter, yoy_growth_PCECTPI, price_FEDFUNDS) %>%
+  rename(Inflation = yoy_growth_PCECTPI, Interest_Rate = price_FEDFUNDS) %>%
+  drop_na()
+
+p_inf <- ggplot(inf_rates_data, aes(x = quarter)) +
+  geom_line(aes(y = Inflation, color = "Inflation (PCE YoY)"), linewidth = 1) +
+  geom_line(aes(y = Interest_Rate, color = "Federal Funds Rate"), linewidth = 1) +
+  labs(title = "Inflation vs Nominal Interest Rates",
+       x = "Quarter", y = "Percent (%)",
+       caption = "Source: FRED (PCECTPI, FEDFUNDS)") +
+  scale_color_manual(name = "", values = c("Inflation (PCE YoY)" = "firebrick", "Federal Funds Rate" = "steelblue"))
+
+print(p_inf)
+ggsave("../output/03_inflation_rates.pdf", plot = p_inf, width = 10, height = 6)
+```
+
+**Discussion:**
+*(Insert your discussion here. Reference the Taylor Rule and how the Fed raises interest rates in response to high inflation to cool down the economy, often with a lag.)*
+
+
+## Part 2: Labor Market Dynamics
+
+```{r get-data-p2, message=FALSE, warning=FALSE}
+# JTSJOL: Job Openings: Total Nonfarm (Thousands, Monthly)
+# CIVPART: Labor Force Participation Rate (Percent, Monthly)
+# CES0500000003: Average Hourly Earnings of All Employees, Total Private (Dollars per Hour, Monthly)
+# UNEMPLOY: Unemployment Level (Thousands, Monthly)
+# UNRATE: Unemployment Rate (Percent, Monthly)
+# PCEPI: Personal Consumption Expenditures: Chain-type Price Index (Index 2017=100)
+
+series_p2 <- c("JTSJOL", "CIVPART", "CES0500000003", "UNEMPLOY", "UNRATE", "PCECTPI")
+
+# Download data from 2000 onwards
+raw_data_p2 <- get_fred_data(series_p2, "2000-01-01")
+
+# Save raw data
+write_csv(raw_data_p2, "../data/raw/raw_data_p2.csv")
+
+data_p2 <- raw_data_p2 %>%
+  mutate(quarter = floor_date(date, "quarter")) %>%
+  group_by(symbol, quarter) %>%
+  summarize(price = mean(price, na.rm = TRUE), .groups = 'drop') %>%
+  pivot_wider(names_from = symbol, values_from = price) %>%
+  # V/U ratio: Job Openings / Unemployment Level
+  mutate(VU_ratio = JTSJOL / UNEMPLOY) %>%
+  # Calculate YoY growth for Nominal Wages and Prices
+  arrange(quarter) %>%
+  mutate(
+    Wage_YoY = (CES0500000003 / lag(CES0500000003, 4) - 1) * 100,
+    PCE_YoY = (PCECTPI / lag(PCECTPI, 4) - 1) * 100,
+    Real_Wage_Growth = Wage_YoY - PCE_YoY
+  )
+```
+
+### 1. Vacancy-to-Unemployment (V/U) Ratio
+
+```{r plot-vu-ratio, fig.width=8, fig.height=5, warning=FALSE}
+p_vu <- ggplot(data_p2, aes(x = quarter)) +
+  geom_line(aes(y = VU_ratio * 10, color = "V/U Ratio (x10)"), linewidth = 1) +
+  geom_line(aes(y = UNRATE, color = "Unemployment Rate"), linewidth = 1) +
+  scale_y_continuous(
+    name = "Unemployment Rate (%)",
+    sec.axis = sec_axis(~ . / 10, name = "V/U Ratio")
+  ) +
+  labs(title = "Labor Market Tightness: V/U Ratio vs Unemployment Rate",
+       x = "Quarter",
+       caption = "Source: FRED (JTSJOL, UNEMPLOY, UNRATE)") +
+  scale_color_manual(name = "", values = c("V/U Ratio (x10)" = "purple", "Unemployment Rate" = "darkorange"))
+
+print(p_vu)
+ggsave("../output/04_vu_ratio.pdf", plot = p_vu, width = 10, height = 6)
+```
+
+```{r plot-participation, fig.width=8, fig.height=5, warning=FALSE}
+p_part <- ggplot(data_p2, aes(x = quarter, y = CIVPART)) +
+  geom_line(linewidth = 1, color = "darkgreen") +
+  labs(title = "Labor Force Participation Rate",
+       x = "Quarter", y = "Percent (%)",
+       caption = "Source: FRED (CIVPART)")
+
+print(p_part)
+ggsave("../output/05_participation.pdf", plot = p_part, width = 10, height = 6)
+```
+
+**Discussion:**
+*(Insert discussion on labor market tightness. The V/U ratio measures how many open jobs exist per unemployed worker. A high V/U indicates a tight labor market. The Beveridge curve suggests a negative relationship between vacancies and unemployment, clearly visible in their strong inverse comovement. The labor force participation rate follows long-term structural trends but also exhibits some cyclicality, such as the drop during the 2008 recession and the sharp fall during the COVID-19 pandemic.)*
+
+### 2. Real Wage Growth
+
+```{r plot-real-wages, fig.width=8, fig.height=5, warning=FALSE}
+p_wage <- ggplot(data_p2, aes(x = quarter)) +
+  geom_line(aes(y = Real_Wage_Growth, color = "Real Wage Growth (YoY)"), linewidth = 1) +
+  geom_line(aes(y = UNRATE, color = "Unemployment Rate"), linewidth = 1) +
+  geom_line(aes(y = VU_ratio * 10, color = "V/U Ratio (x10)"), linewidth = 1, linetype = "dashed") +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "gray50") +
+  labs(title = "Real Wage Growth, Unemployment, and Tightness",
+       x = "Quarter", y = "Percent / Ratio (scaled)",
+       caption = "Source: FRED") +
+  scale_color_manual(name = "", values = c("Real Wage Growth (YoY)" = "darkcyan", 
+                                           "Unemployment Rate" = "darkorange",
+                                           "V/U Ratio (x10)" = "purple"))
+
+print(p_wage)
+ggsave("../output/06_real_wages.pdf", plot = p_wage, width = 10, height = 6)
+```
+
+**Discussion:**
+*(Insert discussion here. Economic theory (like the wage Phillips curve) suggests tight labor markets (high V/U, low unemployment) force employers to raise wages faster to attract/retain talent. However, real wage growth also depends heavily on unexpected spikes in inflation, which can erode nominal wage gains.)*
+
+## Part 3: Monetary Policy and Central Bank Decisions
+
+### 1. Federal Reserve Options (FOMC - January 27/28, 2026)
+
+On January 28, 2026, the Federal Open Market Committee (FOMC) decided to maintain the target range for the federal funds rate at 3.50% to 3.75%. This decision marked a pause after three consecutive rate cuts in 2025. 
+
+**Summary & Rationale**:
+The Fed stated that economic activity has been expanding at a solid pace, and although job gains are low, they show signs of stabilization. At the same time, the FOMC noted that inflation remains "somewhat elevated." Fed Chair Jerome Powell emphasized the central bank's commitment to its dual mandate of maximum employment and stable prices, assessing that holding rates steady was the appropriate stance at the moment. Interestingly, the vote was not unanimous: Governors Stephen Miran and Christopher Waller dissented, favoring a 25-basis-point rate cut. 
+
+Looking forward, the FOMC highlighted that future policy adjustments will be highly dependent on incoming data, signaling that if inflation continues to cool, further reductions could be appropriate, though some participants cautioned that rates could stay higher if inflation proves persistent.
+
+### 2. European Central Bank Options (ECB - February 5, 2026)
+
+On February 5, 2026, the European Central Bank's (ECB) Governing Council announced they would keep key interest rates unchanged for the fifth consecutive meeting. The deposit facility rate was maintained at 2.00%, the main refinancing operations rate at 2.15%, and the marginal lending facility rate at 2.40%.
+
+**Summary & Comparison to Fed**:
+Similar to the Fed, the ECB's approach is data-dependent and evaluated meeting-by-meeting, refusing to pre-commit to a specific future rate path. The ECB cited a resilient euro area economy supported by low unemployment and positive effects from previous rate cuts, although acknowledging risks from global trade uncertainty. 
+
+The core difference compared to the US is that Eurozone inflation has been cooling steadily (January 2026 YoY inflation was 1.7%, below the 2% target), whereas the US still views inflation as "somewhat elevated." Despite the ECB being at or slightly below target, they chose to maintain their moderately restrictive 2.00% deposit rate given solid wage growth and resilient domestic sectors, carefully balancing the dual risks of premature easing and overtightening.
