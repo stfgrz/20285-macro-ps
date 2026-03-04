@@ -25,6 +25,7 @@
 \usepackage{bookmark}                               % (Optional, improves bookmark handling)
 \usepackage{enumitem}                               % For fancy enumerates
 \usepackage{listings}                               % For the coding environment
+\usepackage{comment}
 
 % Hyperlinks (kept in original order to preserve behavior)
 \usepackage{hyperref}
@@ -121,7 +122,8 @@
 
 % =============================================================================
 %  BIBLIOGRAPHY
-% =============================================================================
+% ============================================================================
+
 \usepackage[backend=biber,
             style=authoryear,          % options: numeric, verbose, authoryear, authorname
             sorting=nyt]{biblatex}
@@ -189,7 +191,18 @@
 \newtheorem{problem}{Problem}
 
 % Personalized "Solution" environment
-\newenvironment{solution}[1][\it{\textcolor{MidnightBlue}{Solution}}]{\textbf{#1. } }{\textcolor{MidnightBlue}{$\square$}}
+\newenvironment{solution}[1][\it{\textcolor{MidnightBlue}{Solution}}]
+{%
+  \par\vspace{0.5\baselineskip}% small space before
+  \noindent\textbf{#1. }\ignorespaces
+}
+{%
+  \hfill\textcolor{MidnightBlue}{$\square$}\par
+}
+
+
+
+
 
 % =============================================================================
 %  THEOREM STYLES & BOXED PRESENTATION
@@ -262,35 +275,8 @@
 \declaretheorem[style=theorem]{theorem}
 
 % ----------------------------- STYLE: "proof" --------------------------------
-% amsthm already defines a proof environment, so we first neutralize it:
-\let\proof\relax
-\let\endproof\relax
 
-% Now we declare a thmtools STYLE named "proof" for the heading of the proof environment.
-\declaretheoremstyle[
-  headfont={\small\scshape},                  % small caps for "Proof"
-  notefont={\normalfont},
-  bodyfont={\normalfont},
-  headpunct={\relax},
-  headformat={\makebox[0pt][r]{\NAME\hspace{\marginparsep}}\hskip-\spacelength{\NOTE}},
-]{proof}
 
-% And we hook the "proof" environment to a tcolorbox with a thin black left rule.
-\tcolorboxenvironment{proof}{
-  boxrule=0pt,
-  boxsep=0pt,
-  blanker,                                    % removes the typical tcolorbox background to look like plain text
-  borderline west={1pt}{0pt}{black},          % thin black bar on the left
-  before skip=10pt,
-  after skip=10pt,
-  left=5pt,
-  right=5pt,
-  breakable,
-}
-
-% Now we REDECLARE the actual "proof" environment using the "proof" STYLE.
-% The 'qed=\qedsymbol' option ensures the end-of-proof □ is inserted automatically at the end.
-\declaretheorem[style=proof, qed=\qedsymbol]{proof}
 
 % ------------------------------ STYLE: "claim" -------------------------------
 % A lighter-looking style used for "Intuition" and similar notes (italic header).
@@ -653,3 +639,24 @@
 }
 
 \lstset{style=mystyle}
+
+%-------------------------------------------------------------------------
+% New commands
+%-------------------------------------------------------------------------
+
+\newcommand {\R} {\mathbb{R}}
+\newcommand {\N} {\mathbb{N}}
+\newcommand {\lag} {\mathcal{L}}
+\newcommand {\thus} {\quad \Rightarrow \quad}
+\newcommand {\sthus} {\Rightarrow \quad}
+
+\newcommand {\prob}{\text{Pr}}
+\DeclareMathOperator{\diff}{\text{d}}
+
+\theoremstyle{plain}
+\newtheorem{lem}{Lemma}
+\newtheorem{prp}{Proposition}
+\newtheorem{crl}{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{ass}{Assumption}

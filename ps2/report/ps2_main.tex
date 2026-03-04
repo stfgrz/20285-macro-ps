@@ -1,0 +1,540 @@
+\documentclass[dvipsnames,11pt]{article}
+
+\input{SimpleStef}
+\usetikzlibrary{positioning,arrows.meta,backgrounds,calc}
+
+\graphicspath{ {./images/} }
+% LAST IMAGE UPDATE: 20-02-2026, 01:02 AM
+
+\setlength{\headheight}{25pt} % Non so perché ma senza questo da un piccolo errore
+
+\pagestyle{fancy}
+\fancyhf{} 
+\fancyhead[L]{\textsc{\small{20285\\ Advanced Macroeconomics}}} 
+\fancyhead[R]{\textsc{\small Lo Schiavo et al.}} 
+\fancyhead[C]{\textbf{Problem set 2}}
+\fancyfoot[C]{\thepage} 
+\renewcommand{\headrulewidth}{0.4pt} 
+\renewcommand{\footrulewidth}{0pt}
+
+\title{20285 Advanced Macroeconomics \\[0.5cm] \Huge \textsc{Problem set 2}}
+
+\author{
+        Laura Lo Schiavo \\
+        \texttt{3317819}
+        \and 
+        Trace Miller \\
+        \texttt{3319805}
+        \and 
+        Pietro Sferruzza \\
+        \texttt{3323719}
+        \and
+        Stefano Graziosi\\
+        \texttt{3174891}
+        }
+
+\date{\emph{Compiled on \today}}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\vspace{0.5cm}
+
+\section{RBC Model}
+
+    In this exercise we consider an RBC model. The basic set-up of the economy is as described below.% We will gradually add  elements over the course of the exercise.
+
+    \medskip
+
+    All markets are perfectly competitive, hence the representative household and the representative firm take as given the output price, normalised to 1 at each $t$, as well as input prices at each $t$.
+
+    \subsection{No-Ponzi Game Condition (NPGC)}
+
+        We start with a version of the model where households can only save in the form of a risk-free one-period bond: each unit bought in period $t$ pays a \textit{certain} gross return $R_{t+1}$ in $t+1$. Further, there is no uncertainty.  Hence, the representative household problem is given by: 
+        
+        $$ \max_{\{c_t,n_t,b_{t+1}\}_{t=0}^{\infty}} \sum_{t=0}^\infty \beta^t\left[\frac{c_t^{1-\sigma}}{1-\sigma} - \frac{n_t^{1+\phi}}{1+\phi}\right] $$
+        $$
+        \mathrm{s.t.}\;
+        \begin{cases}
+        c_t + b_{t+1} = w_t\,n_t + R_{t}\,b_t
+        \\
+        b_0 \;\text{given}
+        \end{cases}
+        $$ 
+        where $c_t$ is consumption, $n_t$ the amount of labor supplied by the household, $w_t$ is the real wage, $b_t$ is the amount of bonds held at the beginning of period $t$, and $R_{t}$ is the return on bonds purchased at $t-1$, $b_{t}$. In this section, we consider a fixed gross interest rate on bonds, i.e., $R_t = R, \forall t \geq 0$.
+
+        \medskip
+
+        We will specify the firm problem below, in Part 2.
+
+        \begin{enumerate}
+            \item Under the assumptions above, the flow budget constraint of the household is given by: 
+            \begin{equation*}
+                c_t + b_{t+1} = w_t\,n_t + R\,b_t .
+            \end{equation*}
+            By forward-iterating the flow budget constraint, derive the lifetime (intertemporal) budget constraint, i.e., an expression equating the present value (PV) of consumption to the initial wealth plus the PV of labor income, together with a limit term. 
+
+            \textit{[HINT: The flow budget constraints at $t=0$ and $t=1$ are:
+            \begin{align*}
+            c_{0} + b_1  &= w_0 n_0 + R\,b_{0} 	\\
+            c_{1} + b_2  &= w_1 n_1 + R\,b_{1}
+            \end{align*}
+            Combine the previous equations to get rid of $b_{1}$. Iterate on this
+            procedure until $t=T$, take the limit $T\to\infty$. You should end up with an equation that contains three terms: \textit{(i)} the PV of consumption, \textit{(ii)} the PV of labor income, and \textit{(iii)} a limit term related to the No-Ponzi game condition introduced below}.]
+
+            \begin{solution}
+
+                text
+                
+            \end{solution}
+
+    
+            \item The No-Ponzi game (NPGC) imposes a restriction on the limit term derived above:
+            \[
+            \lim_{T\to\infty}\left(\frac{1}{R}\right)^T b_T = 0 .
+            \]
+            Explain in words what this condition rules out, noting that $\left(1/R\right)^T b_T$ is the present value of bond holdings at date $T$. Why is such a condition needed in an infinite-horizon model with borrowing and lending? Finally, discuss why the household problem may fail to admit a \emph{bounded} solution if the NPGC is not imposed.
+            
+            \textit{[HINT: A sequence $\{x_t\}_{t=0}^\infty$ is bounded if $\exists\, M<\infty$ such that $|x_t|\le M$ for all $t$. Start from a feasible candidate optimum, then increase $c_0$ slightly and adjust only $\{b_t\}$ to keep the flow constraints satisfied; without the NPGC, ask whether this deviation can remain feasible.]}
+
+            \begin{solution}
+
+                \text
+                
+            \end{solution}
+
+    
+        \end{enumerate}
+
+    \subsection{Stochastic environment and capital}
+
+        Next, we add two elements. First, we introduce uncertainty in the form of an exogenous productivity term in technology, $z_t$. Second, we add capital. The capital accumulation decision is made by the household, which implies the following updated maximization problem for the representative household: 
+        \[
+        \max_{\{c_t,n_t,b_{t+1}, k_{t+1}\}_{t=0}^{\infty}} \mathbb{E}_0 \sum_{t=0}^\infty \beta^t\left[\frac{c_t^{1-\sigma}}{1-\sigma} - \frac{n_t^{1+\phi}}{1+\phi}\right]
+        \]
+        \[
+        \mathrm{s.t.}\;
+        \begin{cases}
+        c_t + b_{t+1} + k_{t+1} = w_t\,n_t + R_{t}\,b_t + R_t^k k_t + (1-\delta) k_t
+        \\
+        k_0, b_0 \;\text{given}
+        \end{cases}
+        \]
+        where $k_t$ is the capital stock at the beginning of period $t$, $\delta$ is the capital depreciation rate, and $R_t^k$ is the rental rate of capital. 
+
+        \medskip
+
+        The representative firm solves the following static problem:
+        \[
+        \max_{y_t, n_t, k_t } \;\{y_t - w_t\,n_t  - R_t^k k_t   \}
+        \]
+        \[ 
+        \mathrm{s.t.}\quad y_t = z_t\,n_t^{1-\alpha}\,k_t^{\alpha} 
+        \]
+        where $y_t$ is the amount of output produced, $n_t$ the amount of labor used in production, $k_t$ the amount of capital used in production and $z_t$ an exogenous productivity term.
+
+        \begin{enumerate}
+        \setcounter{enumi}{2}
+            \item Formulate the household’s maximization problem in sequential form, using the event-history notation covered in class. Specifically,  let the exogenous productivity term depend on a generic stochastic process, i.e., $z_t(s^t)$. Hence, productivity at time $t$ may depend on the \textit{entire} history of stochastic events $s^t$.  
+
+            \begin{solution}
+
+                \text
+                
+            \end{solution}
+
+            \item Now, consider the household problem in recursive form. Does this require imposing more structure on the stochastic nature of the exogenous productivity term $z_t$? Provide an example of a stochastic process for $z_t$ that allows for the household problem to be written in recursive form. How can the event-history notation be modified to reflect this new structure?
+
+            \begin{solution}
+
+                \text
+                
+            \end{solution}
+
+            \item Given the stochastic process for $z_t$ provided by you in the previous point, write the household’s problem in recursive form and derive the associated optimality conditions. Clearly identify the {exogenous} and {endogenous state} variables, and the {control} variables in the problem. Use the envelope conditions to derive the Euler equations, and comment on all the optimality conditions you obtain.
+
+            \begin{solution}
+
+                \text
+                
+            \end{solution}
+ 
+            \item Argue that $b_t = 0, \forall t \geq 0$, in the stochastic economy. Carefully explain the role that $R_t$ plays for this result to hold. Does this condition ($b_t =0, \forall t$) also hold in the deterministic economy discussed in part 1, where there is no capital?
+
+            \begin{solution}
+
+                \text
+                
+            \end{solution}
+
+            \textit{[HINT: Recall that bond supply must equal bond demand, and that all households make the same decisions since they are identical, or equivalently, there is a single representative household.]}
+
+            \begin{solution}
+
+                \text
+                
+            \end{solution}
+
+            \item Derive the optimality condition for labor and capital demand of the representative firm, and provide the economic intuition.
+
+            \begin{solution}
+
+                \text
+                
+            \end{solution}
+            
+        \end{enumerate}
+
+\newpage
+
+\section{Preferences, Curvature, and Labor Supply Elasticities}
+
+    \noindent This exercise studies how the curvature of preferences over consumption shapes macroeconomic behavior. In Part A, we focus on the Constant Relative Risk Aversion (CRRA) specification for the consumption component of utility and show how its curvature parameter governs both risk attitudes and intertemporal substitution. In Part B, we turn to labor supply and examine how wage changes affect hours worked through substitution and income effects. Together, the two parts illustrate how preference curvature influences both consumption dynamics and labor supply elasticities in standard macroeconomic models.
+
+    \medskip
+
+    \noindent Consider a representative household with preferences
+    \[
+    \sum_{t=0}^{\infty} \beta^t \, u(c_t,n_t), 
+    \qquad \beta \in (0,1),
+    \]
+    where the period utility function satisfies $u_c>0$, $u_{cc}<0$,
+    \[
+    \lim_{c \to 0} u_c = \infty, 
+    \qquad 
+    \lim_{c \to \infty} u_c = 0,
+    \]
+    as well as $u_n<0$, $u_{nn}<0$, with
+    \[
+    \lim_{n \to 0} u_n = 0, 
+    \qquad 
+    \lim_{n \to \infty} u_{n} = -\infty .
+    \]
+    In particular, we assume the following functional form:
+    \[
+    u(c_t,n_t)
+    =
+    \frac{c_t^{1-\sigma}-1}{1-\sigma}
+    -
+    \frac{n_t^{1+\phi}}{1+\phi},
+    \qquad 
+    \sigma \ge 0, 
+    \qquad 
+    \phi \ge 0.
+    \]
+    As shown in PS1, in the limit as $\sigma \to 1$, utility converges to
+    \[
+    u(c_t,n_t)
+    =
+    \log c_t
+    -
+    \frac{n_t^{1+\phi}}{1+\phi}.
+    \]
+
+    \subsection{Constant Relative Risk Aversion (CRRA) Utility}
+        
+        In this section, we focus on the properties of the utility function with respect to consumption.
+        
+        \begin{enumerate}
+            \item The coefficient of Relative Risk Aversion (RRA) is defined as
+            \[
+            RRA(c)\equiv -\frac{c\,u_{cc}(c)}{u_c(c)}.
+            \]
+            This object summarizes the household's attitude toward risk: a higher value of $RRA(c)$ corresponds to greater aversion to proportional (percentage) risk.
+            
+            \medskip
+            
+            Consider a household with certain consumption $\bar c$. Suppose instead the household faces a small \emph{proportional} consumption gamble that pays
+            \[
+            \bar c(1+\varepsilon)
+            \quad \text{or} \quad
+            \bar c(1-\varepsilon)
+            \]
+            with equal probability, where $\varepsilon>0$ is small.
+            
+            The (relative) \emph{risk premium} $\pi$ is defined as the fraction of $\bar c$ that the household would be willing to give up — accepting $\bar c(1-\pi)$ for sure — in order to avoid the gamble.
+            
+            For small $\varepsilon$, the following approximation holds:
+            \[
+            \pi \approx \frac{1}{2}\,RRA(\bar c)\,\varepsilon^2.
+            \]
+            You may take this approximation as given.
+            
+            \medskip
+            
+            Compute $u_c(c)$ and $u_{cc}(c)$ for the CRRA utility function and show that
+            \[
+            RRA(c)=\sigma
+            \qquad \text{for all } c>0.
+            \]
+            
+            Using the approximation above, explain in words what it means that $RRA(c)$ is constant under CRRA preferences. In particular, what does $RRA(c)=\sigma$ imply about how the willingness to pay to avoid a fixed percentage consumption gamble depends on the level of consumption $\bar c$?
+
+            \begin{solution}
+
+                \text
+                
+            \end{solution}
+
+\bigskip
+
+            \item Define lifetime utility as
+            \[
+            U(c,n)=\sum_{t=0}^{\infty}\beta^t u(c_t,n_t).
+            \]
+            The marginal rate of substitution between consumption at $t$ and $t+1$ is
+            \[
+            \text{MRS}_{t,t+1}
+            =
+            \frac{\partial U/\partial c_{t+1}}{\partial U/\partial c_t}.
+            \]
+            
+            The intertemporal elasticity of substitution (IES) is defined as
+            \[
+            \text{IES}
+            \equiv
+            -
+            \left(
+            \frac{d\ln \text{MRS}_{t,t+1}}
+                 {d\ln\!\left(\frac{c_{t+1}}{c_t}\right)}
+            \right)^{-1}.
+            \]
+            
+            In words, the IES measures the willingness to reallocate consumption across time: it captures how responsive the consumption growth rate $c_{t+1}/c_t$ is to changes in the marginal rate of substitution between $t$ and $t+1$.
+            
+            Show that under CRRA utility the IES is
+            \[
+            \text{IES}=\frac{1}{\sigma}.
+            \]
+            
+            Briefly interpret the result: what does a larger value of $\sigma$ imply about (i) the curvature of $u(c)$ and (ii) the household’s willingness to substitute consumption across time?
+
+            \begin{solution}
+
+                \text
+                
+            \end{solution}
+
+\bigskip
+
+            \item Take as given the Euler equation
+            \[
+            \frac{u_c(c_{t+1},n_{t+1})}{u_c(c_t,n_t)}
+            =
+            \frac{1}{\beta R_{t+1}}.
+            \]
+            
+            Using the definition of $\text{MRS}_{t,t+1}$ above, show that the Euler equation implies
+            \[
+            \text{MRS}_{t,t+1}
+            =
+            \frac{1}{R_{t+1}}.
+            \]
+            
+            Finally, explain how the IES governs the responsiveness of the consumption growth rate $c_{t+1}/c_t$ to changes in the intertemporal price $1/R_{t+1}$. In particular, how does a larger IES affect the sensitivity of consumption growth to movements in interest rates?
+
+            \begin{solution}
+
+                \text
+                
+            \end{solution}
+
+\end{enumerate}
+
+\subsection{Labor Supply, Marshallian vs.\ Frisch Elasticities}
+
+    \noindent We now apply the preference specification above to the household’s labor supply decision.
+    
+    \medskip
+    
+    \noindent Suppose that at date $t$ the household faces the within-period budget constraint
+    \[
+    c_t = w_t n_t + I_t,
+    \]
+    where $w_t$ denotes the real wage and
+    \[
+    I_t \equiv R_t a_t - a_{t+1}
+    \]
+    is non-labor income net of savings.
+    
+    \begin{enumerate}
+    \setcounter{enumi}{3}
+        \item Derive the intratemporal first-order condition characterizing optimal labor supply. Use this condition to obtain a labor supply rule of the form
+        \[
+        n_t = n(c_t, w_t).
+        \]
+        
+        How does labor supply $n_t$ respond to a change in the wage $w_t$ when consumption $c_t$ is held fixed? How does $n_t$ respond to a change in consumption $c_t$ when the wage $w_t$ is held fixed?
+
+        \begin{solution}
+
+            \text
+                
+        \end{solution}
+
+        \item The \textit{Marshallian elasticity} (or uncompensated elasticity) of labor supply with respect to the wage is defined as
+        \[
+        \varepsilon_t^{M} \equiv \frac{d \log n_t}{d \log w_t},
+        \]
+        where the total derivative allows $c_t$ to adjust in response to $w_t$, holding $I_t$ fixed.
+        
+        This elasticity measures the total response of hours worked to a wage change, incorporating both substitution and income effects. Because the wage change is not offset by a compensating change in non-labor income, this elasticity is referred to as \textit{uncompensated}.\footnote{By contrast, the \textit{Hicksian} (or compensated) elasticity measures the response of hours worked to a wage change that is accompanied by an offsetting change in non-labor income, so as to keep utility constant. This compensation eliminates the income effect, so the Hicksian elasticity captures only the substitution effect: when the wage (the opportunity cost of leisure) increases, individuals substitute away from leisure toward work.}
+        
+        Using your labor supply rule, express $\varepsilon_t^{M}$ in terms of $\frac{d \log c_t}{d \log w_t}$.
+        
+        Next, holding $I_t$ fixed, totally differentiate the budget constraint to show that
+        \[
+        \frac{d \log c_t}{d \log w_t}
+        =
+        s_t^L
+        +
+        s_t^L \frac{d \log n_t}{d \log w_t},
+        \]
+        where 
+        \[
+        s_t^L \equiv \frac{w_t n_t}{c_t} \in [0,1]
+        \]
+        denotes the labor income share in consumption. Provide an economic interpretation of each term on the right-hand side.
+        
+        Combine these results to solve for the Marshallian elasticity 
+        \[
+        \varepsilon_t^{M}
+        \]
+        as a function of $\sigma$, $\phi$, and $s_t^L$. Carefully interpret the assumption that $I_t$ is held fixed in light of the households optimization problem. Next, provide an intuitive discussion of the signs of the substitution and income effects. Argue that $\varepsilon_t^{M}$ may be either positive or negative, depending on which effect dominates (you are not required to separately identify the substitution and income effects).
+        
+        Finally, consider the special case $s_t^L = 1$. Under what condition on $\sigma$ do the substitution and income effects exactly offset each other?
+
+        \begin{solution}
+
+            text
+            
+        \end{solution}
+
+        \item The Marshallian elasticity is fundamentally a static concept: it holds fixed the intertemporal allocation of resources. It is therefore particularly well suited for analyzing wage changes that are perceived as permanent. In your own words, briefly explain why a \textit{permanent} wage change is the natural case for a static Marshallian elasticity.
+
+        When wage changes are temporary and, importantly, induce adjustments in saving behavior, a different concept of elasticity is required that takes into account the shift in saving patterns. This motivates the \textit{Frisch elasticity}. The Frisch elasticity measures the response of hours worked to a wage change while holding the marginal utility of wealth constant:
+        \[
+        \varepsilon_t^{F}
+        \equiv 
+        \left.\frac{\partial \log n_t}{\partial \log w_t}\right|_{\lambda_t},
+        \qquad 
+        \lambda_t \equiv u_c(c_t,n_t).
+        \]
+        
+        It is the relevant concept to analyze how a transitory wage change affects hours. Small enough and temporary wage fluctuations have only a negligible effect on lifetime wealth. Thus it does not impacts the marginal utility of wealth. As a result, the Frisch elasticity is especially useful to assess the implications of wage fluctuations over the business cycle by isolating the intertemporal substitution response.
+
+        Show that, for the utility function specified above, holding $\lambda_t$ fixed is equivalent to holding $c_t$ fixed. Compute $\varepsilon_t^{F}$ explicitly as a function of $\phi$.
+
+        \begin{solution}
+
+            text
+            
+        \end{solution}
+
+        \item In the given setting, the intertemporal optimality condition, i.e., the Euler equation, is given by: 
+        \[
+        \frac{c_t^{-\sigma}}{c_{t+1}^{-\sigma}} = \beta R_{t+1}.
+        \]
+        Combine this with your labor supply rule obtained in point 4. to obtain the intertemporal labor supply equation. Using the intertemporal labor supply equation, explain how expected wage growth $(w_{t+1}/w_t)$ and the discounted return $\beta R_{t+1}$ affect the evolution of hours $(n_{t+1}/n_t)$.
+
+        \begin{solution}
+
+            text
+            
+        \end{solution}
+        
+    \end{enumerate}
+
+\section{Empirical Exercise}
+
+    For this exercise, download the following series at monthly frequency from December 2000 through December 2025 from \href{fred.stlouisfed.org}{FRED}:
+    \begin{itemize}
+        \item $V$ = \textit{Job Openings: Total Non-Farm} (Unit: Level in Thousands, Seasonally Adjusted);
+        \item $U$ = \textit{Unemployment Level} (Unit: Thousands of Persons, Seasonally Adjusted);
+        \item $L$ = \textit{Civilian Labor Force Level}  (Unit: Thousands of Persons, Monthly, Seasonally Adjusted);
+        % \item $Q$ = \textit{ Quits: Total Nonfarm} (Unit: Rate, Seasonally Adjusted),
+        \item $U^s$ = \textit{Number Unemployed for Less Than 5 Weeks} (Unit: Thousands of Persons, Seasonally Adjusted).
+    \end{itemize}
+    
+    \subsection{Estimating Worker Flows}
+
+        Consider the following dynamic equation for the level of unemployment:
+        \begin{equation*}
+            U_{t+1} -  U_{t} = p_t^{EU} (L_t-U_{t}) - p_t^{UE} U_t,
+        \end{equation*}
+        where $p_t^{UE}$ is the job finding rate and $p_t^{EU}$ a time-varying separation rate.
+
+        \begin{enumerate}
+            \item The aim of this exercise is to measure the inflow rate  into unemployment ($p_t^{EU}$) and outflow rate  from unemployment ($p_t^{UE}$) using the method proposed in {"The Cyclical Behavior of Equilibrium Unemployment and Vacancies"} by Shimer (\textit{The American Economic Review}, 2005). In your own words, summarize the approach detailed on pages 30–33, and briefly list advantages and limitations of the method.
+
+                \begin{solution}
+    
+                    text
+                    
+                \end{solution}
+
+            \item Next, calculate the probability of finding a job, $p_t^{UE}$, from December 2000 to December 2025, using data on the unemployment level and the short-term unemployment level, following Shimer’s method.
+
+                \begin{solution}
+    
+                    text
+                    
+                \end{solution}
+ 
+            \item Then, for the same period, compute the employment level using data on the labor force level and the unemployment level. With this, along with the short-term unemployment data, recover the separation rate, $p_t^{EU}$, by applying Shimer’s method. Explain why Shimer incorporates the job-finding rate $p_t^{UE}$ in this calculation. Also, define and explain the concept of \textit{time-aggregation bias}.
+
+                \begin{solution}
+    
+                    text
+                    
+                \end{solution}
+
+            \item Plot both time series for the job-finding rate and separation rate, and discuss their trends and cyclicality. 
+    
+                \begin{solution}
+    
+                    text
+                    
+                \end{solution}
+
+            \end{enumerate}
+
+    \subsection{The Beveridge Curve}
+
+        In this exercise, we aim to analyze the Beveridge curve in the US, focusing on how it has evolved in recent years and the potential factors driving these changes. 
+        \begin{enumerate}
+            \item Calculate the following labor market variables:
+                \begin{align*}
+                & \text{Unemployment Rate}: \ u = \frac{U}{L} \\
+                & \text{Employment Level}: \ E = L\cdot(1 - u) \\
+                &\text{Job Openings Rate}: \ v= \frac{V}{E + V}
+                \end{align*}
+                Create a scatter plot with the unemployment rate ($u$) on the x-axis  and the job vacancy rate ($v$) on the y-axis, for the following periods, using the specified colors:
+                \begin{itemize}
+                    \item Dec 2000 - Dec 2007, (\textcolor{green}{\textit{Green}})
+                    \item Jan 2008 - June 2009, (\textcolor{orange}{\textit{Orange}})
+                    \item July 2009 - Feb 2020, (\textcolor{red}{\textit{Red}})
+                    \item March 2020 - April 2022, (\textcolor{blue}{\textit{Blue}})
+                    \item May 2022 - Dec 2025 (\textit{Black})
+                \end{itemize}
+                After plotting, discuss the similarities and, more importantly, the differences between these periods. Relate the movements along the Beveridge curve to the business cycles. Are there any significant shifts between these periods? 
+
+                \begin{solution}
+                    
+                \end{solution}
+        
+            \item Read {"The Shifting Reasons for Beveridge Curve Shifts"} by Barlevy et. al (\textit{Journal of Economic Perspectives}, 2024) with a focus on pages 94–97. How do the authors explain the shifts of the Beveridge curve during the Covid recession and recovery period (represented by the blue data points in your figure) and the unusual shape during the monetary tightening phase (represented by the black data points in your figure)? What is meant by the "Great Resignation"? How and why was the recovery from the pandemic recession different from past recoveries in terms of the Beveridge curve?
+
+            \begin{solution}
+                
+            \end{solution}
+            
+        \end{enumerate}
+
+\appendix
+\section*{Appendix}
+
+\end{document}

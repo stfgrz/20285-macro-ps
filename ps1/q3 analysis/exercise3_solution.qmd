@@ -113,8 +113,7 @@ print(p_growth)
 ggsave("../output/01_growth_rates.pdf", plot = p_growth, width = 10, height = 6)
 ```
 
-**Discussion:**
-*(Insert your discussion here regarding trends, cyclical patterns, and co-movements. Note that investment is typically much more volatile than GDP and consumption, displaying larger swings during business cycles. Consumption is usually the smoothest series.)*
+**Discussion:** *(Insert your discussion here regarding trends, cyclical patterns, and co-movements. Note that investment is typically much more volatile than GDP and consumption, displaying larger swings during business cycles. Consumption is usually the smoothest series.)*
 
 ### 2. Unemployment and GDP Growth
 
@@ -143,8 +142,7 @@ print(p_unemp)
 ggsave("../output/02_unemp_gdp.pdf", plot = p_unemp, width = 10, height = 6)
 ```
 
-**Discussion:**
-*(Insert your discussion here. Mention Okun's Law: there is a clear negative relationship between output growth and changes in unemployment. During recessions, GDP growth falls and unemployment spikes.)*
+**Discussion:** *(Insert your discussion here. Mention Okun's Law: there is a clear negative relationship between output growth and changes in unemployment. During recessions, GDP growth falls and unemployment spikes.)*
 
 ### 3. Inflation and Interest Rates
 
@@ -166,9 +164,7 @@ print(p_inf)
 ggsave("../output/03_inflation_rates.pdf", plot = p_inf, width = 10, height = 6)
 ```
 
-**Discussion:**
-*(Insert your discussion here. Reference the Taylor Rule and how the Fed raises interest rates in response to high inflation to cool down the economy, often with a lag.)*
-
+**Discussion:** *(Insert your discussion here. Reference the Taylor Rule and how the Fed raises interest rates in response to high inflation to cool down the economy, often with a lag.)*
 
 ## Part 2: Labor Market Dynamics
 
@@ -234,8 +230,7 @@ print(p_part)
 ggsave("../output/05_participation.pdf", plot = p_part, width = 10, height = 6)
 ```
 
-**Discussion:**
-*(Insert discussion on labor market tightness. The V/U ratio measures how many open jobs exist per unemployed worker. A high V/U indicates a tight labor market. The Beveridge curve suggests a negative relationship between vacancies and unemployment, clearly visible in their strong inverse comovement. The labor force participation rate follows long-term structural trends but also exhibits some cyclicality, such as the drop during the 2008 recession and the sharp fall during the COVID-19 pandemic.)*
+**Discussion:** *(Insert discussion on labor market tightness. The V/U ratio measures how many open jobs exist per unemployed worker. A high V/U indicates a tight labor market. The Beveridge curve suggests a negative relationship between vacancies and unemployment, clearly visible in their strong inverse comovement. The labor force participation rate follows long-term structural trends but also exhibits some cyclicality, such as the drop during the 2008 recession and the sharp fall during the COVID-19 pandemic.)*
 
 ### 2. Real Wage Growth
 
@@ -256,17 +251,15 @@ print(p_wage)
 ggsave("../output/06_real_wages.pdf", plot = p_wage, width = 10, height = 6)
 ```
 
-**Discussion:**
-*(Insert discussion here. Economic theory (like the wage Phillips curve) suggests tight labor markets (high V/U, low unemployment) force employers to raise wages faster to attract/retain talent. However, real wage growth also depends heavily on unexpected spikes in inflation, which can erode nominal wage gains.)*
+**Discussion:** *(Insert discussion here. Economic theory (like the wage Phillips curve) suggests tight labor markets (high V/U, low unemployment) force employers to raise wages faster to attract/retain talent. However, real wage growth also depends heavily on unexpected spikes in inflation, which can erode nominal wage gains.)*
 
 ## Part 3: Monetary Policy and Central Bank Decisions
 
 ### 1. Federal Reserve Options (FOMC - January 27/28, 2026)
 
-On January 28, 2026, the Federal Open Market Committee (FOMC) decided to maintain the target range for the federal funds rate at 3.50% to 3.75%. This decision marked a pause after three consecutive rate cuts in 2025. 
+On January 28, 2026, the Federal Open Market Committee (FOMC) decided to maintain the target range for the federal funds rate at 3.50% to 3.75%. This decision marked a pause after three consecutive rate cuts in 2025.
 
-**Summary & Rationale**:
-The Fed stated that economic activity has been expanding at a solid pace, and although job gains are low, they show signs of stabilization. At the same time, the FOMC noted that inflation remains "somewhat elevated." Fed Chair Jerome Powell emphasized the central bank's commitment to its dual mandate of maximum employment and stable prices, assessing that holding rates steady was the appropriate stance at the moment. Interestingly, the vote was not unanimous: Governors Stephen Miran and Christopher Waller dissented, favoring a 25-basis-point rate cut. 
+**Summary & Rationale**: The Fed stated that economic activity has been expanding at a solid pace, and although job gains are low, they show signs of stabilization. At the same time, the FOMC noted that inflation remains "somewhat elevated." Fed Chair Jerome Powell emphasized the central bank's commitment to its dual mandate of maximum employment and stable prices, assessing that holding rates steady was the appropriate stance at the moment. Interestingly, the vote was not unanimous: Governors Stephen Miran and Christopher Waller dissented, favoring a 25-basis-point rate cut.
 
 Looking forward, the FOMC highlighted that future policy adjustments will be highly dependent on incoming data, signaling that if inflation continues to cool, further reductions could be appropriate, though some participants cautioned that rates could stay higher if inflation proves persistent.
 
@@ -274,7 +267,6 @@ Looking forward, the FOMC highlighted that future policy adjustments will be hig
 
 On February 5, 2026, the European Central Bank's (ECB) Governing Council announced they would keep key interest rates unchanged for the fifth consecutive meeting. The deposit facility rate was maintained at 2.00%, the main refinancing operations rate at 2.15%, and the marginal lending facility rate at 2.40%.
 
-**Summary & Comparison to Fed**:
-Similar to the Fed, the ECB's approach is data-dependent and evaluated meeting-by-meeting, refusing to pre-commit to a specific future rate path. The ECB cited a resilient euro area economy supported by low unemployment and positive effects from previous rate cuts, although acknowledging risks from global trade uncertainty. 
+**Summary & Comparison to Fed**: Similar to the Fed, the ECB's approach is data-dependent and evaluated meeting-by-meeting, refusing to pre-commit to a specific future rate path. The ECB cited a resilient euro area economy supported by low unemployment and positive effects from previous rate cuts, although acknowledging risks from global trade uncertainty.
 
 The core difference compared to the US is that Eurozone inflation has been cooling steadily (January 2026 YoY inflation was 1.7%, below the 2% target), whereas the US still views inflation as "somewhat elevated." Despite the ECB being at or slightly below target, they chose to maintain their moderately restrictive 2.00% deposit rate given solid wage growth and resilient domestic sectors, carefully balancing the dual risks of premature easing and overtightening.

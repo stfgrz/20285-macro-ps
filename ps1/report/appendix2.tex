@@ -1,0 +1,96 @@
+Let $k_0 >0$ and $(c_t^*,k_{t+1}^*)_{t=0}^{\infty}$ be an optimal solution of the problem.
+
+First, note that there exists at least one period with strictly positive consumption. If $\sigma > 1$, then $u(0)=-\infty$ and hence necessarily $c_t^*>0$ for all $t$. If $\sigma < 1$, suppose by contradiction that $c_t^*=0$ for all $t$. Since $k_0>0$ and the feasibility constraint binds at the optimum, we have
+\[
+k_1^* = (k_0^*)^\alpha + (1-\delta)k_0^* > 0.
+\]
+Fix $\varepsilon \in (0,k_1^*)$ and define a feasible sequence $(\tilde c_t,\tilde k_{t+1})_{t=0}^\infty$ by
+\[
+\tilde c_0=\varepsilon,\qquad \tilde k_1 = k_1^*-\varepsilon,
+\]
+and for all $t\ge 1$ set $\tilde c_t=0$ and choose $\tilde k_{t+1}$ so that the feasibility constraint binds. Then the new sequence is feasible and yields a strictly higher value since $u(\varepsilon)>u(0)$, contradicting optimality. Therefore, there exists at least one period $T$ such that $c_T^*>0$. \\
+
+Now, assume by contradiction that there exists a period with zero consumption. Then, we know that there exists $c_{t''}>0$ before or after $c_{t'}$. Take the case of $c_{t''}>c_{t'}$ and, without loss of generality, say $c_{t''}=c_{t'+1}$. So:
+\[
+c_{t'}^*=0 \quad\text{and}\quad c_{t'+1}^*>0.
+\]
+Construct a new sequence $(\hat c_t, \hat k_{t+1})_{t=0}^\infty$:
+\begin{itemize}
+    \item For $t<t'$: $\hat c_t=c_t^*$, $\hat k_{t+1}=k_{t+1}^*$.
+    \item At $t=t'$: $\hat c_{t'}=\varepsilon$, $\hat k_{t'+1}=k_{t'+1}^* -\varepsilon$.
+    \item At $t = t' + 1$, all the loss in capital is absorbed by $\hat{c}_{t'+1}$ so that we return to the optimal path from $t' + 2$ onwards and $\hat c_t=c_t^*$, $\hat k_{t+1}=k_{t+1}^*$ for all $t \geq t' + 2$. 
+    To have this, we need $\hat k_{t' + 2} = k_{t' + 2}^*$, and so, since feasibility constraint binds at the optimum,
+    \begin{align*}
+        \hat c_{t'+ 1} &= (\hat k_{t' + 1})^\alpha + (1 - \delta) \hat k_{t' + 1} - \hat k_{t' + 2} \\
+        & = (k_{t'+1}^* -\varepsilon)^\alpha + (1- \delta)(k_{t'+1}^* -\varepsilon) - k_{t' + 2}^*.
+    \end{align*}
+\end{itemize}
+Note that this new sequence is feasible:
+\begin{itemize}
+    \item For $t<t'$, by feasibility of $(c_t^*,k_{t+1}^*)$.
+    \item At $t=t'$, by feasibility of $(c_t^*,k_{t+1}^*)$ again:
+    \[
+    \hat c_{t'}+\hat k_{t'+1}=\varepsilon + k_{t' + 1}^*-\varepsilon = c^*_{t'}+ k^*_{t'+1}.
+    \]
+    \item At $t=t'+1$, by construction, as $\hat c_{t' + 1}$ is constructed to satisfy the feasibility constraint. 
+    \item For $t> t' + 1$, by feasibility of $(c_t^*,k_{t+1}^*)$.
+
+\end{itemize}
+Since the two sequences are equal for every $t \in \{0,1,\dots, t'-1\} \cup \{t' + 2,t'+3,\dots\}$, the value difference between them is given by
+\begin{align*}
+\beta ^{t'} u(\varepsilon) + \beta^{t' + 1}u \big((k_{t'+1}^* -\varepsilon)^\alpha + (1- \delta)(k_{t'+1}^* -\varepsilon) - k_{t' + 2}^*\big) \\ - \beta ^{t'} u(0) - \beta^{t' + 1}u \big((k_{t'+1}^*)^\alpha + (1- \delta)(k_{t'+1}^*) - k_{t' + 2}^*\big).
+\end{align*}
+Now, if we show that this expression is positive, we reach a contradiction, because the new sequence we constructed would be strictly better than the optimal sequence.
+Consider
+\begin{align*}
+\Delta V = \beta ^{t'} u(\varepsilon) + \beta^{t' + 1}u \big((k_{t'+1}^* -\varepsilon)^\alpha &+ (1- \delta)(k_{t'+1}^* -\varepsilon) - k_{t' + 2}^*\big) \\& - \beta ^{t'} u(0) - \beta^{t' + 1}u \big((k_{t'+1}^*)^\alpha + (1- \delta)(k_{t'+1}^*) - k_{t' + 2}^*\big) > 0 \end{align*}\begin{align*}
+\implies \beta ^{t'} u(\varepsilon) - \beta ^{t'} u(0)> - \beta^{t' + 1}u \big((k_{t'+1}^* -\varepsilon)^\alpha& + (1- \delta)(k_{t'+1}^* -\varepsilon) - k_{t' + 2}^*\big) \\ &+\beta^{t' + 1}u \big((k_{t'+1}^*)^\alpha + (1- \delta)(k_{t'+1}^*) - k_{t' + 2}^*\big)
+\end{align*}
+where the left hand side of the inequality represents present gains and the right hand side future losses of following the new path with respect to the optimal one. We can simplify $\beta^{t'}$ on both sides and obtain equivalently
+\begin{equation}
+\begin{split}
+ u(\varepsilon) - u(0)>  \\\beta \Big( -u \big((k_{t'+1}^* -\varepsilon)^\alpha + (1- \delta)(k_{t'+1}^* -\varepsilon) - k_{t' + 2}^*\big) +u \big((k_{t'+1}^*)^\alpha + (1- \delta)(k_{t'+1}^*) - k_{t' + 2}^*\big) \Big)
+ \end{split} \label{value_diff}
+\end{equation}
+There are two cases. If $\sigma > 1$, then $$u (0) = \lim_{x \to 0} u(x) = - \infty$$
+so $u (\varepsilon) - u(0) = + \infty$. On the other hand, future losses are finite, so, clearly, present gains are more than future losses and we reached the contradiction.
+
+If $\sigma < 1$, however, $$u (0)  = \frac{-1}{1 - \sigma}.$$
+Since $u(0)$ is now a finite value, we need to find another way to reach the same contradiction. In this case, $u$ is continuous in $[0, \varepsilon]$ and differentiable in $(0, \varepsilon)$, so by the Mean Value Theorem, there exists a point $c_{gain} \in (0, \varepsilon)$ such that $$u(\varepsilon) - u(0) = \varepsilon u'(c_{gain}).$$
+Define function \[
+g (k) := k^\alpha + (1 - \delta)k.
+\]
+Therefore, we can write future losses as 
+\begin{align*}
+    \beta \Big( u \big(g(k_{t'+1}^*) - k_{t' + 2}^*\big) - u \big(g(k^*_{t'+1}- \varepsilon)- k_{t' + 2}^*\big)  \Big).
+\end{align*}
+The Taylor expansion of $g(k^*_{t'+1} - \varepsilon)$ around $k^*_{t'+1}$ is 
+\begin{align*}
+g(k^*_{t'+1}- \varepsilon) &= g(k^*_{t'+1}) + g'(k^*_{t'+1})(-\varepsilon) + o(\varepsilon) \\
+& = g(k^*_{t'+1}) - \big(\alpha(k^*_{t'+ 1})^{\alpha - 1} + (1 - \delta)\big)  \varepsilon  + o (\varepsilon)\\
+& = g(k^*_{t'+1}) - R \varepsilon  + o (\varepsilon)
+\end{align*}
+with $R$ constant with respect to $\varepsilon$.
+Future losses become
+\begin{align*}
+    \beta \Big(u \big(g(k_{t'+1}^*) - k_{t' + 2}^*\big) - u \big(g(k^*_{t'+1})- k_{t' + 2}^* - R \varepsilon  + o (\varepsilon)\big)  \Big).
+\end{align*}
+Again, by the Mean Value Theorem, there exists $c_{loss} \in \big(g(k^*_{t'+1})- k_{t' + 2}^* - R \varepsilon, g(k^*_{t'+1})- k_{t' + 2}^*\big)$ such that future losses equal 
+\begin{align*}
+     \beta \Big( u \big(g(k_{t'+1}^*) - k_{t' + 2}^*\big) - u \big(g(k^*_{t'+1})- k_{t' + 2}^* - R \varepsilon  + o (\varepsilon)\big)\Big) = \beta\Big(R\varepsilon\, u'(c_{loss})\Big).
+\end{align*}
+Equation \eqref{value_diff} becomes 
+\[\varepsilon u'(c_{gain}) > \beta\,R\varepsilon\, u'(c_{loss}) \]
+\[\implies u'(c_{gain}) > \beta\,R\, u'(c_{loss})\]
+By construction, $c_{t'+1}^*>0$. Moreover, $c_{loss}\in\big(c_{t'+1}(\varepsilon),c_{t'+1}^*\big)$ with $c_{t'+1}(\varepsilon)\to c_{t'+1}^*$ as $\varepsilon\to 0$. Hence, for $\varepsilon$ small enough,
+\[
+c_{loss} \ge \frac{1}{2}c_{t'+1}^* > 0,
+\]
+so $c_{loss}$ is bounded away from $0$ and $u'(c_{loss})$ is finite. On the other hand,  $c_{gain}$ is below $\varepsilon$. Therefore, for $\varepsilon$ that goes to 0, by the Inada condition, 
+\[\lim_{\varepsilon \to 0} u'(c_{gain}) = + \infty\]
+while $u'(c_{loss})$ is finite. This implies that the new sequence we constructed has a greater value than the optimal one we started with, yielding a contradiction.
+
+If instead $c_{t''}<c_{t'}$, one can run the same argument ``in reverse'' by shifting a small amount of consumption from period $t'$ to period $t'+1$; the loss is evaluated at a point bounded away from $0$ (since $c_{ t'}^*>0$) while the gain exploits the Inada condition at $c_{ t'+1}^*=0$, yielding again a contradiction. \\
+Combining the cases above, we exclude the possibility that $c_t^*=0$ at any period $t$, for every value of $\sigma>0$. 
+
+Same reasoning applies to prove strictly positive $k_{t+1}$ at the optimum.

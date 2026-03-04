@@ -1,8 +1,0 @@
-\contentsline {section}{\numberline {1}Deterministic neoclassical growth model}{2}{section.1}%
-\contentsline {subsection}{\numberline {1.1}Sequential formulation}{2}{subsection.1.1}%
-\contentsline {subsection}{\numberline {1.2}Recursive formulation}{3}{subsection.1.2}%
-\contentsline {section}{\numberline {2}Modified neoclassical growth model}{4}{section.2}%
-\contentsline {section}{\numberline {3}Macro Data Analysis and Policy Discussion}{4}{section.3}%
-\contentsline {subsection}{\numberline {3.1}Analysis of Key Macro Variables}{5}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}Labor Market Dynamics}{5}{subsection.3.2}%
-\contentsline {subsection}{\numberline {3.3}Monetary Policy and Central Bank Decisions}{5}{subsection.3.3}%
