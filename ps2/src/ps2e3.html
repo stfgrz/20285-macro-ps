@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.39">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Stefano Graziosi">
+
+<title>Macroeconomics Problem Set 2 - Exercise 3</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="ps2e3_files/libs/clipboard/clipboard.min.js"></script>
+<script src="ps2e3_files/libs/quarto-html/quarto.js"></script>
+<script src="ps2e3_files/libs/quarto-html/popper.min.js"></script>
+<script src="ps2e3_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="ps2e3_files/libs/quarto-html/anchor.min.js"></script>
+<link href="ps2e3_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="ps2e3_files/libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="ps2e3_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="ps2e3_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="ps2e3_files/libs/bootstrap/bootstrap-81e35ebdb4125010edbabe6010586085.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#setup-and-data-acquisition" id="toc-setup-and-data-acquisition" class="nav-link active" data-scroll-target="#setup-and-data-acquisition">Setup and Data Acquisition</a></li>
+  <li><a href="#part-1-estimating-worker-flows" id="toc-part-1-estimating-worker-flows" class="nav-link" data-scroll-target="#part-1-estimating-worker-flows">Part 1: Estimating Worker Flows</a>
+  <ul class="collapse">
+  <li><a href="#summary-of-shimer-2005-methodology" id="toc-summary-of-shimer-2005-methodology" class="nav-link" data-scroll-target="#summary-of-shimer-2005-methodology">1.1 Summary of Shimer (2005) Methodology</a></li>
+  <li><a href="#probability-of-finding-a-job" id="toc-probability-of-finding-a-job" class="nav-link" data-scroll-target="#probability-of-finding-a-job">1.2 Probability of Finding a Job</a></li>
+  <li><a href="#the-separation-rate" id="toc-the-separation-rate" class="nav-link" data-scroll-target="#the-separation-rate">1.3 The Separation Rate</a></li>
+  <li><a href="#trends-and-cyclicality-of-the-rates" id="toc-trends-and-cyclicality-of-the-rates" class="nav-link" data-scroll-target="#trends-and-cyclicality-of-the-rates">1.4 Trends and Cyclicality of the Rates</a></li>
+  </ul></li>
+  <li><a href="#part-2-the-beveridge-curve" id="toc-part-2-the-beveridge-curve" class="nav-link" data-scroll-target="#part-2-the-beveridge-curve">Part 2: The Beveridge Curve</a>
+  <ul class="collapse">
+  <li><a href="#plotting-the-beveridge-curve" id="toc-plotting-the-beveridge-curve" class="nav-link" data-scroll-target="#plotting-the-beveridge-curve">2.1 Plotting the Beveridge Curve</a></li>
+  <li><a href="#literature-discussion-barlevy-et-al.-2024" id="toc-literature-discussion-barlevy-et-al.-2024" class="nav-link" data-scroll-target="#literature-discussion-barlevy-et-al.-2024">2.2 Literature Discussion: Barlevy et al.&nbsp;(2024)</a></li>
+  </ul></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="ps2e3.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Macroeconomics Problem Set 2 - Exercise 3</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Stefano Graziosi </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="setup-and-data-acquisition" class="level2">
+<h2 class="anchored" data-anchor-id="setup-and-data-acquisition">Setup and Data Acquisition</h2>
+<p>First, let’s load the necessary R packages. We use <code>tidyverse</code> for data manipulation and visualization, and <code>tidyquant</code> to easily fetch macroeconomic data series directly from FRED.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load necessary packages</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyquant)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Set ggplot2 theme</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_minimal</span>())</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Define output directory for plots</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>output_dir <span class="ot">&lt;-</span> <span class="st">"/Users/stefanograziosi/Documents/GitHub/20285-macro-ps/ps2/output"</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">dir.exists</span>(output_dir)) <span class="fu">dir.create</span>(output_dir, <span class="at">recursive =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Next, we download the required monthly series from FRED, covering the period from December 2000 through December 2025.</p>
+<ul>
+<li><span class="math inline">\(V\)</span>: <code>JTSJOL</code> (Job Openings: Total Nonfarm)</li>
+<li><span class="math inline">\(U\)</span>: <code>UNEMPLOY</code> (Unemployment Level)</li>
+<li><span class="math inline">\(L\)</span>: <code>CLF16OV</code> (Civilian Labor Force Level)</li>
+<li><span class="math inline">\(U^s\)</span>: <code>UEMPLT5</code> (Number Unemployed for Less Than 5 Weeks)</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the start and end dates</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>start_date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="st">"2000-12-01"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>end_date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="st">"2025-12-31"</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the tickers and their variable names for the exercise</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>tickers <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"V"</span>  <span class="ot">=</span> <span class="st">"JTSJOL"</span>, <span class="co"># Job Openings</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"U"</span>  <span class="ot">=</span> <span class="st">"UNEMPLOY"</span>, <span class="co"># Unemployment Level</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"L"</span>  <span class="ot">=</span> <span class="st">"CLF16OV"</span>, <span class="co"># Civilian Labor Force Level</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Us"</span> <span class="ot">=</span> <span class="st">"UEMPLT5"</span> <span class="co"># Unemployed &lt; 5 weeks</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to fetch data directly from FRED's CSV endpoint</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>fetch_fred_data <span class="ot">&lt;-</span> <span class="cf">function</span>(ticker, name) {</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    url <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"https://fred.stlouisfed.org/graph/fredgraph.csv?id="</span>, ticker)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    df <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(url, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        <span class="fu">rename</span>(<span class="at">date =</span> observation_date, <span class="sc">!!</span><span class="at">name :=</span> <span class="fu">all_of</span>(ticker)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Ensure value column is numeric (FRED sometimes sends "." for missing)</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">all_of</span>(name), as.numeric)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>        <span class="fu">filter</span>(date <span class="sc">&gt;=</span> start_date <span class="sc">&amp;</span> date <span class="sc">&lt;=</span> end_date)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(df)</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Fetch all series and join them together using purrr and dplyr</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">map2</span>(tickers, <span class="fu">names</span>(tickers), fetch_fred_data) <span class="sc">%&gt;%</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">reduce</span>(full_join, <span class="at">by =</span> <span class="st">"date"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(date)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="part-1-estimating-worker-flows" class="level2">
+<h2 class="anchored" data-anchor-id="part-1-estimating-worker-flows">Part 1: Estimating Worker Flows</h2>
+<section id="summary-of-shimer-2005-methodology" class="level3">
+<h3 class="anchored" data-anchor-id="summary-of-shimer-2005-methodology">1.1 Summary of Shimer (2005) Methodology</h3>
+<p>In his seminal 2005 paper, Robert Shimer develops a methodology to estimate the continuous-time transition rates between employment and unemployment — the job-finding rate <span class="math inline">\(f_t\)</span> and the separation rate <span class="math inline">\(s_t\)</span> — from discrete-time monthly CPS data.</p>
+<p><strong>Core Identification Strategy.</strong> The key insight is that short-term unemployment (<span class="math inline">\(U^s_{t+1}\)</span>, those unemployed for fewer than 5 weeks at date <span class="math inline">\(t+1\)</span>) identifies workers who entered unemployment during month <span class="math inline">\(t\)</span>. Workers remaining unemployed from month <span class="math inline">\(t\)</span> to <span class="math inline">\(t+1\)</span> who were <em>already</em> unemployed at <span class="math inline">\(t\)</span> are those who failed to exit unemployment. Under the assumption that all short-term unemployed at <span class="math inline">\(t+1\)</span> are new entrants during month <span class="math inline">\(t\)</span>, the monthly probability that an unemployed worker fails to find a job is: <span class="math display">\[F^c_t \equiv \frac{U_{t+1} - U^s_{t+1}}{U_t}\]</span> so the discrete (monthly) job-finding probability is <span class="math inline">\(F_t = 1 - F^c_t\)</span>. Assuming that, within each month, transitions follow a homogeneous Poisson process with constant hazard rates, the continuous-time job-finding rate is recovered via the mapping <span class="math inline">\(f_t = -\ln(1 - F_t)\)</span>.</p>
+<p><strong>Recovery of the Separation Rate.</strong> To recover <span class="math inline">\(s_t\)</span>, Shimer models the continuous-time evolution of unemployment within the month: <span class="math display">\[ \dot{U}_{t+\tau} = s_t (L_t - U_{t+\tau}) - f_t\, U_{t+\tau}, \quad \tau \in [0,1) \]</span> Holding <span class="math inline">\(L_t\)</span>, <span class="math inline">\(f_t\)</span>, and <span class="math inline">\(s_t\)</span> constant during the month, this linear ODE has the closed-form solution: <span class="math display">\[ U_{t+1} = \frac{s_t\, L_t}{f_t + s_t}\bigl(1 - e^{-(f_t + s_t)}\bigr) + e^{-(f_t + s_t)}\, U_t \]</span> Since this equation is implicit in <span class="math inline">\(s_t\)</span> (given <span class="math inline">\(f_t\)</span>, <span class="math inline">\(U_t\)</span>, <span class="math inline">\(U_{t+1}\)</span>, and <span class="math inline">\(L_t\)</span>), it must be solved numerically — e.g., by root-finding.</p>
+<p><strong>Advantages:</strong></p>
+<ul>
+<li>Relies on widely available aggregate CPS data rather than matched longitudinal records, which are susceptible to classification error and attrition.</li>
+<li>Explicitly corrects for time-aggregation bias, recovering hazard rates that more accurately reflect within-month transition dynamics.</li>
+</ul>
+<p><strong>Limitations:</strong></p>
+<ul>
+<li>Assumes constant transition rates within each month (piecewise-constant hazards).</li>
+<li>Abstracts from the participation margin: all flows between employment/unemployment and out-of-the-labor-force (<span class="math inline">\(E \leftrightarrow N\)</span>, <span class="math inline">\(U \leftrightarrow N\)</span>) are ignored, which can matter in recessions with discouraged-worker effects.</li>
+<li>Treats all short-term unemployed (<span class="math inline">\(&lt;\)</span> 5 weeks) as new entrants, which slightly overstates inflows when some are re-entrants from prior months’ short spells.</li>
+</ul>
+</section>
+<section id="probability-of-finding-a-job" class="level3">
+<h3 class="anchored" data-anchor-id="probability-of-finding-a-job">1.2 Probability of Finding a Job</h3>
+<p>Following Shimer’s method, we calculate the monthly probability of finding a job, <span class="math inline">\(F_t\)</span> (or <span class="math inline">\(p^{UE}_t\)</span>), and the corresponding continuous-time job-finding rate <span class="math inline">\(f_t\)</span>. We do this using data on the unemployment level (<span class="math inline">\(U_t\)</span>) and short-term unemployment (<span class="math inline">\(U^s_t\)</span>).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate job finding probability F_t and rate f_t</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        <span class="co"># F_t requires U_{t+1} and Us_{t+1}. We shift U and Us backward to align</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        <span class="co"># the t+1 values on the t row. Note: lead(Us) is Us_{t+1}.</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">F_t =</span> <span class="dv">1</span> <span class="sc">-</span> (<span class="fu">lead</span>(U) <span class="sc">-</span> <span class="fu">lead</span>(Us)) <span class="sc">/</span> U,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Continuous-time job finding rate</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">f_t =</span> <span class="sc">-</span><span class="fu">log</span>(<span class="dv">1</span> <span class="sc">-</span> F_t)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="the-separation-rate" class="level3">
+<h3 class="anchored" data-anchor-id="the-separation-rate">1.3 The Separation Rate</h3>
+<p>Next, we compute the employment level <span class="math inline">\(E_t\)</span> using data on the labor force <span class="math inline">\(L_t\)</span> and the unemployment level <span class="math inline">\(U_t\)</span> (<span class="math inline">\(E_t = L_t - U_t\)</span>). With this information, along with the job finding rate <span class="math inline">\(f_t\)</span>, we can recover the separation rate <span class="math inline">\(s_t\)</span> (or <span class="math inline">\(p^{EU}_t\)</span>). Shimer incorporates the job-finding rate <span class="math inline">\(f_t\)</span> in the computation of <span class="math inline">\(s_t\)</span> precisely because of time-aggregation bias, which requires accounting for workers who separate from employment <em>and</em> find new jobs within the same month. Without this correction, the separation rate would be underestimated.</p>
+<p><strong>Time-Aggregation Bias.</strong> Time-aggregation bias arises because discrete monthly snapshots of unemployment fail to register transitions that begin and end <em>within</em> the same observation period. For example, if a worker loses her job on the 5th of the month and finds a new one on the 20th, neither the separation nor the subsequent hire will appear in the stock data at the month’s endpoints. As a result, naive transition-rate estimates that compare consecutive monthly stocks systematically understate the true volume of both separations and job findings. Shimer’s methodology corrects for this bias by modelling the within-month dynamics as a continuous-time Poisson process: (i) the monthly job-finding <em>probability</em> <span class="math inline">\(F_t\)</span> is mapped to a continuous <em>hazard</em> rate <span class="math inline">\(f_t = -\ln(1 - F_t)\)</span>, and (ii) the separation rate <span class="math inline">\(s_t\)</span> is recovered by integrating the continuous-time unemployment differential equation over <span class="math inline">\([t, t+1]\)</span>, thereby accounting for the multiple transitions that may occur within a single discrete period.</p>
+<p>Because the equation for <span class="math inline">\(s_t\)</span> is implicit, we can solve for it numerically month-by-month using a root-finding algorithm like <code>uniroot</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to solve for separation rate s_t implicitly</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>solve_s <span class="ot">&lt;-</span> <span class="cf">function</span>(U_t, U_t_plus_1, L_t, f_t) {</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># If any input is NA, return NA</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">is.na</span>(U_t) <span class="sc">||</span> <span class="fu">is.na</span>(U_t_plus_1) <span class="sc">||</span> <span class="fu">is.na</span>(L_t) <span class="sc">||</span> <span class="fu">is.na</span>(f_t)) {</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">return</span>(<span class="cn">NA_real_</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># The objective function to find the root of (equation equals 0)</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    obj_fun <span class="ot">&lt;-</span> <span class="cf">function</span>(s) {</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        U_t_plus_1 <span class="sc">-</span> ((<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>f_t <span class="sc">-</span> s)) <span class="sc">*</span> s <span class="sc">*</span> L_t <span class="sc">/</span> (f_t <span class="sc">+</span> s) <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span>f_t <span class="sc">-</span> s) <span class="sc">*</span> U_t)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Use uniroot to find s in a reasonable interval (e.g., 0.0001 to 0.5)</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    res <span class="ot">&lt;-</span> <span class="fu">tryCatch</span>(</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>        <span class="fu">uniroot</span>(obj_fun, <span class="at">interval =</span> <span class="fu">c</span>(<span class="fl">1e-6</span>, <span class="fl">0.5</span>))<span class="sc">$</span>root,</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">error =</span> <span class="cf">function</span>(e) <span class="cn">NA_real_</span> <span class="co"># Return NA if no root is found</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(res)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the solver to each row</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Compute the employment level based on labor force and unemployment</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>        <span class="at">E =</span> L <span class="sc">-</span> U,</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>        <span class="at">U_lead =</span> <span class="fu">lead</span>(U),</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Calculate s_t row-wise</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>        <span class="at">s_t =</span> <span class="fu">pmap_dbl</span>(<span class="fu">list</span>(U, U_lead, L, f_t), solve_s)</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Remove the temporary lead variable</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="sc">-</span>U_lead)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="trends-and-cyclicality-of-the-rates" class="level3">
+<h3 class="anchored" data-anchor-id="trends-and-cyclicality-of-the-rates">1.4 Trends and Cyclicality of the Rates</h3>
+<p>Let’s visualize the estimated continuous-time transition rates over time.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reshape data to long format to plot both rates easily</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>plot_data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(date, <span class="st">`</span><span class="at">Job Finding Rate (f)</span><span class="st">`</span> <span class="ot">=</span> f_t, <span class="st">`</span><span class="at">Separation Rate (s)</span><span class="st">`</span> <span class="ot">=</span> s_t) <span class="sc">%&gt;%</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span>date, <span class="at">names_to =</span> <span class="st">"Rate_Type"</span>, <span class="at">values_to =</span> <span class="st">"Rate"</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(plot_data, <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> Rate, <span class="at">color =</span> Rate_Type)) <span class="sc">+</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.8</span>, <span class="at">alpha =</span> <span class="fl">0.9</span>) <span class="sc">+</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span>Rate_Type, <span class="at">scales =</span> <span class="st">"free_y"</span>, <span class="at">ncol =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>()) <span class="sc">+</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_date</span>(<span class="at">date_breaks =</span> <span class="st">"5 years"</span>, <span class="at">date_labels =</span> <span class="st">"%Y"</span>) <span class="sc">+</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Job Finding Rate (f)"</span> <span class="ot">=</span> <span class="st">"#2c7fb8"</span>, <span class="st">"Separation Rate (s)"</span> <span class="ot">=</span> <span class="st">"#de2d26"</span>)) <span class="sc">+</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">title =</span> <span class="st">"Monthly Transition Rates in the US Labor Market"</span>,</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">subtitle =</span> <span class="st">"Continuous-time rates estimated from aggregate FRED data (Dec 2000 - Dec 2025)"</span>,</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">caption =</span> <span class="st">"Source: Author's calculations based on FRED data (UNEMPLOY, UEMPLT5, CLF16OV)."</span>,</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> <span class="cn">NULL</span>,</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> <span class="st">"Monthly Transition Rate"</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">11</span>) <span class="sc">+</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"none"</span>,</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">12</span>, <span class="at">hjust =</span> <span class="dv">0</span>),</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">16</span>),</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">"grey30"</span>),</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">10</span>)</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ps2e3_files/figure-html/plot_rates-1.png" class="img-fluid figure-img" width="864"></p>
+<figcaption>Figure 1: Estimated job finding and separation rates in the US (2000-2025) using the Shimer (2005) methodology. The job finding rate (top) is highly procyclical, while the separation rate (bottom) shows countercyclical spikes during recessions.</figcaption>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save high-res PDF</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="fu">file.path</span>(output_dir, <span class="st">"transition_rates.pdf"</span>), <span class="at">plot =</span> p1, <span class="at">width =</span> <span class="dv">9</span>, <span class="at">height =</span> <span class="dv">7</span>, <span class="at">device =</span> <span class="st">"pdf"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Save separate plots without titles/subtitles as requested</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>p_f <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> f_t)) <span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.8</span>, <span class="at">color =</span> <span class="st">"#2c7fb8"</span>, <span class="at">alpha =</span> <span class="fl">0.9</span>) <span class="sc">+</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>()) <span class="sc">+</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_date</span>(<span class="at">date_breaks =</span> <span class="st">"5 years"</span>, <span class="at">date_labels =</span> <span class="st">"%Y"</span>) <span class="sc">+</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"Job Finding Rate (f)"</span>) <span class="sc">+</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">11</span>) <span class="sc">+</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="fu">file.path</span>(output_dir, <span class="st">"job_finding_rate.pdf"</span>), <span class="at">plot =</span> p_f, <span class="at">width =</span> <span class="dv">9</span>, <span class="at">height =</span> <span class="dv">4</span>, <span class="at">device =</span> <span class="st">"pdf"</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>p_s <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> s_t)) <span class="sc">+</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.8</span>, <span class="at">color =</span> <span class="st">"#de2d26"</span>, <span class="at">alpha =</span> <span class="fl">0.9</span>) <span class="sc">+</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>()) <span class="sc">+</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_date</span>(<span class="at">date_breaks =</span> <span class="st">"5 years"</span>, <span class="at">date_labels =</span> <span class="st">"%Y"</span>) <span class="sc">+</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"Separation Rate (s)"</span>) <span class="sc">+</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">11</span>) <span class="sc">+</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="fu">file.path</span>(output_dir, <span class="st">"separation_rate.pdf"</span>), <span class="at">plot =</span> p_s, <span class="at">width =</span> <span class="dv">9</span>, <span class="at">height =</span> <span class="dv">4</span>, <span class="at">device =</span> <span class="st">"pdf"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Discussion:</strong></p>
+<ul>
+<li><p><strong>Job-finding rate (<span class="math inline">\(f_t\)</span>).</strong> The estimated job-finding rate is strongly <strong>procyclical</strong> and constitutes the dominant source of unemployment fluctuations over the business cycle. It declines sharply at the onset of each recession — falling by roughly 40–50% during the Great Recession — and recovers only gradually during the subsequent expansion, consistent with the well-documented sluggishness of labor-market recoveries. The COVID-19 shock produced the sharpest single-month drop on record, followed by an exceptionally rapid recovery that pushed <span class="math inline">\(f_t\)</span> to historically elevated levels by mid-2022, reflecting the extraordinary tightness of the post-pandemic labor market.</p></li>
+<li><p><strong>Separation rate (<span class="math inline">\(s_t\)</span>).</strong> The separation rate is <strong>countercyclical</strong>, exhibiting brief but intense spikes at the onset of recessions. The spike associated with the Great Recession was large but brief; the COVID-19 spike was an order of magnitude larger yet even shorter-lived. Outside of recessionary episodes, <span class="math inline">\(s_t\)</span> fluctuates within a narrow band, displaying comparatively little variation. This pattern confirms a central finding of Shimer (2005): while separation-rate spikes <em>initiate</em> rises in unemployment, it is the persistent decline in the job-finding rate that <em>sustains</em> elevated unemployment throughout the downturn.</p></li>
+<li><p><strong>Overall assessment.</strong> The time-series evidence supports a decomposition in which separations act as a “trigger” mechanism while the job-finding rate governs the depth and duration of unemployment cycles. This is consistent with the subsequent literature debate (e.g., Elsby, Michaels, and Solon, 2009, who argue that separations play a somewhat larger role than Shimer initially suggested, particularly at the onset of downturns).</p></li>
+</ul>
+</section>
+</section>
+<section id="part-2-the-beveridge-curve" class="level2">
+<h2 class="anchored" data-anchor-id="part-2-the-beveridge-curve">Part 2: The Beveridge Curve</h2>
+<section id="plotting-the-beveridge-curve" class="level3">
+<h3 class="anchored" data-anchor-id="plotting-the-beveridge-curve">2.1 Plotting the Beveridge Curve</h3>
+<p>The Beveridge Curve maps the inverse relationship between the unemployment rate (<span class="math inline">\(u\)</span>) and the job vacancy rate (<span class="math inline">\(v\)</span>). We first calculate these variables and segment the data into the requested distinct periods.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Labor market variables</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">u =</span> U <span class="sc">/</span> L,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">E =</span> L <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> u), <span class="co"># Or simply L - U</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">v =</span> V <span class="sc">/</span> (E <span class="sc">+</span> V),</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Scale to percentages for better readability on axes</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">u_pct =</span> u <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">v_pct =</span> v <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Categorize into historical periods</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">Period =</span> <span class="fu">case_when</span>(</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>            date <span class="sc">&gt;=</span> <span class="fu">as.Date</span>(<span class="st">"2000-12-01"</span>) <span class="sc">&amp;</span> date <span class="sc">&lt;=</span> <span class="fu">as.Date</span>(<span class="st">"2007-12-31"</span>) <span class="sc">~</span> <span class="st">"Dec 2000 - Dec 2007"</span>,</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>            date <span class="sc">&gt;=</span> <span class="fu">as.Date</span>(<span class="st">"2008-01-01"</span>) <span class="sc">&amp;</span> date <span class="sc">&lt;=</span> <span class="fu">as.Date</span>(<span class="st">"2009-06-30"</span>) <span class="sc">~</span> <span class="st">"Jan 2008 - June 2009"</span>,</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>            date <span class="sc">&gt;=</span> <span class="fu">as.Date</span>(<span class="st">"2009-07-01"</span>) <span class="sc">&amp;</span> date <span class="sc">&lt;=</span> <span class="fu">as.Date</span>(<span class="st">"2020-02-29"</span>) <span class="sc">~</span> <span class="st">"July 2009 - Feb 2020"</span>,</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>            date <span class="sc">&gt;=</span> <span class="fu">as.Date</span>(<span class="st">"2020-03-01"</span>) <span class="sc">&amp;</span> date <span class="sc">&lt;=</span> <span class="fu">as.Date</span>(<span class="st">"2022-04-30"</span>) <span class="sc">~</span> <span class="st">"March 2020 - April 2022"</span>,</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>            date <span class="sc">&gt;=</span> <span class="fu">as.Date</span>(<span class="st">"2022-05-01"</span>) <span class="sc">&amp;</span> date <span class="sc">&lt;=</span> <span class="fu">as.Date</span>(<span class="st">"2025-12-31"</span>) <span class="sc">~</span> <span class="st">"May 2022 - Dec 2025"</span>,</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>            <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Period)) <span class="co"># Drop rows outside defined periods</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure chronological ordering in the legend</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Period <span class="ot">&lt;-</span> <span class="fu">factor</span>(data<span class="sc">$</span>Period, <span class="at">levels =</span> <span class="fu">c</span>(</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Dec 2000 - Dec 2007"</span>,</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Jan 2008 - June 2009"</span>,</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"July 2009 - Feb 2020"</span>,</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">"March 2020 - April 2022"</span>,</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">"May 2022 - Dec 2025"</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now, we plot the Beveridge Curve for the respective periods. Note that the standard Beveridge curve is downward sloping. When the curve shifts outward (up and to the right), it implies a decrease in matching efficiency—a given level of vacancies is associated with higher unemployment.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Map colors exactly as requested</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>period_colors <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Dec 2000 - Dec 2007"</span> <span class="ot">=</span> <span class="st">"#009B55"</span>, <span class="co"># Green</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Jan 2008 - June 2009"</span> <span class="ot">=</span> <span class="st">"#FDBC42"</span>, <span class="co"># Orange</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"July 2009 - Feb 2020"</span> <span class="ot">=</span> <span class="st">"#ca381e"</span>, <span class="co"># Red</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"March 2020 - April 2022"</span> <span class="ot">=</span> <span class="st">"#006795"</span>, <span class="co"># Blue</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"May 2022 - Dec 2025"</span> <span class="ot">=</span> <span class="st">"#000000"</span> <span class="co"># Black</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> u, <span class="at">y =</span> v, <span class="at">color =</span> Period)) <span class="sc">+</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_path</span>(<span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">color =</span> <span class="st">"grey50"</span>, <span class="at">linewidth =</span> <span class="fl">0.5</span>) <span class="sc">+</span> <span class="co"># Trajectory line</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.8</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">accuracy =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">accuracy =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values =</span> period_colors) <span class="sc">+</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">title =</span> <span class="st">"Dynamics of the US Beveridge Curve"</span>,</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">subtitle =</span> <span class="st">"Relationship between Unemployment Rate and Job Vacancy Rate"</span>,</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">caption =</span> <span class="st">"Source: Author's calculations based on FRED data (JTSJOL, UNEMPLOY, CLF16OV)."</span>,</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> <span class="st">"Unemployment Rate (u)"</span>,</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> <span class="st">"Job Vacancy Rate (v)"</span>,</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">color =</span> <span class="st">"Economic Period"</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">11</span>) <span class="sc">+</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"bottom"</span>,</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">16</span>),</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">"grey30"</span>),</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.box.background =</span> <span class="fu">element_rect</span>(<span class="at">color =</span> <span class="st">"grey90"</span>, <span class="at">fill =</span> <span class="cn">NA</span>),</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">10</span>)</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ps2e3_files/figure-html/beveridge_plot-1.png" class="img-fluid figure-img" width="864"></p>
+<figcaption>Figure 2: The US Beveridge Curve from December 2000 to December 2025. The plot illustrates the shifting relationship between unemployment and job vacancies across major economic regimes, including the Great Recession and the post-COVID recovery.</figcaption>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save high-res PDF</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="fu">file.path</span>(output_dir, <span class="st">"beveridge_curve.pdf"</span>), <span class="at">plot =</span> p2, <span class="at">width =</span> <span class="dv">9</span>, <span class="at">height =</span> <span class="dv">7</span>, <span class="at">device =</span> <span class="st">"pdf"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Discussion:</strong></p>
+<ul>
+<li><p><strong>Movements along the curve.</strong> Within structurally stable regimes — the pre-crisis expansion (green, 2000–2007) and the post-crisis recovery (red, 2009–2020) — the data trace out the canonical negative relationship predicted by the standard Beveridge curve. As the economy enters the Great Recession (orange, 2008–2009), declining aggregate demand simultaneously drives up unemployment and suppresses vacancy posting, producing a movement <em>along</em> a roughly stable locus toward the lower-right of the <span class="math inline">\((u, v)\)</span> space.</p></li>
+<li><p><strong>Outward shifts and matching efficiency.</strong> A striking feature is the <em>outward shift</em> of the curve between the pre-crisis (green) and post-crisis recovery (red) regimes. During the early recovery (2009–2013), the red cluster sits markedly to the right of the green locus at comparable vacancy rates, indicative of a deterioration in aggregate matching efficiency. This is broadly consistent with explanations involving skill mismatch, geographic mismatch, and extended unemployment benefit durations that reduced search intensity during that episode.</p></li>
+<li><p><strong>COVID-19 pandemic and recovery (blue).</strong> The pandemic produced an unprecedented pattern. The initial shock (March–April 2020) generated an extreme spike in unemployment with a simultaneous collapse in vacancies. However, the recovery trajectory is dramatically different from any prior cycle: vacancies surged to historic highs while unemployment remained elevated, pushing the economy far to the upper-right of any previously observed Beveridge curve locus. This exceptional outward shift reflects a combination of sectoral reallocation shocks and the “Great Resignation” — an unprecedented wave of voluntary job-to-job transitions that generated massive vacancy posting aimed at replacing churning workers rather than expanding employment from the unemployment pool.</p></li>
+<li><p><strong>Monetary tightening and the “soft landing” (black).</strong> The most economically significant recent development is the trajectory of the black data points (May 2022 onward). As the Federal Reserve tightened monetary policy, the economy moved <em>nearly vertically downward</em> on the Beveridge curve: vacancies declined sharply from their historic peaks while the unemployment rate remained essentially flat. This near-vertical descent is highly unusual and stands in stark contrast to the standard prediction that reducing labor-market tightness requires a trade-off between lower vacancies and higher unemployment. As Barlevy et al.&nbsp;(2024) argue, this “immaculate disinflation” is explained by the fact that the elevated vacancies reflected reallocation churn rather than fundamental labor demand: as the Great Resignation subsided, firms withdrew replacement postings without resorting to layoffs.</p></li>
+</ul>
+</section>
+<section id="literature-discussion-barlevy-et-al.-2024" class="level3">
+<h3 class="anchored" data-anchor-id="literature-discussion-barlevy-et-al.-2024">2.2 Literature Discussion: Barlevy et al.&nbsp;(2024)</h3>
+<p>Barlevy et al.&nbsp;(2024) decompose Beveridge-curve shifts into two distinct channels: (i) changes in <em>search efficiency</em> — the rate at which unemployed workers and vacant jobs form matches, holding the stock of each fixed — and (ii) the intensity of <em>reallocation shocks</em> — the rate at which existing employment relationships dissolve, generating simultaneous inflows into both unemployment and vacancy posting.</p>
+<p><strong>Past recoveries.</strong> In the recoveries following the 2001 and 2007–09 recessions, Beveridge-curve shifts were primarily attributable to a decline in search efficiency. Long unemployment durations eroded human capital and weakened search effort, while geographic and sectoral mismatch between available workers and open positions reduced the matching rate. Extended unemployment insurance benefits may have further dampened search intensity. These factors caused unemployment to remain elevated even as vacancy posting recovered, producing the characteristic rightward shift of the curve.</p>
+<p><strong>The COVID-19 recovery and the “Great Resignation.”</strong> The post-pandemic shift was driven by a fundamentally different mechanism. Barlevy et al.&nbsp;demonstrate that the dominant force was a surge in <em>reallocation intensity</em> — specifically, an unprecedented rise in voluntary employer-to-employer (job-to-job) transitions, popularly termed the “Great Resignation.” As the economy reopened and labor demand surged, employed workers leveraged the tight market to pursue better wages, remote-work arrangements, and career changes. In a search-and-matching framework, this elevated churn requires firms to post a large number of vacancies merely to <em>replace</em> departing workers, even absent net employment growth. The vacancy-to-unemployment ratio therefore rose sharply, shifting the Beveridge curve upward. Crucially, these vacancies were not aimed at drawing from the unemployment pool, but at competing for already-employed workers.</p>
+<p><strong>Monetary tightening and the near-vertical decline.</strong> The framework directly explains the unusual near-vertical trajectory of the black data points. The classical concern (e.g., Blanchard, Domash, and Summers, 2022) was that restoring price stability would require a significant increase in unemployment — i.e., moving down a relatively flat Beveridge curve. Barlevy et al.&nbsp;show that this reasoning misidentifies the nature of the elevated vacancies. Because the pandemic-era vacancy surge was driven by reallocation churn rather than by fundamental excess demand for new hires, the tightening cycle merely unwound the churn: as quit rates normalized, firms withdrew replacement postings, and the vacancy rate fell rapidly. Since these vacancies had not been drawing workers from the unemployment pool in the first place, their disappearance did not generate layoffs or raise unemployment. The economy thus descended nearly vertically, achieving what commentators have termed an “immaculate disinflation” or “soft landing.”</p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
