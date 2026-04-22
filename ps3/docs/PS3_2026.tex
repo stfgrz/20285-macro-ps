@@ -1,0 +1,563 @@
+
+%%%%    TO INCLUDE/EXCLUDE THE SOLUTIONS, 
+%       COMMENT OUT AT THE END OF EACH QUESTION.
+
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[margin=3cm]{geometry}
+%\usepackage[onehalfspacing]{setspace}
+\usepackage{amsmath,graphicx}
+\graphicspath{{figures/}}
+\usepackage{microtype}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{subcaption}
+\usepackage[hidelinks]{hyperref}
+%\usepackage{chngcntr}
+\usepackage[justification=centering]{caption}
+\setlength{\parindent}{0em}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+    }
+\begin{document}
+
+
+
+\title{Advanced Macroeconomics (cod. 20285) \\ \textbf{Problem set 3}}
+% \title{Advanced Macroeconomics (cod. 20285) \\ Solutions to Problem set 3}
+
+\date{A.Y. 2025--26}
+
+\author{Instructors: Antonella Trigari\\
+Teaching Assistant: Henri Graul}
+\maketitle
+\begin{itemize}
+\item Due date: April $19^{th}$, by \textbf{23:59} CEST;
+
+\item Write your solutions with a word processor (\LaTeX$\,$would be preferred);
+
+\item \textbf{Grading} is based on \textbf{either Exercise 1 or 2} (randomly chosen) and \textbf{Exercise 3};
+
+\item \textbf{Optional} questions will \textbf{not be graded}. They serve as additional practice exercises; 
+
+\item Please submit your solutions to \href{mailto:henri.graul@unibocconi.it}{henri.graul@unibocconi.it};
+
+\item Submit only \textbf{one} pdf for each group, don't forget to specify the names of the members of the group on the first page. Please also \textbf{indicate your names in the document title}, i.e. for example "PS3Graul/Trigari.pdf".     
+\end{itemize}
+
+\bigskip
+
+
+\section*{Exercise 1: RBC Model with S\&M Frictions}
+
+The economy consists of a continuum of identical, infinitely-lived households and a continuum of identical, competitive firms, each with a measure of one. Each household can be viewed as a large, extended family with a continuum of members, some of whom are employed while the others are unemployed. The household insures its members perfectly against fluctuations in labor income caused by employment or unemployment by pooling their incomes. In other words, the family combines its total income before making consumption decisions. There are no unemployment benefits, and the opportunity cost of employment is the loss of leisure. Firms are large and employ many workers. The goods market is perfectly competitive, while the labor market features search and matching frictions. The labor force is fixed and normalized to one.
+
+The social planner evaluates the streams of private consumption ($C_t$) and
+employment ($N_t$) according to the objective function
+\begin{equation}\label{eq:objective}
+    \mathbb{E}_0\left\{\sum_{t=0}^\infty \beta^t \left[u(C_t) - b\,N_t \right]\right\},
+\end{equation}
+
+where consumption $C_t$ is equalized across employed and unemployed family members.\footnote{The additive separability of the period utility in 
+$C_t$ and $N_t$, combined with the linearity in $N_t$, allows $b$ to be interpreted as the marginal utility value of leisure.}
+
+Output is produced with a constant returns to scale technology, given by:
+$$ Y_t = z_t\,N_t, $$
+where $Y_t$ is aggregate output, $z_t$ is labor productivity, and $N_t$ is employment. Labor productivity evolves according to an exogenous process, given by:
+$$ \ln(z_t) = \rho\,\ln(z_{t-1}) + \varepsilon_t, $$
+where $\rho$ is a persistence parameter and $\varepsilon_t$ is zero-mean iid shock.
+
+The labor market exhibits search and matching frictions, with matching function given by:
+\begin{equation}\label{eq:matching}
+    M_t = V_t^{1-\sigma}(1-N_t)^\sigma\,,\quad \sigma\in (0,1),
+\end{equation}
+where matching efficiency is normalized to 1, and $V_t$ is the aggregate number of vacancies. Given that the labor force is normalized to 1, $(1-N_t)$ is aggregate unemployment.
+
+Each open vacancy entails a fixed per period advertising cost $\kappa > 0$. Since vacancy costs are measured in units of output, the resource constraint is:
+$$ Y_t = C_t + \kappa\,V_t $$
+
+The law of motion for $N_t$ is given by:
+\begin{equation}\label{eq:LoM}
+    N_{t+1} = (1-\lambda)\,N_t + M_t,
+\end{equation}  
+where $\lambda \in (0,1)$ is the separation rate of existing matches.
+
+
+
+\subsection*{Part 1: Planner's Problem}
+The social planner problem can  be written as:
+$$ U(z_0,N_0) = \max_{\{C_t,V_t,N_{t+1}\}_{t=0}^\infty}\mathbb{E}_0\left\{\sum_{t=0}^\infty \beta^t \left[u(C_t) - b\,N_t\right]\right\} $$
+$$ \mathrm{s.t.}\; 
+\begin{cases}
+C_t + \kappa\,V_t = z_t\,N_t 	\\
+N_{t+1} = (1-\lambda)\,N_t + V_t^{1-\sigma}(1-N_t)^\sigma	\\
+z_0,N_0\,\text{given}
+\end{cases}
+$$\begin{enumerate}
+\item Formulate the planner's problem in recursive form by first identifying the state variables and control variables, then expressing the corresponding Bellman equation. Using this recursive formulation, derive the optimality conditions that characterize the solution to the planner's problem.
+
+\item Next, show that these optimality conditions lead to the following job-creation condition:
+$$ \frac{\kappa}{q_t} = (1-\sigma) \, \beta\,\mathbb{E}_t\left[\frac{u'(C_{t+1})}{u'(C_t)}\, \widetilde{U}_N(z_{t+1},N_{t+1})\right] $$
+where $\widetilde{U}_N(z_{t},N_{t})$ is defined as the value, measured in consumption units, that the planner attaches to employing an additional member of the household, i.e.
+$$ \widetilde{U}_N(z_{t},N_{t}) := \frac{1}{u'(C_t)}\,\frac{\partial\,U(z_{t},N_{t})}{\partial\,N_t} $$
+and $q_t$ is defined as
+$$ q_t := \frac{M_t}{V_t} $$
+
+\item Secondly, show that the envelope condition implies implies the following recursive relationship for $ \widetilde{U}_N(z_{t},N_{t})$ holds
+$$
+\widetilde{U}_N(z_{t},N_{t})
+    = z_t - \frac{b}{u'(C_t)} + \beta\,\left(1-\lambda - \sigma\,p_t\right)\,\mathbb{E}_t\left[\frac{u'(C_{t+1})}{u'(C_t)}\, \widetilde{U}_N(z_{t+1},N_{t+1})\right]
+$$
+where $p_t$ is defined as
+$$ p_t := \frac{M_t}{1-N_t} $$
+
+\item Lastly, write the system that characterizes the solution to the planner's problem by listing an equal number of current-period variables and corresponding equations.
+
+\textit{[HINT: Take advantage of the fact that (only) after you have derived the optimality conditions from the planner's problem, you can write
+$$ \frac{\partial\,M_t}{\partial\,V_t} = (1-\sigma)\,\frac{M_t}{V_t} = (1-\sigma)\,q_t\,,\quad\text{and}\quad \frac{\partial\,M_t}{\partial\,N_t} = -\sigma\,\frac{M_t}{1 - N_t} = - \sigma\,p_t.]$$}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Part 2: Decentralised Economy}
+Consider now the decentralized problem. The representative family takes the job-finding rate $p_t$ as given, and solves
+$$ W(z_0,N_0) = \max_{\{C_t,N_{t+1}\}_{t=0}^\infty}\mathbb{E}_0\left\{\sum_{t=0}^\infty \beta^t \left[u(C_t) - b\,N_t\right]\right\} $$
+$$ \mathrm{s.t.}\; 
+\begin{cases}
+C_t = w_t\,N_t 	\\
+N_{t+1} = (1-\lambda)\,N_t + p_t\,(1-N_t)	\\
+z_0,N_0\,\text{given}
+\end{cases}
+$$
+
+\item  Write the household problem in recursive form by identifying the state and the control variables, and the Bellman equation. From this recursive formulation, derive the optimality conditions that characterise the solution to the household problem.
+
+Show that the first order conditions of the problem, combined with the envelope condition, give rise to the following recursion
+$$ \widetilde{W}_N(z_{t},N_{t}) = w_t - \frac{b}{u'(C_t)} + \beta\,\left(1-\lambda - p_t\right)\,\mathbb{E}_t\left[\frac{u'(C_{t+1})}{u'(C_t)}\, \widetilde{W}_N(z_{t+1},N_{t+1})\right] $$
+where $\widetilde{W}_N(z_{t},N_{t})$ is the value, measured in consumption units, that the household attaches to having an additional member employed. i.e.
+$$ \widetilde{W}_N(z_{t},N_{t}) := \frac{1}{u'(C_t)}\,\frac{\partial\,W(z_{t},N_{t})}{\partial\,N_t} $$
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item In the decentralized problem, the representative firm takes instead the vacancy-filling rate $q_t$ as given, and solves
+$$ \Pi(z_0,N_0) = \max_{\{V_t,N_{t+1}\}_{t=0}^\infty}\mathbb{E}_0\left\{\sum_{t=0}^\infty Q_{0,t}\,\left[z_t\,N_t - w_t\,N_t - \kappa\,V_t\right]\right\} $$
+$$ \mathrm{s.t.}\; 
+\begin{cases}
+N_{t+1} = (1-\lambda)\,N_t + q_t\,V_t	\\
+z_0,N_0\,\text{given}
+\end{cases}
+$$
+where future dividends are discounted by the household SDF
+$$ Q_{t,t+j} = \beta^j\,\frac{u'(C_{t+j})}{u'(C_t)} $$
+which also is taken as given in the representative firm problem.
+
+Write the firm problem in recursive form by identifying the state and the control variables, and the Bellman equation. From this recursive formulation, derive the optimality conditions that characterise the solution to the firm problem.
+
+\item Show that these optimality conditions entail the following job-creation condition
+$$ \frac{\kappa}{q_t} = \beta\,\mathbb{E}_t\left[\frac{u'(C_{t+1})}{u'(C_t)}\, \Pi_N(z_{t+1},N_{t+1})\right] $$
+where $\Pi_N(z_t,N_t)$ is the value that the firm attaches to hiring an additional worker\footnote{Notice that in this case, this marginal value is already measured in consumption units.}
+$$ \Pi_N(z_t,N_t) := \frac{\partial\,\Pi(z_{t},N_{t})}{\partial\,N_t} $$
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item The outcome  arising from the Nash bargaining problem is characterised by the following sharing rule
+\begin{equation}\label{eq:sharing}
+    (1-\eta)\,\widetilde{W}_N(z_t,N_t) = \eta\,\Pi_N(z_t,N_t)
+\end{equation}
+where $\eta\in(0,1)$ is a weight capturing the amount of bargaining power accruing to workers as opposed to producers.
+
+The bargaining surplus is instead defined as
+\begin{equation}\label{eq:surplus}
+    S_N(z_t,N_t) = \widetilde{W}_N(z_t,N_t) + \Pi_N(z_t,N_t)
+\end{equation}
+
+Firstly, show that the sharing rule in (\ref{eq:sharing}) implies, along with the surplus definition in (\ref{eq:surplus}), that a fraction $\eta$ of the surplus goes to workers, and the remaining fraction $(1-\eta)$ to producers, i.e.
+\begin{align*}
+    \widetilde{W}_N(z_t,N_t)    &=  \eta\,S_N(z_t,N_t)
+    \\
+    \Pi_N(z_t,N_t)              &=  (1-\eta)\,S_N(z_t,N_t)
+\end{align*}
+
+Secondly, exploit this first result, and the recursive expressions you obtained for $\widetilde{W}_N(z_t,N_t)$ and $\Pi_N(z_t,N_t)$ in the previous points, to show that the surplus obeys the following recursion
+$$ S_N(z_t,N_t) = z_t - \frac{b}{u'(C_t)} + \beta\,\left(1-\lambda - \eta\,p_t\right)\,\mathbb{E}_t\left[\frac{u'(C_{t+1})}{u'(C_t)}\, S_N(z_{t+1},N_{t+1})\right] $$
+and satisfies the following equilibrium job creation condition
+$$ \frac{\kappa}{q_t} = (1-\eta)\, \beta\,\mathbb{E}_t\left[\frac{u'(C_{t+1})}{u'(C_t)}\, S_N(z_{t+1},N_{t+1})\right] $$
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item Combine the optimality conditions from both the firm and household to derive the system of equations that characterizes the decentralized equilibrium, ensuring to match the number of current-period variables with the number of equations in the system. Then, compare the solution of the planner’s problem with the equilibrium obtained from the decentralized setting. Under what conditions does the decentralized equilibrium coincide with the social planner’s optimum?
+
+
+\end{enumerate}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \input{ex1_sol.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Exercise 2: CES Aggregator}
+
+In this exercise, we explore some core concepts of the New Keynesian (NK) model, focusing on the role of the CES aggregator in household consumption decisions and the implications for price setting. 
+
+Consider a representative household that consumes a continuum of differentiated goods \( c_t(i) \) for \( i \in [0,1] \). The household's aggregate consumption index \( C_t \) is defined by a CES (Constant Elasticity of Substitution) aggregator:
+
+\begin{equation}\label{eq:coba}
+C_t = \left( \int_0^1 C_t(i)^{\frac{\epsilon - 1}{\epsilon}} \, di \right)^{\frac{\epsilon}{\epsilon - 1}},
+\end{equation}
+
+where \( \epsilon > 1 \) represents the elasticity of substitution among different goods.
+
+\subsection*{Part 1: Elasticity of Substitution \& Cost Minimization}
+
+\begin{enumerate}
+    \item[1.] Define the elasticity of substitution \( \varepsilon_{ij} \) between two goods \( i \) and \( j \) as:
+    \[
+    \varepsilon_{ij} = \frac{\partial \left( \frac{C_t(i)}{C_t(j)} \right)}{\partial \left( \frac{P_t(j)}{P_t(i)} \right)} \cdot \frac{P_t(j)/P_t(i)}{C_t(i)/C_t(j)}.
+    \]
+    Explain what this elasticity is measuring and provide the economic interpretation. What does it imply about the household’s willingness to substitute between goods \( i \) and \( j \) as their relative prices change?
+
+    \item[2.] Suppose each household consumes a basket of goods given by the CES aggregator given in Equation (\ref{eq:coba}). As in the lecture, we first study the cost minimization problem of the household. Specifically, the household chooses how much of each variety to consume by \textit{minimizing total nominal expenditure} subject to (\ref{eq:coba}):
+\begin{equation*}
+\min_{C_{t}(i)}\int_{0}^{1}P_{t}(i)\,C_{t}(i)\,di
+\end{equation*}
+\begin{equation*}
+\mathrm{s.t.}\;
+C_t = \left[ \int_{0}^{1}C_{t}(i)^{\frac{\varepsilon -1}{\varepsilon }}di\right] ^{%
+\frac{\varepsilon }{\varepsilon -1}}.
+\end{equation*}
+
+Show that the first order condition of this problem yields the following demand schedule for variety $i$:
+\begin{equation}\label{eq:pl1}
+C_{t}(i)=\left( \frac{P_{t}(i)}{\lambda_t}\right) ^{-\varepsilon }C_t,  
+\end{equation}
+where $\lambda_t$ is the Lagrangian multiplier on the constraint. Using this result, show that the elasticity of substitution \( \epsilon_{ij} \) is constant and equal to \( \epsilon \) for any two goods \( i \) and \( j \) .  What happens to the household’s preferences when $\epsilon$ is increasing?
+
+    \item[3.] By substituting (\ref{eq:pl1}) into (\ref{eq:coba}), show that: 
+
+\begin{equation}\label{lambda_t^}
+    \lambda_t^{1-\varepsilon} = \int_0^1P_t(i)^{1-\varepsilon}di.
+\end{equation}
+
+Using the definition of the price index, that is, the expenditure required to purchase one unit of the consumption basket,
+\begin{equation}\label{P_t}
+    P_{t} := \frac{\int_{0}^{1}P_{t}(i)C_t(i)di}{C_t},
+\end{equation}
+show that one obtains $P_t= \lambda_t$. Next, using this result, show that the price index can be expressed as: 
+\begin{equation}\label{P_t (i)}
+    P_{t} = \left( \int_0^1P_t(i)^{1-\varepsilon}  \right)^{\frac{1}{1-\varepsilon}}.
+\end{equation}
+What is the interpretation of $P_t$?
+    
+\end{enumerate}
+
+\subsection*{Part 2: Utility Maximization}
+
+Alternatively, the same demand system as in (\ref{eq:pl1}) can be derived by formulating and solving the \textit{utility maximization problem}: The household chooses how much of each variety to consume by \textit{maximizing utility} (which, in this case, is equal to the basket of goods) subject to a budget constraint:
+\begin{equation*}
+\underset{\{C_{t}(i)\}_{i\in [0,1]}}{\max }\left[ \int_{0}^{1}C_{t}(i)^{\frac{\varepsilon -1}{%
+\varepsilon }}di\right] ^{\frac{\varepsilon }{\varepsilon -1}}
+\end{equation*}
+\begin{equation*}
+\text{ s.t.}\;\int_{0}^{1}P_{t}(i)C_{t}(i)di=X_{t},
+\end{equation*}
+where $X_{t}$ is total nominal expenditure.
+
+\begin{enumerate}
+\item[4.] Derive the first order condition for a given variety, $C_t(i)$. By exploiting this condition for a pair of varieties, $i\neq j$, show that:
+\begin{equation}\label{eq:ci1}
+C_{t}(i)=\left( \frac{P_{t}(i)}{P_{t}(j)}\right) ^{-\varepsilon }C_{t}(j)\,.  
+\end{equation}
+
+\textit{[HINT: The first order condition you derived in the first step holds for all varieties. Hence, by taking the ratio, you can eliminate the Lagrangian multiplier and other common terms, you get to \ref{eq:ci1}.]}
+
+\item[5.] Next, substitute (\ref{eq:ci1}) \textit{(i)} into the expression for consumption expenditure $X_t$, and, \textit{(ii)} in the definition of the consumption index in (\ref{eq:coba}) to derive the following two equations: 
+\begin{align*}
+    X_t &= C_t(j)P_t(j)^{\varepsilon}\int_0^1P_t(i)^{1-\varepsilon}di \\
+    C_t &= C_t(j)P_t(j)^{\varepsilon} \left[ \int_0^1P_t(i)^{1-\varepsilon}di \right]^{\frac{\varepsilon}{\varepsilon-1}}
+\end{align*}
+
+Using the definition of the price index again, i.e., $\int_0^1P_t(i)C_t(i)di =X_t= P_t C_t$, show that 
+\begin{equation}
+    P_{t} = \left( \int_0^1P_t(i)^{1-\varepsilon}  \right)^{\frac{1}{1-\varepsilon}}.
+\end{equation}
+
+\item[6.] Finally, show that the demand for a given variety is given by
+\begin{equation}
+C_{t}(i)=\left( \frac{P_{t}(i)}{P_t}\right) ^{-\varepsilon }C_t.  
+\end{equation}
+Is this identical to the demand system derived in \ref{eq:pl1}? 
+
+\textit{[HINT: Simply combine your expression for $C_t$ and $P_t$ from the previous sub question. Since this holds for an arbitrary $j \in [0,1]$, it also holds for variety $i$.]}
+\end{enumerate}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\input{ex2_sol.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+
+\section*{Exercise 3: RBC model in Dynare}
+
+In this exercise, you will work with a pre-written Dynare code for a Real Business Cycle (RBC) model with endogenous capital accumulation. Your task is to complete the missing parts of the code, simulate impulse responses, and introduce an additional shock to analyze its impact. 
+
+\subsection*{Part 1: Model Setup}
+
+\textbf{Household.} A representative household derives utility from consumption \( c_t \) and disutility from labor \( n_t \), and faces the following maximization problem:
+\[
+   \max_{\{c_t, n_t, k_{t+1}\}} \mathbb{E}_0 \sum_{t=0}^\infty \beta^t \left( \frac{c_t^{1-\sigma}}{1 - \sigma} - \frac{n_t^{1+\phi}}{1 + \phi} \right)
+   \]
+s.t.
+$$ \mathrm{s.t.}\; 
+\begin{cases}
+c_t + k_{t+1} = w_t n_t + r_t k_t + (1 - \delta) k_t	\\
+c_t, k_{t+1}, n_t \geq 0 \\
+z_0,k_0\,\text{given}
+\end{cases}
+$$
+  
+\textbf{Firms.} The representative firm faces the following static maxizimization problem:
+\[
+   \max_{\{y_t, n_t, k_t\}} y_t - w_t n_t -  r_t k_t
+   \]
+s.t.
+$$ \mathrm{s.t.}\; 
+\begin{cases}
+y_t = z_t k_t^{\alpha} n_t^{1 - \alpha} \\
+n_t, k_{t} \geq 0 \\
+\end{cases}
+$$
+
+
+Productivity is exogenously given and follows
+   \[
+   \ln z_t = \rho \ln z_{t-1} + \varepsilon_t,
+   \]
+   where \( \varepsilon_t \sim \mathcal{N}(0, \sigma^2_{\varepsilon}) \).
+
+\begin{enumerate}
+    \item[1.] Fill in the missing parts of the Dynare code provided. First,  use appropriate values for the missing parameters $\beta, \alpha, \sigma, \phi$. Next, fill in the missing model equations for the Euler equation, labor supply, the rental rate of capital, good market clearing condition and the exogenous productivity process.  
+
+    \textit{[Hint: Make sure you adopt the correct timing convention that Dynare uses, as discussed in the second TA session.]}
+
+
+    \item[2.] Simulate an impulse response function (IRF) for a 1\% positive productivity shock. Plot the IRFs for key variables, including output \( y_t \), consumption \( c_t \), labor \( n_t \), capital \( k_t \) and wages \( w_t   \). Briefly describe how each variable responds to the productivity shock.
+
+    \textit{[NOTE: An impulse response function plots the the response of a variable to an exogenous shock over time. Specifically, it is assumed that in period $t=0$, the economy is in steady state. At $t=1$ an exogenous shock, e.g. productivity, occurs. The IRF plots the dynamics of the endogenous variables as a response to this shock ceteris paribus, i.e. assuming no other shock occurs afterwards.]}
+
+
+    
+\end{enumerate}
+
+\subsection*{Part 2: Comparatives}
+Next, we want to analyze how different values of the structural parameters affect the model dynamics. 
+\begin{enumerate}
+    \item[3.] In the same figure, plot the IRFs for a 1\% positive productivity shock for the same variables as above for \textit{(i)} $\phi = 1$, and, \textit{(ii)} $\phi = 5$. Interpret your findings given the interpretation of $\phi$.
+
+    \item[4.] In a new figure, plot the IRFs for a 1\% positive productivity shock for the same variables as above for \textit{(i)} $\sigma = 1$, and, \textit{(ii)} $\sigma = 10$. Interpret your findings given the interpretation of $\sigma$.
+
+\end{enumerate}
+
+
+\subsection*{Part 3: Introducing New Shocks}
+
+In this final part, you will introduce a new type of shocks to the model and analyze its impact. Specifically, we introduce a shock to the disutility of labor, $\varphi_t$. Preferences about consumption and leisure are hence given by:
+\[
+\left( \frac{c_t^{1-\sigma}}{1 - \sigma} - \varphi_t \frac{n_t^{1+\phi}}{1 + \phi} \right),
+\]
+where $\varphi_t$ is exogenous and evolves according to:
+       \[
+       \ln \varphi_t = \rho_{\varphi} \ln \varphi_{t-1} + \varsigma_t,
+   \]
+where $\rho_{\varphi} = 0.5$ and $\varsigma_t$ is iid $\sim \mathcal{N}(0, \sigma^2_\eta)$.\footnote{Note that this implies that, in steady state, $\overline{\varphi} = 1$. Hence, the set-up in Part 1 of the exercise is a nested case, where $\varsigma_t = 0, \forall t$ and $\varphi_0 = 1$. }
+
+       
+\begin{enumerate}
+    \item[5.] Implement the new shock in your Dynare model. Make sure to declare the new shock and adjust the model equations accordingly. Use reasonable values for \( \rho_\varphi \), \( \sigma_\eta \) and \( \rho_\varphi \).
+
+    
+    \textit{[HINT: For implementing the additional shocks in Dynare, use the \texttt{varexo} command to declare the new shocks and adjust the model equations accordingly.]}
+
+
+    \item[6.] Run a new set of IRFs for a 1\% positive realization of the new shock. Plot the IRFs for output \( y_t \), consumption \( c_t \), labor \( n_t \), capital \( k_t \) and wages \( w_t \). Discuss.
+
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\input{ex3_sol.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+
+\section*{OPTIONAL EXERCISES}
+
+
+\section*{Exercise 4: RBC Model with  S\&M Frictions and Capital}
+
+Consider again the RBC model with search and matching frictions you have analysed in Exercise 2. In particular, we focus on the social planner’s problem. The only difference is that now production uses also capital, and hence there is also a capital accumulation decision.
+
+\medskip
+
+As before, the social planner evaluates the streams of private consumption and
+employment of the representative household according to the objective function in (\ref{eq:objective}). Output $Y_t$ is now produced with a CRS technology using both labor $N_t$ and capital $K_t$:
+$$ Y_t = z_t\,K_t^\alpha N_t^{1-\alpha} $$
+where $z_t$ is total factor productivity, evolving according to the exogenous process:
+$$ \ln(z_t) = \rho\,\ln(z_{t-1}) + \varepsilon_t $$
+where $\varepsilon_t$ are zero-mean iid shocks.
+
+\medskip
+
+As before, new matches are determined by the matching function in (\ref{eq:matching}), and each open vacancy entails a fixed per-period advertising cost $\kappa > 0$. Since the vacancy costs are measured in terms of units of output, the resource constraint is given by:
+$$ Y_t = C_t + \kappa\,V_t + I_t $$
+where $I_t$ is the amount of investment (occurring in terms of units of output) that is added to the (depreciated) capital stock in period $t$, according to the following law of motion:
+$$ K_{t+1} = (1-\delta)\,K_t + I_t $$
+
+\medskip
+
+The law of motion for employment is given by (\ref{eq:LoM}).
+
+\begin{enumerate}
+    \item State, first, the social planner's problem in sequential form, and then formulate it in recursive form. Recall to clearly indicate what are the (exogenous and endogenous) state variables, and the control variables of the problem.
+    
+    \item Derive the first order conditions, and the envelope conditions of the problem.
+    
+    \item Combine the two envelope conditions with the first order conditions to obtain the consumption Euler equation and the job creation condition that characterize the optimal inter-temporal choices of the social planner. Provide the economic intuition for each of these.
+\end{enumerate}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\input{ex4_sol.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\bigskip
+
+\section*{Exercise 5: Wage Rigidity and Unemployment Fluctuations}
+In this exercise you will be asked to show how wage rigidity affects the response of market tightness (and unemployment) to productivity by relying on a simple steady-state analysis.
+
+\medskip
+
+Consider the baseline search and matching model studied in the lectures. 
+
+\medskip
+
+The matching market is characterised by the following matching function
+$$ m(u,v) = u^\alpha v^{1-\alpha} $$
+where $u$ and $v$ are the measures of unemployed workers and vacancies in the market, and $\alpha\in(0,1)$.
+
+\medskip
+
+Firms incur a per-period cost $\kappa$ while posting a vacancy.
+
+\medskip
+
+A worker produces $z$ units of output when she is matched to a firm.
+
+\medskip
+
+Matches are exogenously destroyed with probability $\lambda\in(0,1)$ at the beginning of a period.
+
+\medskip
+
+Workers and firms discount future periods by $\beta$.
+
+\medskip
+
+Wages are determined by the following generic rule
+\begin{equation}\label{eq:wage}
+    w = \lambda(z)
+\end{equation}
+where $w<z$, and $$ \lambda'(z)=\frac{d\,w}{d\,z}\in[0,1)$$
+with $\lambda'(z)=0$ corresponding to \textit{rigid wages}, and $\lambda'(z)\approx1$ to \textit{flexible wages}. 
+
+\medskip
+
+We further assume that under the wage rule in (\ref{eq:wage}) the surplus of a match is always positive for both parties involved (the worker and the producer).
+
+\medskip
+
+
+    
+    \bigskip
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{enumerate}
+\item Define market tightness $\vartheta$, the vacancy-filling probability, $q(\vartheta)$, and the job-finding probability, $p(\vartheta)$.
+
+Explain why $\vartheta$ can be interpreted as an indicator of market tightness.
+    
+    \smallskip
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+\item How does $p(\vartheta)$ affect the steady-state level of unemployment $u$?
+
+%How does market tightness $\vartheta$ affect the steady-state level of unemployment $u$?
+    
+    \smallskip
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+\item Write down the steady-state Bellman equations describing the value of a job $J$ and a vacancy $V$ for firms.
+    
+    \smallskip
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+\item Assume free entry into vacancy posting, and exploit the equations for $J$ and $V$ from the previous point to obtain the steady-state job creation condition relating market tightness $\vartheta$ to the productivity level $z$ and the wage rate $w$.
+    
+    \smallskip
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item Using the job-creation condition from the previous point, compute the steady-state elasticity of market tightness with respect to productivity
+$$ \eta_{\vartheta,z}:=\frac{d\,\vartheta}{d\,z}\,\frac{z}{\vartheta}\,.$$
+
+Show that the elasticity can be expressed as follows
+$$ \eta_{\vartheta,z} = \frac{1}{\alpha}\,\left(\frac{z-w}{z}\right)^{-1}\,g\left(\lambda'(z)\right)$$
+where $g\left(\lambda'(z)\right)$ is an expression to be determined, depending only on the derivative of the wage rate with respect to productivity.
+
+\textit{[HINT: use the chain rule to differentiate the expression for $\vartheta$ derived in the previous point.]}
+    
+    \smallskip
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item Show how wage rigidity ($\lambda'(z)=0$) as opposed to wage flexibility ($\lambda'(z) \approx 1$) affects the elasticity of market tightness derived in the previous point.
+
+Explain why wage rigidity can be a solution to Shimer's critique.
+
+\end{enumerate}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\input{ex5_sol.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}

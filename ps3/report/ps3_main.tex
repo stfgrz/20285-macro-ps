@@ -1,0 +1,1219 @@
+\documentclass[dvipsnames,11pt]{article}
+
+\input{SimpleStef}
+\usetikzlibrary{positioning,arrows.meta,backgrounds,calc}
+
+\graphicspath{ {./images/} }
+% LAST IMAGE UPDATE: 20-02-2026, 01:02 AM
+
+\setlength{\headheight}{25pt} % Non so perché ma senza questo da un piccolo errore
+
+
+\pagestyle{fancy}
+\fancyhf{} 
+\fancyhead[L]{\textsc{\small{20285\\ Advanced Macroeconomics}}} 
+\fancyhead[R]{\textsc{\small Lo Schiavo et al.}} 
+\fancyhead[C]{\textbf{Problem set 3}}
+\fancyfoot[C]{\thepage} 
+\renewcommand{\headrulewidth}{0.4pt} 
+\renewcommand{\footrulewidth}{0pt}
+
+\title{20285 Advanced Macroeconomics \\[0.5cm] \Huge \textsc{Problem set 3}}
+
+\author{
+        Laura Lo Schiavo \\
+        \texttt{3317819}
+        \and 
+        Trace Miller \\
+        \texttt{3319805}
+        \and 
+        Pietro Sferruzza \\
+        \texttt{3323719}
+        \and
+        Stefano Graziosi\\
+        \texttt{3174891}
+        }
+
+\date{\emph{Compiled on \today}}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\section{RBC Model with S\&M Frictions}
+
+    The economy consists of a continuum of identical, infinitely-lived households and a continuum of identical, competitive firms, each with a measure of one. Each household can be viewed as a large, extended family with a continuum of members, some of whom are employed while the others are unemployed. The household insures its members perfectly against fluctuations in labor income caused by employment or unemployment by pooling their incomes. In other words, the family combines its total income before making consumption decisions. There are no unemployment benefits, and the opportunity cost of employment is the loss of leisure. Firms are large and employ many workers. The goods market is perfectly competitive, while the labor market features search and matching frictions. The labor force is fixed and normalized to one.
+
+    The social planner evaluates the streams of private consumption ($C_t$) and
+    employment ($N_t$) according to the objective function
+    \begin{equation}\label{eq:objective}
+        \mathbb{E}_0\left\{\sum_{t=0}^\infty \beta^t \left[u(C_t) - b\,N_t \right]\right\},
+    \end{equation}
+
+    where consumption $C_t$ is equalized across employed and unemployed family members.\footnote{The additive separability of the period utility in $C_t$ and $N_t$, combined with the linearity in $N_t$, allows $b$ to be interpreted as the marginal utility value of leisure.}
+
+    Output is produced with a constant returns to scale technology, given by:
+    \[
+    Y_t = z_t\,N_t,
+    \]
+    where $Y_t$ is aggregate output, $z_t$ is labor productivity, and $N_t$ is employment. Labor productivity evolves according to an exogenous process, given by:
+    \[
+    \ln(z_t) = \rho\,\ln(z_{t-1}) + \varepsilon_t,
+    \]
+    where $\rho$ is a persistence parameter and $\varepsilon_t$ is zero-mean iid shock.
+
+    The labor market exhibits search and matching frictions, with matching function given by:
+    \begin{equation}\label{eq:matching}
+        M_t = V_t^{1-\sigma}(1-N_t)^\sigma\,,\quad \sigma\in (0,1),
+    \end{equation}
+    where matching efficiency is normalized to 1, and $V_t$ is the aggregate number of vacancies. Given that the labor force is normalized to 1, $(1-N_t)$ is aggregate unemployment.
+    
+    Each open vacancy entails a fixed per period advertising cost $\kappa > 0$. Since vacancy costs are measured in units of output, the resource constraint is:
+    $$ Y_t = C_t + \kappa\,V_t $$
+    
+    The law of motion for $N_t$ is given by:
+    \begin{equation}\label{eq:LoM}
+        N_{t+1} = (1-\lambda)\,N_t + M_t,
+    \end{equation}  
+    where $\lambda \in (0,1)$ is the separation rate of existing matches.
+
+    \subsection{Planner's Problem}
+        
+        The social planner problem can  be written as:
+        $$ U(z_0,N_0) = \max_{\{C_t,V_t,N_{t+1}\}_{t=0}^\infty}\mathbb{E}_0\left\{\sum_{t=0}^\infty \beta^t \left[u(C_t) - b\,N_t\right]\right\} $$
+        $$ \mathrm{s.t.}\; 
+        \begin{cases}
+        C_t + \kappa\,V_t = z_t\,N_t 	\\
+        N_{t+1} = (1-\lambda)\,N_t + V_t^{1-\sigma}(1-N_t)^\sigma	\\
+        z_0,N_0\,\text{given}
+        \end{cases}
+        $$
+
+        \begin{enumerate}
+            
+            \item Formulate the planner's problem in recursive form by first identifying the state variables and control variables, then expressing the corresponding Bellman equation. Using this recursive formulation, derive the optimality conditions that characterize the solution to the planner's problem.
+
+                \begin{solution}
+We have one endogenous state variable, $N_t$ (employment today), and one exogenous, $z_t$ (labor productivity). Control variables are instead consumption today $C_t$, open vacancies today $V_t$, and employment tomorrow $N_{t+1}$. Hence, we can express the problem recursively:
+\begin{align*}
+    U(z_t,N_t)= \max_{C_t,V_t,N_{t+1}} u(C_t)-bN_t+\beta \mathbb{E}_t [U(z_{t+1},N_{t+1})] \\
+    \text{s.t. } \begin{cases}
+        C_t+\kappa V_t =z_tN_t \\
+        N_{t+1}=(1-\lambda)N_t+V_t^{1-\sigma}(1-N_t)^\sigma
+    \end{cases}
+\end{align*}
+Hence, first order conditions are:
+\begin{align*}
+    & C_t: u'(C_t)-\mu_t=0 \\
+    & V_t: -\mu_t \kappa +\psi_t (1-\sigma)V_t^{-\sigma}(1-N_t)^\sigma=0 \\
+    & N_{t+1}: \beta \mathbb{E}_t \left[ \frac{\partial U(z_{t+1},N_{t+1})}{\partial N_{t+1}}\right]-\psi_t=0
+\end{align*}
+                    
+                    
+                \end{solution}
+
+            \item Next, show that these optimality conditions lead to the following job-creation condition:
+            $$ \frac{\kappa}{q_t} = (1-\sigma) \, \beta\,\mathbb{E}_t\left[\frac{u'(C_{t+1})}{u'(C_t)}\, \widetilde{U}_N(z_{t+1},N_{t+1})\right] $$
+            where $\widetilde{U}_N(z_{t},N_{t})$ is defined as the value, measured in consumption units, that the planner attaches to employing an additional member of the household, i.e.
+            $$ \widetilde{U}_N(z_{t},N_{t}) := \frac{1}{u'(C_t)}\,\frac{\partial\,U(z_{t},N_{t})}{\partial\,N_t} $$
+            and $q_t$ is defined as
+            $$ q_t := \frac{M_t}{V_t} $$
+
+                \begin{solution}
+Notice that:
+\begin{align*}
+    q_t=\frac{M_t}{V_t}=\frac{V_t^{1-\sigma}(1-N_t)^\sigma}{V_t}=V_t^{-\sigma }(1-N_t)^\sigma.
+\end{align*}
+
+Then, the first two first order conditions give:
+\begin{align*}
+    & \mu_t=u'(C_t), \\
+    & \psi_t= \frac{\kappa }{q_t} \frac{u'(C_t)}{1-\sigma}.
+\end{align*}
+Now, combining the latter conditions with the third FOC and defining $\widetilde{U}_N(z_{t},N_{t}) := \frac{1}{u'(C_t)}\,\frac{\partial\,U(z_{t},N_{t})}{\partial\,N_t}$, we obtain:
+\begin{align*}
+    \frac{\kappa }{q_t} \frac{u'(C_t)}{1-\sigma} = \beta \mathbb{E}_t \left[ u'(C_{t+1}) \widetilde{U}_N(z_{t+1},N_{t+1})\right],
+\end{align*}
+which can be rearranged as follows:
+\begin{align}
+    \frac{\kappa}{q_t}=\beta (1-\sigma) \mathbb{E}_t \left[ \frac{u'(C_{t+1})}{u'(C_t)}\widetilde{U}_N(z_{t+1},N_{t+1}) \right]. \label{job_creation}
+\end{align}
+
+                    
+                    
+                \end{solution}
+
+            \item Secondly, show that the envelope condition implies the following recursive relationship for $ \widetilde{U}_N(z_{t},N_{t})$ holds
+            $$
+            \widetilde{U}_N(z_{t},N_{t})
+                = z_t - \frac{b}{u'(C_t)} + \beta\,\left(1-\lambda - \sigma\,p_t\right)\,\mathbb{E}_t\left[\frac{u'(C_{t+1})}{u'(C_t)}\, \widetilde{U}_N(z_{t+1},N_{t+1})\right]
+            $$
+            where $p_t$ is defined as
+            $$ p_t := \frac{M_t}{1-N_t} $$
+
+                \begin{solution}
+First, notice that:
+\begin{align*}
+    p_t=\frac{M_t}{1-N_t}=\frac{V_t^{1-\sigma}(1-N_t)^\sigma}{1-N_t}=V_t^{1-\sigma}(1-N_t)^{\sigma-1}.
+\end{align*}
+The envelope condition is:
+\begin{align*}
+    \frac{\partial U(z_t,N_t)}{\partial N_t}=-b+\mu_t z_t+\psi_t(1-\lambda)-\sigma\psi_tV_t^{1-\sigma}(1-N_t)^{\sigma-1}. 
+\end{align*}
+Now, we can write the following:
+\begin{align*}
+    \widetilde{U}_N(z_t,N_t) & = \frac{1}{u'(C_t)} \frac{\partial U(z_t,N_t)}{\partial N_t} \\
+    &= \frac{1}{u'(C_t)} (-b+\mu_tz_t+(1-\lambda)\psi_t-\sigma\psi_tV_t^{1-\sigma}(1-N_t)^{\sigma-1} ) \\
+    &= \frac{1}{u'(C_t)} \left[ -b+z_tu'(C_t)+(1-\lambda-\sigma p_t)\frac{\kappa}{q_t}\frac{u'(C_t)}{1-\sigma} \right] \\
+    &= z_t-\frac{b}{u'(C_t)}+\frac{1-\lambda-\sigma p_t}{1-\sigma}\beta (1-\sigma) \mathbb{E}_t \left[ \frac{u'(C_{t+1})}{u'(C_t)} \widetilde{U}_N(z_{t+1},N_{t+1}) \right] \\
+    &= z_t-\frac{b}{u'(C_t)}+\beta(1-\lambda-\sigma p_t) \mathbb{E}_t \left[ \frac{u'(C_{t+1})}{u'(C_t)} \widetilde{U}_N(z_{t+1},N_{t+1}) \right]
+\end{align*}
+
+                    
+                    
+                \end{solution}
+
+            \item Lastly, write the system that characterizes the solution to the planner's problem by listing an equal number of current-period variables and corresponding equations.
+
+            \textit{[HINT: Take advantage of the fact that (only) after you have derived the optimality conditions from the planner's problem, you can write
+            $$ \frac{\partial\,M_t}{\partial\,V_t} = (1-\sigma)\,\frac{M_t}{V_t} = (1-\sigma)\,q_t\,,\quad\text{and}\quad \frac{\partial\,M_t}{\partial\,N_t} = -\sigma\,\frac{M_t}{1 - N_t} = - \sigma\,p_t.]$$}
+
+                \begin{solution}
+Define $J_t= \widetilde{U}_N(z_t,N_t)$. The planner allocation is described by the following sequence: $(C_t, V_t, N_{t+1}, z_t,p_t,q_t, J_t)_{t=0}^\infty$. The equations that determine them are:
+\begin{align*}
+    & C_t+\kappa V_t=z_t N_t \\
+    & N_{t+1}=(1-\lambda)N_t+V_t^{1-\sigma}(1-N_t)^\sigma \\
+    &\ln (z_t)= \rho \ln (z_{t-1})+\varepsilon_t \\
+    &J_t
+    = z_t - \frac{b}{u'(C_t)} + \beta\,\left(1-\lambda - \sigma\,p_t\right)\,\mathbb{E}_t\left[\frac{u'(C_{t+1})}{u'(C_t)}\, J_{t+1}\right] \\
+    &\frac{\kappa}{q_t}=\beta(1-\sigma) \mathbb{E}_t \left[\frac{u'(C_{t+1})}{u'(C_t)}J_{t+1}\right] \\
+    & q_t=V_t^{-\sigma}(1-N_t)^\sigma \\
+    &p_t=V_t^{1-\sigma}(1-N_t)^{\sigma-1}
+\end{align*}
+
+                    
+                    
+                \end{solution}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \subsection{Decentralised Economy}
+
+        Consider now the decentralized problem. The representative family takes the job-finding rate $p_t$ as given, and solves
+        $$ W(z_0,N_0) = \max_{\{C_t,N_{t+1}\}_{t=0}^\infty}\mathbb{E}_0\left\{\sum_{t=0}^\infty \beta^t \left[u(C_t) - b\,N_t\right]\right\} $$
+        $$ \mathrm{s.t.}\; 
+        \begin{cases}
+        C_t = w_t\,N_t 	\\
+        N_{t+1} = (1-\lambda)\,N_t + p_t\,(1-N_t)	\\
+        z_0,N_0\,\text{given}
+        \end{cases}
+        $$
+
+            \item  Write the household problem in recursive form by identifying the state and the control variables, and the Bellman equation. From this recursive formulation, derive the optimality conditions that characterise the solution to the household problem.
+
+            Show that the first order conditions of the problem, combined with the envelope condition, give rise to the following recursion
+            $$ \widetilde{W}_N(z_{t},N_{t}) = w_t - \frac{b}{u'(C_t)} + \beta\,\left(1-\lambda - p_t\right)\,\mathbb{E}_t\left[\frac{u'(C_{t+1})}{u'(C_t)}\, \widetilde{W}_N(z_{t+1},N_{t+1})\right] $$
+            where $\widetilde{W}_N(z_{t},N_{t})$ is the value, measured in consumption units, that the household attaches to having an additional member employed. i.e.
+            $$ \widetilde{W}_N(z_{t},N_{t}) := \frac{1}{u'(C_t)}\,\frac{\partial\,W(z_{t},N_{t})}{\partial\,N_t} $$
+
+                \begin{solution}
+We have one exogenous state variable, productivity today $z_t$, and one endogenous, employment today $N_t$. The control variables are consumption today $C_t$ and employment tomorrow $N_{t+1}$. Hence:
+\begin{align*}
+    W(z_t,N_t)= \max_{C_t,N_{t+1}} u(C_t)-bN_t+\beta \mathbb{E}_t [W(z_{t+1}, N_{t+1})] \\
+    \text{s.t. } \begin{cases}
+        C_t=w_tN_t \\
+        N_{t+1}=(1-\lambda)N_t+p_t(1-N_t)
+    \end{cases}
+\end{align*}
+The first order conditions are:
+\begin{align*}
+    & C_t: u'(C_t)-\mu_t=0, \\
+    & N_{t+1}: \beta \mathbb{E}_t \left[ \frac{\partial W (z_{t+1}, N_{t+1})}{\partial N_{t+1}} \right]-\psi_t=0.
+\end{align*}
+Then, the envelope condition is:
+\begin{align*}
+    \frac{\partial W(z_t,N_t)}{\partial N_t}=-b+\mu_tw_t+\psi_t(1-\lambda-p_t).
+\end{align*}
+Now, we can write:
+\begin{align*}
+    \widetilde{W}_N(z_t,N_t)&= \frac{1}{u'(C_t)} \frac{\partial W(z_t,N_t)}{\partial N_t} \\
+    & = \frac{1}{u'(C_t)} (-b+\mu_tw_t+\psi_t(1-\lambda-p_t)) \\
+    &= \frac{1}{u'(C_t)}\left[ -b+w_tu'(C_t)+(1-\lambda-p_t)\beta \mathbb{E}_t[u'(C_{t+1}) \widetilde{W}_N(z_{t+1},N_{t+1})]  \right] \\
+    &= w_t-\frac{b}{u'(C_t)}+\beta (1-\lambda-p_t) \mathbb{E}_t \left[ \frac{u'(C_{t+1})}{u'(C_t)}\widetilde{W}_N(z_{t+1},N_{t+1}) \right].
+\end{align*}
+
+                    
+                    
+                \end{solution}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            \item In the decentralized problem, the representative firm takes instead the vacancy-filling rate $q_t$ as given, and solves
+            $$ \Pi(z_0,N_0) = \max_{\{V_t,N_{t+1}\}_{t=0}^\infty}\mathbb{E}_0\left\{\sum_{t=0}^\infty Q_{0,t}\,\left[z_t\,N_t - w_t\,N_t - \kappa\,V_t\right]\right\} $$
+            $$ \mathrm{s.t.}\; 
+            \begin{cases}
+            N_{t+1} = (1-\lambda)\,N_t + q_t\,V_t	\\
+            z_0,N_0\,\text{given}
+            \end{cases}
+            $$
+            where future dividends are discounted by the household SDF
+            $$ Q_{t,t+j} = \beta^j\,\frac{u'(C_{t+j})}{u'(C_t)} $$
+            which also is taken as given in the representative firm problem.
+            
+            Write the firm problem in recursive form by identifying the state and the control variables, and the Bellman equation. From this recursive formulation, derive the optimality conditions that characterise the solution to the firm problem.
+
+                \begin{solution}
+                 The state variables for the firm problem are productivity today $z_t$ and employment today $N_t$; control variables are vacancies today $V_t$ and employment tomorrow $N_{t+1}$. First, notice that:
+\begin{align*}
+    \Pi (z_0,N_0)&= \max_{(V_t,N_{t+1})_{t=0}^\infty}  z_0N_0-w_0N_0- \kappa V_0 + \mathbb{E}_0 \left [ \sum_{t=1}^\infty \beta ^j \frac{u'(C_{t+j})}{u'(C_0)} (z_tN_t-w_tN_t-\kappa V_t) \right] \\
+    &= \max_{(V_t,N_{t+1})_{t=0}^\infty}  z_0N_0-w_0N_0- \kappa V_0 \\ &+ \mathbb{E}_0 \left [ \beta \frac{u'(C_1)}{u'(C_0)} \sum_{t=0}^\infty \beta ^{j} \frac{u'(C_{t+j+1})}{u'(C_1)} (z_{t+1} N_{t+1}-w_{t+1}N_{t+1}-\kappa V_{t+1}) \right] \\
+    & =\max_{(V_t,N_{t+1})_{t=0}^\infty}  z_0N_0-w_0N_0- \kappa V_0 + \mathbb{E}_0 \left [Q_{0,1} \Pi(z_1,N_1) \right]
+\end{align*}
+Therefore, the recursive formulation is:
+\begin{align*}
+    \Pi(z_t,N_t)=& \max_{V_t,N_{t+1}} z_tN_t-w_tN_t-\kappa V_t+ \mathbb{E}_t [Q_{t,t+1} \Pi(z_{t+1},N_{t+1})] \\
+    &\text{s.t. } N_{t+1}=(1-\lambda)N_t+q_t V_t
+\end{align*}
+Then, the first order conditions are:
+\begin{align*}
+    &V_t : -\kappa +\mu_tq_t=0, \\
+    & N_{t+1}: \mathbb{E}_t \left[ Q_{t,t+1} \frac{\partial \Pi (z_{t+1},N_{t+1})}{\partial N_{t+1}} \right]-\mu_t=0.
+\end{align*}
+The envelope condition is:
+\begin{align*}
+    \frac{\partial \Pi(z_t,N_t)}{\partial N_t}=z_t-w_t+\mu_t(1-\lambda).
+\end{align*}
+   
+                \end{solution}
+
+            \item Show that these optimality conditions entail the following job-creation condition
+            $$ \frac{\kappa}{q_t} = \beta\,\mathbb{E}_t\left[\frac{u'(C_{t+1})}{u'(C_t)}\, \Pi_N(z_{t+1},N_{t+1})\right] $$
+            where $\Pi_N(z_t,N_t)$ is the value that the firm attaches to hiring an additional worker\footnote{Notice that in this case, this marginal value is already measured in consumption units.}
+            $$ \Pi_N(z_t,N_t) := \frac{\partial\,\Pi(z_{t},N_{t})}{\partial\,N_t} $$
+
+                \begin{solution}
+                  Combining the first order conditions, we have:
+\begin{align*}
+    & \mu_t = \frac{\kappa}{q_t} \\
+    & \frac{\kappa}{q_t}=\beta \mathbb{E}_t \left [\frac{u'(C_{t+1})}{u'(C_t)} \frac{\partial \Pi(z_{t+1},N_{t+1})}{\partial N_{t+1}} \right]= \beta \mathbb{E}_t\left[\frac{u'(C_{t+1})}{u'(C_t}\Pi_N(z_{t+1},N_{t+1})\right]
+\end{align*}
+  
+                \end{solution}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item The outcome  arising from the Nash bargaining problem is characterised by the following sharing rule
+\begin{equation}\label{eq:sharing}
+    (1-\eta)\,\widetilde{W}_N(z_t,N_t) = \eta\,\Pi_N(z_t,N_t)
+\end{equation}
+where $\eta\in(0,1)$ is a weight capturing the amount of bargaining power accruing to workers as opposed to producers.
+
+The bargaining surplus is instead defined as
+\begin{equation}\label{eq:surplus}
+    S_N(z_t,N_t) = \widetilde{W}_N(z_t,N_t) + \Pi_N(z_t,N_t)
+\end{equation}
+
+Firstly, show that the sharing rule in (\ref{eq:sharing}) implies, along with the surplus definition in (\ref{eq:surplus}), that a fraction $\eta$ of the surplus goes to workers, and the remaining fraction $(1-\eta)$ to producers, i.e.
+\begin{align*}
+    \widetilde{W}_N(z_t,N_t)    &=  \eta\,S_N(z_t,N_t)
+    \\
+    \Pi_N(z_t,N_t)              &=  (1-\eta)\,S_N(z_t,N_t)
+\end{align*}
+
+Secondly, exploit this first result, and the recursive expressions you obtained for $\widetilde{W}_N(z_t,N_t)$ and $\Pi_N(z_t,N_t)$ in the previous points, to show that the surplus obeys the following recursion
+$$ S_N(z_t,N_t) = z_t - \frac{b}{u'(C_t)} + \beta\,\left(1-\lambda - \eta\,p_t\right)\,\mathbb{E}_t\left[\frac{u'(C_{t+1})}{u'(C_t)}\, S_N(z_{t+1},N_{t+1})\right] $$
+and satisfies the following equilibrium job creation condition
+$$ \frac{\kappa}{q_t} = (1-\eta)\, \beta\,\mathbb{E}_t\left[\frac{u'(C_{t+1})}{u'(C_t)}\, S_N(z_{t+1},N_{t+1})\right] $$
+
+\begin{solution}
+    Using the sharing rule \eqref{eq:sharing}, we can rearrange the bargaining surplus \eqref{eq:surplus}
+as follows:
+\begin{align*}
+    S_N(z_t,N_t) &= \widetilde{W}_N(z_t,N_t) + \Pi_N(z_t,N_t) \\
+    &= \frac{\eta}{1-\eta} \Pi_N(z_t,N_t)+ \Pi _N(z_t,N_t) \\
+    & =\frac{\eta +1-\eta }{1-\eta} \Pi_N(z_t,N_t),
+\end{align*}
+which implies:
+\begin{align*}
+    \Pi_N(z_t,N_t)=(1-\eta) S_N(z_t,N_t).
+\end{align*}
+Substituting the latter in the surplus equation:
+\begin{align*}
+    \widetilde{W}_N(z_t,N_t)&=S_N(z_t,N_t)-\Pi_N(z_t,N_t) \\
+    &= S_N (z_t,N_t)-(1-\eta)S_N(z_t,N_t) \\
+    &= \eta S _N(z_t,N_t).
+\end{align*}
+
+Then:
+\begin{align*}
+    S_N(z_t,N_t)&=\widetilde{W}_N(z_t,N_t)+\Pi_N(z_t,N_t) \\
+    &= w_t-\frac{b}{u'(C_t)}+\beta (1-\lambda-p_t) \mathbb{E}_t \left[ \frac{u'(C_{t+1})}{u'(C_t)}\widetilde{W}_N(z_{t+1},N_{t+1}) \right]\\&+z_t-w_t+(1-\lambda)\frac{\kappa}{q_t} \\
+    &= z_t-\frac{b}{u'(C_t)}+\beta (1-\lambda-p_t) \mathbb{E}_t \left[ \frac{u'(C_{t+1})}{u'(C_t)}\widetilde{W}_N(z_{t+1},N_{t+1}) \right]\\&+(1-\lambda)\beta\,\mathbb{E}_t\left[\frac{u'(C_{t+1})}{u'(C_t)}\, \Pi_N(z_{t+1},N_{t+1})\right] \\
+    &=z_t-\frac{b}{u'(C_t)}+\beta (1-\lambda-p_t) \mathbb{E}_t \left[ \frac{u'(C_{t+1})}{u'(C_t)}\eta S_N(z_{t+1},N_{t+1}) \right]\\&+(1-\lambda)\beta\,\mathbb{E}_t\left[\frac{u'(C_{t+1})}{u'(C_t)}\, (1-\eta)S_N(z_{t+1},N_{t+1})\right] \\
+    &= z_t-\frac{b}{u'(C_t)}+\beta (\eta(1-\lambda)-\eta p_t-\eta(1-\lambda)+1-\lambda) \mathbb{E}_t \left[ \frac{u'(C_{t+1})}{u'(C_t)}S_N(z_{t+1},N_{t+1}) \right] \\
+    &= z_t-\frac{b}{u'(C_t)}+ \beta (1-\lambda-\eta p_t)\mathbb{E}_t \left[ \frac{u'(C_{t+1})}{u'(C_t)}S_N(z_{t+1},N_{t+1}) \right].
+\end{align*}
+Moreover, we can see that:
+\begin{align*}
+    \frac{\kappa}{q_t}&=\beta \mathbb{E}_t\left[\frac{u'(C_{t+1})}{u'(C_t)}\Pi_N(z_{t+1},N_{t+1})\right] \\
+    &= (1-\eta)\beta \mathbb{E}_t\left[\frac{u'(C_{t+1})}{u'(C_t)}S_N(z_{t+1},N_{t+1})\right]
+\end{align*}
+
+
+\end{solution}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item Combine the optimality conditions from both the firm and household to derive the system of equations that characterizes the decentralized equilibrium, ensuring to match the number of current-period variables with the number of equations in the system. Then, compare the solution of the planner’s problem with the equilibrium obtained from the decentralized setting. Under what conditions does the decentralized equilibrium coincide with the social planner’s optimum?
+
+\begin{solution}
+    First, notice that aggregate income is allocated to consumption, vacancy-posting costs, and wage payments:
+    \[
+    C_t+\kappa V_t+w_tN_t = z_tN_t+w_tN_t,
+    \]
+    which implies:
+    \[
+    C_t+\kappa V_t=z_tN_t.
+    \]
+    Hence, the equations that characterize the equilibrium are:
+\begin{align*}
+    & C_t+\kappa V_t=z_t N_t \\
+    & N_{t+1}=(1-\lambda)N_t+p_t(1-N_t) \\
+    &\ln (z_t)= \rho \ln (z_{t-1})+\varepsilon_t \\
+    &S_N(z_t,N_t)
+    = z_t - \frac{b}{u'(C_t)} + \beta\,\left(1-\lambda - \,\eta p_t\right)\,\mathbb{E}_t\left[\frac{u'(C_{t+1})}{u'(C_t)}\, S_N(z_{t+1},N_{t+1})\right] \\
+    &\frac{\kappa}{q_t}=\beta(1-\eta) \mathbb{E}_t \left[\frac{u'(C_{t+1})}{u'(C_t)}S_N(z_{t+1},N_{t+1})\right] \\
+    & q_t=V_t^{-\sigma}(1-N_t)^\sigma \\
+    &p_t=V_t^{1-\sigma}(1-N_t)^{\sigma-1}
+\end{align*}
+
+Now, comparing the equations that characterize the equilibrium for the Planner's problem with the ones found for the decentralised economy, we can conclude that they are the same if and only if:
+\[
+\sigma =\eta.
+\]
+This is the so-called Hosios condition. It states that the workers bargaining power $\eta$ has to be equal to the elasticity of the matching function $\sigma$. Equivalently, the firm's share of the surplus, $1-\eta$, must equal the elasticity of matches with respect to vacancies, $1-\sigma$. Under this condition, the private incentives to create vacancies are perfectly aligned with their social value, so the matching externalities present in the decentralized economy are efficiently internalized. The intuition is the following. When firms post vacancies, they do not internalize all the effects of their decision on the matching process: an additional vacancy increases job-finding probability for workers, but it also makes it harder for other firms to fill their own vacancies. The Hosios condition ensures that the share of surplus accruing to each side of the market reflects its marginal contribution to match formation. In this way, vacancy creation in the decentralized equilibrium is neither too high nor too low relative to the social optimum.
+\end{solution}
+
+
+\end{enumerate}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \input{ex1_sol.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{CES Aggregator}
+
+    In this exercise, we explore some core concepts of the New Keynesian (NK) model, focusing on the role of the CES aggregator in household consumption decisions and the implications for price setting. 
+
+    Consider a representative household that consumes a continuum of differentiated goods \( c_t(i) \) for \( i \in [0,1] \). The household's aggregate consumption index \( C_t \) is defined by a CES (Constant Elasticity of Substitution) aggregator:
+    
+    \begin{equation}\label{eq:coba}
+    C_t = \left( \int_0^1 C_t(i)^{\frac{\epsilon - 1}{\epsilon}} \, di \right)^{\frac{\epsilon}{\epsilon - 1}},
+    \end{equation}
+    
+    where \( \epsilon > 1 \) represents the elasticity of substitution among different goods.
+    
+    \subsection{Elasticity of Substitution \& Cost Minimization}
+
+        \begin{enumerate}
+            \item Define the elasticity of substitution \( \varepsilon_{ij} \) between two goods \( i \) and \( j \) as:
+            \[
+            \varepsilon_{ij} = \frac{\partial \left( \frac{C_t(i)}{C_t(j)} \right)}{\partial \left( \frac{P_t(j)}{P_t(i)} \right)} \cdot \frac{P_t(j)/P_t(i)}{C_t(i)/C_t(j)}.
+            \]
+            Explain what this elasticity is measuring and provide the economic interpretation. What does it imply about the household’s willingness to substitute between goods \( i \) and \( j \) as their relative prices change?
+
+
+                \begin{solution}
+
+The elasticity of substitution $\varepsilon_{ij}$ measures the percentage change in the relative consumption of goods $i$ and $j$ after a one-percent change in their relative price. It captures the household's willingness to substitute across differentiated goods. 
+
+A higher elasticity implies that the household is more willing to substitute between goods: even small changes in relative prices lead to large changes in relative consumption. A lower elasticity implies that substitution is limited and relative consumption responds less to price changes.
+
+In the CES case, this elasticity is constant across relative prices, so the willingness of the household to substitute between any two goods \( i \) and \( j \) remains the same regardless of the level of relative prices.
+                
+                    
+                \end{solution}
+        
+            \item Suppose each household consumes a basket of goods given by the CES aggregator given in Equation (\ref{eq:coba}). As in the lecture, we first study the cost minimization problem of the household. Specifically, the household chooses how much of each variety to consume by \textit{minimizing total nominal expenditure} subject to (\ref{eq:coba}):
+            \begin{equation*}
+            \min_{C_{t}(i)}\int_{0}^{1}P_{t}(i)\,C_{t}(i)\,di
+            \end{equation*}
+            \begin{equation*}
+            \mathrm{s.t.}\;
+            C_t = \left[ \int_{0}^{1}C_{t}(i)^{\frac{\varepsilon -1}{\varepsilon }}di\right] ^{%
+            \frac{\varepsilon }{\varepsilon -1}}.
+            \end{equation*}
+
+            Show that the first order condition of this problem yields the following demand schedule for variety $i$:
+            \begin{equation}\label{eq:pl1}
+            C_{t}(i)=\left( \frac{P_{t}(i)}{\lambda_t}\right) ^{-\varepsilon }C_t,  
+            \end{equation}
+            where $\lambda_t$ is the Lagrangian multiplier on the constraint. Using this result, show that the elasticity of substitution \( \epsilon_{ij} \) is constant and equal to \( \epsilon \) for any two goods \( i \) and \( j \) .  What happens to the household’s preferences when $\epsilon$ is increasing?
+
+\begin{solution}
+The Lagrangian associates with the minimization problem of the household is 
+\[
+\mathcal{L} = \int_0^1 P_t(i) C_t(i)\, di + \lambda_t \left[ C_t - \left( \int_0^1 C_t(i)^{\frac{\varepsilon-1}{\varepsilon}} di \right)^{\frac{\varepsilon}{\varepsilon-1}} \right].
+\]
+Taking the partial derivative with respect to each \( C_t(i) \) we get
+\begin{align*}
+0 = \frac{\partial \mathcal{L}}{\partial C_t(i)}
+& = P_t(i) - \lambda_t \cdot \frac{\partial}{\partial C_t(i)} 
+\left( \int_0^1 C_t(j)^{\frac{\varepsilon-1}{\varepsilon}} dj \right)^{\frac{\varepsilon}{\varepsilon-1}} \\
+& = P_t(i) - \lambda_t \cdot \frac{\varepsilon}{\varepsilon - 1} \left( \int^1_0 C_t(j) ^{\frac{\varepsilon - 1}{\varepsilon}} \, dj \right)^{\frac{1}{\varepsilon - 1} } \left( \frac{\partial}{\partial C_t(i)} \int^1_0 C_t(j) ^{\frac{\varepsilon - 1}{\varepsilon}} \, dj \right) \\
+& = P_i(t) - \lambda_t \cdot \frac{\varepsilon}{\varepsilon-1} C_t^\frac{1}{\varepsilon}\left(\frac{\varepsilon - 1}{\varepsilon} C_t(i)^{\frac{- 1}{\varepsilon}}\right) \\
+& = P_i(t) - \lambda_t \cdot  C_t^\frac{1}{\varepsilon} C_t(i)^{\frac{- 1}{\varepsilon}}.
+\end{align*}
+\[
+    \implies P_t(i) = \lambda_t \, C_t^{\frac{1}{\varepsilon}} C_t(i)^{-\frac{1}{\varepsilon}}
+\]
+ \[   \implies C_t(i)^{\frac{1}{\varepsilon}} = \frac{\lambda_t}{P_t(i)} C_t^\frac{1}{\varepsilon}  \]
+  \[   \implies C_t(i) = \left(\frac{P_t(i)}{\lambda_t}\right)^{-\varepsilon} C_t. \]
+This is the demand schedule for variety \( i \).
+
+
+Next, consider two goods \( i \neq j \).
+From the demand schedule,
+\[
+C_t(i)=\left(\frac{P_t(i)}{\lambda_t}\right)^{-\varepsilon} C_t,
+\qquad
+C_t(j)=\left(\frac{P_t(j)}{\lambda_t}\right)^{-\varepsilon} C_t.
+\]
+The ratio is
+\begin{align*}
+\frac{C_t(i)}{C_t(j)}
+&=
+\frac{\left(\frac{P_t(i)}{\lambda_t}\right)^{-\varepsilon} C_t}
+{\left(\frac{P_t(j)}{\lambda_t}\right)^{-\varepsilon} C_t} \\
+&= 
+\left(\frac{P_t(i)}{P_t(j)}\right)^{-\varepsilon} \\
+&=
+\left(\frac{P_t(j)}{P_t(i)}\right)^{\varepsilon}.
+\end{align*}
+Using the definition of elasticity,
+\begin{align*}
+\varepsilon_{ij}
+& =
+\frac{\partial \left( \frac{C_t(i)}{C_t(j)} \right)}
+{\partial \left( \frac{P_t(j)}{P_t(i)} \right)}
+\cdot
+\frac{P_t(j)/P_t(i)}{C_t(i)/C_t(j)} \\
+& = \varepsilon \cdot \left(\frac{P_t(j)}{P_t(i)} \right)^{\varepsilon - 1} \cdot \frac{P_t(j)/ P_t(i)}{\left(P_t(j)/ P_t(i)\right)^\varepsilon}
+\\
+& = \varepsilon \cdot \left(\frac{P_t(j)}{P_t(i)} \right)^{\varepsilon - 1 + 1 - \varepsilon} \\
+& = \varepsilon.
+\end{align*}
+
+Hence, the elasticity of substitution between any two goods is constant and equal to \( \varepsilon \).
+
+As \( \varepsilon \) increases, goods become closer substitutes: households respond more strongly to relative price changes, reallocating consumption more aggressively toward cheaper goods.
+
+\end{solution}
+    
+            \item By substituting (\ref{eq:pl1}) into (\ref{eq:coba}), show that: 
+
+            \begin{equation}\label{lambda_t^}
+                \lambda_t^{1-\varepsilon} = \int_0^1P_t(i)^{1-\varepsilon}di.
+            \end{equation}
+            
+            Using the definition of the price index, that is, the expenditure required to purchase one unit of the consumption basket,
+            \begin{equation}\label{P_t}
+                P_{t} := \frac{\int_{0}^{1}P_{t}(i)C_t(i)di}{C_t},
+            \end{equation}
+            show that one obtains $P_t= \lambda_t$. Next, using this result, show that the price index can be expressed as: 
+            \begin{equation}\label{P_t (i)}
+                P_{t} = \left( \int_0^1P_t(i)^{1-\varepsilon}  \right)^{\frac{1}{1-\varepsilon}}.
+            \end{equation}
+            What is the interpretation of $P_t$?
+
+\begin{solution}
+
+From point 2, the demand for variety \(i\) is
+\[
+C_t(i)=\left(\frac{P_t(i)}{\lambda_t}\right)^{-\varepsilon} C_t.
+\]
+
+First, we raise both sides to the power \(\frac{\varepsilon-1}{\varepsilon}\):
+\[
+C_t(i)^{\frac{\varepsilon-1}{\varepsilon}}
+=
+\left[\left(\frac{P_t(i)}{\lambda_t}\right)^{-\varepsilon} C_t\right]^{\frac{\varepsilon-1}{\varepsilon}}
+=
+\left(\frac{P_t(i)}{\lambda_t}\right)^{1-\varepsilon}
+C_t^{\frac{\varepsilon-1}{\varepsilon}}.
+\]
+
+Substitute this into the CES aggregator:
+\begin{align*}
+C_t
+& =
+\left(\int_0^1 C_t(i)^{\frac{\varepsilon-1}{\varepsilon}}\,di\right)^{\frac{\varepsilon}{\varepsilon-1}} \\
+& = \left(\int_0^1 \left(\frac{P_t(i)}{\lambda_t}\right)^{1-\varepsilon}
+C_t^{\frac{\varepsilon-1}{\varepsilon}}\,di\right)^{\frac{\varepsilon}{\varepsilon-1}} \\
+& = \left( C_t^{\frac{\varepsilon-1}{\varepsilon}} \lambda_t^{\varepsilon - 1}  \int_0^1 P_t(i)^{1-\varepsilon}
+\,di\right) ^{\frac{\varepsilon}{\varepsilon-1}}
+\end{align*}
+
+Raise both sides to the power \(\frac{\varepsilon-1}{\varepsilon}\):
+\[
+C_t^{\frac{\varepsilon-1}{\varepsilon}}
+=
+C_t^{\frac{\varepsilon-1}{\varepsilon}}
+\lambda_t^{\varepsilon-1}
+\int_0^1 P_t(i)^{1-\varepsilon}di.
+\]
+
+Divide both sides by \(C_t^{\frac{\varepsilon-1}{\varepsilon}}\):
+\[
+1=\lambda_t^{\varepsilon-1}\int_0^1 P_t(i)^{1-\varepsilon}di.
+\]
+
+Therefore, 
+\[
+\lambda_t^{1-\varepsilon}=\int_0^1 P_t(i)^{1-\varepsilon}di.
+\]
+
+Next, consider the definition of the price index
+\[
+P_t:=\frac{\int_0^1 P_t(i)C_t(i)\,di}{C_t}.
+\]
+
+We substitute the demand function $C_t(i)$ and we obtain
+\begin{align*}
+P_t
+& =
+\frac{\int_0^1 P_t(i)\left(\frac{P_t(i)}{\lambda_t}\right)^{-\varepsilon}C_t\,di}{C_t} \\
+& = \frac{C_t \int_0^1 P_t(i)\left(\frac{P_t(i)}{\lambda_t}\right)^{-\varepsilon}\,di}{C_t} \\
+& = \int_0^1 P_t(i)\left(\frac{P_t(i)}{\lambda_t}\right)^{-\varepsilon}\,di \\
+& = \lambda ^\varepsilon \int_0^1 P_t(i)^{1 - \varepsilon} \, di
+\end{align*}
+Using the result we just obtained,
+\[
+\int_0^1 P_t(i)^{1-\varepsilon}di=\lambda_t^{1-\varepsilon},
+\]
+so
+\[
+P_t=\lambda_t^\varepsilon \lambda_t^{1-\varepsilon}=\lambda_t.
+\]
+
+Therefore,
+\[
+P_t=\lambda_t.
+\]
+
+Finally, replacing \(\lambda_t\) by \(P_t\) in
+\[
+\lambda_t^{1-\varepsilon}=\int_0^1 P_t(i)^{1-\varepsilon}di,
+\]
+we obtain
+\[
+P_t^{1-\varepsilon}=\int_0^1 P_t(i)^{1-\varepsilon}di.
+\]
+
+Taking both sides to the power \(\frac{1}{1-\varepsilon}\),
+\[
+P_t=
+\left(\int_0^1 P_t(i)^{1-\varepsilon}di\right)^{\frac{1}{1-\varepsilon}}
+.
+\]
+
+The interpretation of \(P_t\) is that it is the minimum expenditure needed to purchase one unit of the composite consumption basket \(C_t\). Recall that the Lagrangian multiplier corresponds to the marginal value of relaxing a bit the constraint. Hence, $P_t$ corresponds exactly to the shadow price of an additional unit of the composite consumption basket.
+
+\end{solution}
+    
+        \end{enumerate}
+
+    \subsection{Utility Maximization}
+
+        Alternatively, the same demand system as in (\ref{eq:pl1}) can be derived by formulating and solving the \textit{utility maximization problem}: The household chooses how much of each variety to consume by \textit{maximizing utility} (which, in this case, is equal to the basket of goods) subject to a budget constraint:
+        \begin{equation*}
+        \underset{\{C_{t}(i)\}_{i\in [0,1]}}{\max }\left[ \int_{0}^{1}C_{t}(i)^{\frac{\varepsilon -1}{%
+        \varepsilon }}di\right] ^{\frac{\varepsilon }{\varepsilon -1}}
+        \end{equation*}
+        \begin{equation*}
+        \text{ s.t.}\;\int_{0}^{1}P_{t}(i)C_{t}(i)di=X_{t},
+        \end{equation*}
+        where $X_{t}$ is total nominal expenditure.
+
+        \begin{enumerate}
+        \setcounter{enumi}{3}
+            \item Derive the first order condition for a given variety, $C_t(i)$. By exploiting this condition for a pair of varieties, $i\neq j$, show that:
+            \begin{equation}\label{eq:ci1}
+            C_{t}(i)=\left( \frac{P_{t}(i)}{P_{t}(j)}\right) ^{-\varepsilon }C_{t}(j)\,.  
+            \end{equation}
+            
+            \textit{[HINT: The first order condition you derived in the first step holds for all varieties. Hence, by taking the ratio, you can eliminate the Lagrangian multiplier and other common terms, you get to \ref{eq:ci1}.]}
+
+\begin{solution}
+The Lagrangian associates to the maximization problem of the household is
+\[
+\mathcal{L}
+=
+\left[\int_0^1 C_t(i)^{\frac{\varepsilon-1}{\varepsilon}}\,di\right]^{\frac{\varepsilon}{\varepsilon-1}}
++\mu_t\left[
+X_t-\int_0^1 P_t(i)C_t(i)\,di
+\right].
+\]
+
+The first-order condition with respect to \(C_t(i)\) is
+\begin{align*}
+0 = \frac{\partial \mathcal{L}}{\partial C_t(i)}& = \frac{\varepsilon}{\varepsilon - 1} \left[\int_0^1 C_t(j)^{\frac{\varepsilon-1}{\varepsilon}}\,dj\right]^{\frac{1}{\varepsilon - 1}} \left[\frac{\partial }{\partial C_t(i)}\int_0^1 C_t(j)^{\frac{\varepsilon-1}{\varepsilon}}\,dj\right] - \mu_t P_t(i) \\
+& =  \frac{\varepsilon}{\varepsilon - 1} \left[\int_0^1 C_t(j)^{\frac{\varepsilon-1}{\varepsilon}}\,dj\right]^{\frac{1}{\varepsilon - 1}} \frac{\varepsilon - 1}{\varepsilon}C_t(i)^{\frac{-1}{\varepsilon}} - \mu_t P_t(i) \\
+& =  \left[\int_0^1 C_t(j)^{\frac{\varepsilon-1}{\varepsilon}}\,dj\right]^{\frac{1}{\varepsilon - 1}} C_t(i)^{\frac{-1}{\varepsilon}} - \mu_t P_t(i)
+\end{align*}
+
+Hence the FOC becomes
+\[
+\left[
+\int_0^1 C_t(j)^{\frac{\varepsilon-1}{\varepsilon}}\,dj
+\right]^{\frac{1}{\varepsilon-1}}
+C_t(i)^{-\frac{1}{\varepsilon}}
+=
+\mu_t P_t(i).
+\]
+
+Now we consider the same FOC for another variety \(j\neq i\):
+\[
+\left[
+\int_0^1 C_t(k)^{\frac{\varepsilon-1}{\varepsilon}}\,dk
+\right]^{\frac{1}{\varepsilon-1}}
+C_t(j)^{-\frac{1}{\varepsilon}}
+=
+\mu_t P_t(j).
+\]
+
+Taking the ratio of the two FOCs eliminates the common term and the Lagrange multiplier:
+\[
+\frac{C_t(i)^{-\frac{1}{\varepsilon}}}{C_t(j)^{-\frac{1}{\varepsilon}}}
+=
+\frac{P_t(i)}{P_t(j)}.
+\]
+
+This implies
+\[
+\left(\frac{C_t(i)}{C_t(j)}\right)^{-\frac{1}{\varepsilon}}
+=
+\frac{P_t(i)}{P_t(j)}.
+\]
+
+Raising both sides to the power \(-\varepsilon\), we obtain
+\[
+\frac{C_t(i)}{C_t(j)}
+=
+\left(\frac{P_t(i)}{P_t(j)}\right)^{-\varepsilon}
+=
+\left(\frac{P_t(j)}{P_t(i)}\right)^{\varepsilon}.
+\]
+
+Therefore,
+\[
+C_t(i)=\left(\frac{P_t(i)}{P_t(j)}\right)^{-\varepsilon} C_t(j).
+\]
+
+\end{solution}
+
+            \item Next, substitute (\ref{eq:ci1}) \textit{(i)} into the expression for consumption expenditure $X_t$, and, \textit{(ii)} in the definition of the consumption index in (\ref{eq:coba}) to derive the following two equations: 
+            \begin{align*}
+                X_t &= C_t(j)P_t(j)^{\varepsilon}\int_0^1P_t(i)^{1-\varepsilon}di \\
+                C_t &= C_t(j)P_t(j)^{\varepsilon} \left[ \int_0^1P_t(i)^{1-\varepsilon}di \right]^{\frac{\varepsilon}{\varepsilon-1}}
+            \end{align*}
+            
+            Using the definition of the price index again, i.e., $\int_0^1P_t(i)C_t(i)di =X_t= P_t C_t$, show that 
+            \begin{equation}
+                P_{t} = \left( \int_0^1P_t(i)^{1-\varepsilon}  \right)^{\frac{1}{1-\varepsilon}}.
+            \end{equation}
+
+\begin{solution}
+
+From point 4, for any \(i,j\in[0,1]\),
+\[
+C_t(i)=\left(\frac{P_t(i)}{P_t(j)}\right)^{-\varepsilon}C_t(j).
+\]
+
+We now use this expression in two places.
+
+First, substitute into total expenditure:
+\begin{align*}
+X_t& =\int_0^1 P_t(i)C_t(i)\,di \\
+& = \int_0^1 P_t(i)\left(\frac{P_t(i)}{P_t(j)}\right)^{-\varepsilon}C_t(j)\,di \\
+& = C_t(j)P_t(j)^{\varepsilon}\int_0^1 P_t(i)^{1-\varepsilon}\,di
+\end{align*}
+
+Therefore,
+\[
+X_t=C_t(j)P_t(j)^{\varepsilon}\int_0^1 P_t(i)^{1-\varepsilon}\,di
+.
+\]
+
+Second, substitute into the CES consumption index:
+\begin{align*}
+C_t&=\left[\int_0^1 C_t(i)^{\frac{\varepsilon-1}{\varepsilon}}\,di\right]^{\frac{\varepsilon}{\varepsilon-1}} \\
+&=\left[\int_0^1 \left(\left(\frac{P_t(i)}{P_t(j)}\right)^{-\varepsilon}C_t(j)\right)^{\frac{\varepsilon-1}{\varepsilon}}\,di\right]^{\frac{\varepsilon}{\varepsilon-1}} \\
+& = \left[\int_0^1 \left(\frac{P_t(i)}{P_t(j)}\right)^{1 -\varepsilon}C_t(j)^{\frac{\varepsilon-1}{\varepsilon}}\,di\right]^{\frac{\varepsilon}{\varepsilon-1}} \\
+& = \left[
+C_t(j)^{\frac{\varepsilon-1}{\varepsilon}}
+P_t(j)^{\varepsilon-1}
+\int_0^1 P_t(i)^{1-\varepsilon}\,di
+\right]^{\frac{\varepsilon}{\varepsilon-1}} \\
+& 
+=
+C_t(j)\,
+P_t(j)^{\varepsilon}
+\left[\int_0^1 P_t(i)^{1-\varepsilon}\,di\right]^{\frac{\varepsilon}{\varepsilon-1}}
+\end{align*}
+
+Therefore,
+\[
+C_t
+=
+C_t(j)P_t(j)^{\varepsilon}
+\left[\int_0^1 P_t(i)^{1-\varepsilon}\,di\right]^{\frac{\varepsilon}{\varepsilon-1}
+}.
+\]
+
+Finally, using the definition of the price index,
+\[
+X_t=P_tC_t,
+\]
+and substituting the two expressions just derived:
+\[
+C_t(j)P_t(j)^{\varepsilon}\int_0^1 P_t(i)^{1-\varepsilon}\,di
+=
+P_t\left[
+C_t(j)P_t(j)^{\varepsilon}
+\left(\int_0^1 P_t(i)^{1-\varepsilon}\,di\right)^{\frac{\varepsilon}{\varepsilon-1}}
+\right].
+\]
+Cancel the common factor \(C_t(j)P_t(j)^{\varepsilon}\):
+\[
+\int_0^1 P_t(i)^{1-\varepsilon}\,di
+=
+P_t
+\left(\int_0^1 P_t(i)^{1-\varepsilon}\,di\right)^{\frac{\varepsilon}{\varepsilon-1}}.
+\]
+Solving for \(P_t\),
+\[
+P_t
+=
+\left(\int_0^1 P_t(i)^{1-\varepsilon}\,di\right)^{1-\frac{\varepsilon}{\varepsilon-1}}
+=
+\left(\int_0^1 P_t(i)^{1-\varepsilon}\,di\right)^{-\frac{1}{\varepsilon-1}}
+=
+\left(\int_0^1 P_t(i)^{1-\varepsilon}\,di\right)^{\frac{1}{1-\varepsilon}}.
+\]
+Therefore,
+\[
+P_t=
+\left(\int_0^1 P_t(i)^{1-\varepsilon}\,di\right)^{\frac{1}{1-\varepsilon}
+}.
+\]
+
+\end{solution}
+
+            \item[6.] Finally, show that the demand for a given variety is given by
+            \begin{equation}
+            C_{t}(i)=\left( \frac{P_{t}(i)}{P_t}\right) ^{-\varepsilon }C_t.  
+            \end{equation}
+            Is this identical to the demand system derived in \ref{eq:pl1}? 
+            
+            \textit{[HINT: Simply combine your expression for $C_t$ and $P_t$ from the previous sub question. Since this holds for an arbitrary $j \in [0,1]$, it also holds for variety $i$.]}
+
+\begin{solution}
+
+From point 5, we have
+\[
+C_t
+=
+C_t(j)P_t(j)^{\varepsilon}
+\left[\int_0^1 P_t(i)^{1-\varepsilon}\,di\right]^{\frac{\varepsilon}{\varepsilon-1}},
+\]
+and
+\[
+P_t=
+\left(\int_0^1 P_t(i)^{1-\varepsilon}\,di\right)^{\frac{1}{1-\varepsilon}}.
+\]
+
+Using
+\[
+\frac{1}{1-\varepsilon}=-\frac{1}{\varepsilon-1},
+\]
+we can rewrite
+\[
+P_t^\varepsilon
+=
+\left(\int_0^1 P_t(i)^{1-\varepsilon}\,di\right)^{-\frac{\varepsilon}{\varepsilon-1}}.
+\]
+Equivalently,
+\[
+\left(\int_0^1 P_t(i)^{1-\varepsilon}\,di\right)^{\frac{\varepsilon}{\varepsilon-1}}
+=
+P_t^{-\varepsilon}.
+\]
+
+Substituting this into the expression for \(C_t\), we obtain
+\[
+C_t
+=
+C_t(j)P_t(j)^{\varepsilon}P_t^{-\varepsilon}
+=
+C_t(j)\left(\frac{P_t(j)}{P_t}\right)^{\varepsilon}.
+\]
+
+Now we solve for \(C_t(j)\):
+\[
+C_t(j)
+=
+\left(\frac{P_t(j)}{P_t}\right)^{-\varepsilon}C_t.
+\]
+
+Since \(j\in[0,1]\) is arbitrary, the same expression holds for any variety \(i\):
+\[
+C_t(i)=\left(\frac{P_t(i)}{P_t}\right)^{-\varepsilon}C_t
+.
+\]
+
+This is identical to the demand system derived in point 2. In point 2, the demand was
+\[
+C_t(i)=\left(\frac{P_t(i)}{\lambda_t}\right)^{-\varepsilon}C_t.
+\]
+From point 3, we showed that \(\lambda_t=P_t\). Hence both derivations imply exactly the same demand function:
+\[
+\left(\frac{P_t(i)}{\lambda_t}\right)^{-\varepsilon}C_t
+=
+\left(\frac{P_t(i)}{P_t}\right)^{-\varepsilon}C_t.
+\]
+
+\end{solution}                
+\end{enumerate}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\input{ex2_sol.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+
+\section{RBC model in Dynare}
+
+    In this exercise, you will work with a pre-written Dynare code for a Real Business Cycle (RBC) model with endogenous capital accumulation. Your task is to complete the missing parts of the code, simulate impulse responses, and introduce an additional shock to analyze its impact. 
+
+    \subsection{Model Setup}
+
+        \textbf{Household.} A representative household derives utility from consumption \( c_t \) and disutility from labor \( n_t \), and faces the following maximization problem:
+        \begin{equation}\label{eq:e3a_utility}
+            \max_{\{c_t, n_t, k_{t+1}\}} \mathbb{E}_0 \sum_{t=0}^\infty \beta^t \left( \frac{c_t^{1-\sigma}}{1 - \sigma} - \frac{n_t^{1+\phi}}{1 + \phi} \right)
+        \end{equation}
+        s.t.
+        \begin{equation}
+            \mathrm{s.t.}\; 
+            \begin{cases}
+            c_t + k_{t+1} = w_t n_t + r_t k_t + (1 - \delta) k_t	\\
+            c_t, k_{t+1}, n_t \geq 0 \\
+            z_0,k_0\,\text{given}
+            \end{cases}
+        \end{equation}
+          
+        \noindent \textbf{Firms.} The representative firm faces the following static maximization problem:
+        \begin{equation}
+            \max_{\{y_t, n_t, k_t\}} y_t - w_t n_t -  r_t k_t
+        \end{equation}
+        s.t.
+        \begin{equation}
+            \mathrm{s.t.}\; 
+            \begin{cases}
+            y_t = z_t k_t^{\alpha} n_t^{1 - \alpha} \\
+            n_t, k_{t} \geq 0 \\
+            \end{cases}
+        \end{equation}
+
+        Productivity is exogenously given and follows
+        \[
+        \ln z_t = \rho \ln z_{t-1} + \varepsilon_t,
+        \]
+        where \( \varepsilon_t \sim \mathcal{N}(0, \sigma^2_{\varepsilon}) \).
+
+        \begin{enumerate}
+    
+            \item[1.] Fill in the missing parts of the Dynare code provided. First,  use appropriate values for the missing parameters $\beta, \alpha, \sigma, \phi$. Next, fill in the missing model equations for the Euler equation, labor supply, the rental rate of capital, good market clearing condition and the exogenous productivity process.  
+
+                \textit{[Hint: Make sure you adopt the correct timing convention that Dynare uses, as discussed in the second TA session.]}
+
+                \begin{solution}
+
+                    \textbf{Parameter values.} We choose standard quarterly calibration values:
+                    \begin{itemize}
+                        \item $\beta = 0.99$: implies an annualised steady-state real interest rate of about $4\%$;
+                        \item $\alpha = 1/3$: standard capital income share;
+                        \item $\sigma = 1$ — log-utility (unit elasticity of inter-temporal substitution);
+                        \item $\phi = 1$ — unit inverse Frisch elasticity (Frisch elasticity of labour supply equal to 1).
+                    \end{itemize}
+                    
+                    \textbf{Derivation of the model equations.} We form the household Lagrangian, attaching multiplier $\mu_t$ to the budget constraint:
+                    \[
+                    \mathcal{L} = \mathbb{E}_0 \sum_{t=0}^{\infty} \beta^t \left[ \frac{c_t^{1-\sigma}}{1-\sigma} - \frac{n_t^{1+\phi}}{1+\phi} + \mu_t \left( w_t n_t + (r_t + 1-\delta) k_t - c_t - k_{t+1} \right) \right]
+                    \]
+                    
+                    \textit{FOC w.r.t.\ $c_t$}: $\;c_t^{-\sigma} = \mu_t$
+                    
+                    \textit{FOC w.r.t.\ $n_t$}: $\;n_t^{\phi} = \mu_t\, w_t = c_t^{-\sigma}\, w_t$
+                    
+                    \textit{FOC w.r.t.\ $k_{t+1}$}: $\;\mu_t = \beta\,\mathbb{E}_t\!\left[\mu_{t+1}\,(r_{t+1}+1-\delta)\right]$
+                    
+                    Combining the first and third:
+                    
+                    \medskip
+                    \textbf{Euler equation:}
+                    \[
+                    c_t^{-\sigma} = \beta\,\mathbb{E}_t\!\left[ c_{t+1}^{-\sigma}\,R_{t+1} \right], \qquad R_{t+1} \equiv r_{t+1} + 1 - \delta
+                    \]
+                    
+                    \textbf{Labour supply:}
+                    \[
+                    c_t^{-\sigma}\,w_t = n_t^{\phi}
+                    \]
+                    
+                    From the firm's problem, the FOCs yield:
+                    
+                    \textbf{Rental rate of capital:}
+                    \[
+                    r_t = \alpha\,z_t\,\left(\frac{k_t}{n_t}\right)^{\!\alpha-1}
+                    = \alpha\,z_t\,kn_t^{\,\alpha-1}
+                    \]
+                    
+                    \textbf{Goods market clearing:} Combining the household budget constraint ($c_t + k_{t+1} = w_t n_t + r_t k_t + (1-\delta)k_t$) with the firm's zero-profit condition ($y_t = w_t n_t + r_t k_t$):
+                    \[
+                    c_t + k_{t+1} = y_t + (1-\delta)\,k_t
+                    \]
+                    
+                    \textbf{Technology process:}
+                    \[
+                    \ln z_t = \rho\,\ln z_{t-1} + \varepsilon_t
+                    \]
+                    
+                    \textbf{Dynare timing convention.} In Dynare, $k$ denotes end-of-period capital (the ``stock'' determined at date $t$), while $k(-1)$ is the capital available for production at date $t$. Hence the production function is written as $y = z\,k(-1)^{\alpha}\,n^{1-\alpha}$, and the resource constraint as $c + k = y + (1-\delta)\,k(-1)$.
+                    
+                    \medskip
+                    The completed Dynare equations are:
+\begin{lstlisting}[language=matlab]
+    c^(-sigma) = beta*c(+1)^(-sigma)*R(+1);       % Euler equation
+    c^(-sigma)*w = n^(phi);                       % Labour supply
+    rk = alpha*z*kn^(alpha-1);                    % Rental rate
+    c + k = y + (1-delta)*k(-1);                  % Goods market clearing
+    log(z) = rho*log(z(-1)) + eps;                % TFP process
+\end{lstlisting}
+                    
+                \end{solution}
+
+            \item[2.] Simulate an impulse response function (IRF) for a 1\% positive productivity shock. Plot the IRFs for key variables, including output \( y_t \), consumption \( c_t \), labor \( n_t \), capital \( k_t \) and wages \( w_t   \). Briefly describe how each variable responds to the productivity shock.
+
+                \textit{[NOTE: An impulse response function plots the response of a variable to an exogenous shock over time. Specifically, it is assumed that in period $t=0$, the economy is in steady state. At $t=1$ an exogenous shock, e.g. productivity, occurs. The IRF plots the dynamics of the endogenous variables as a response to this shock ceteris paribus, i.e. assuming no other shock occurs afterwards.]}
+
+                \begin{solution}
+
+                    \begin{figure}[H]
+                        \centering
+                        \includegraphics[width=0.95\linewidth]{images/irfs_baseline.pdf}
+                        \caption{Impulse responses to a 1\% positive TFP shock under the baseline calibration ($\sigma=1$, $\phi=1$).}
+                        \label{fig:irfs_baseline}
+                    \end{figure}
+                    
+                    \medskip            
+                    \textbf{Qualitative description of the responses to a 1\% positive TFP shock:}
+                    \begin{itemize}
+                        \item \textbf{Output ($y_t$):} Jumps up on impact; higher productivity raises output for given inputs.  Then it decays gradually back to steady state as the TFP shock mean-reverts ($\rho = 0.9$, productivity is a stationary $AR(1)$).  The response is amplified by the endogenous increase in labor and the gradual capital build-up.
+                    
+                        \item \textbf{Consumption ($c_t$):} Rises on impact but by less than output, because households also increase investment.  Consumption is hump-shaped: it continues to rise for several periods as the capital stock (and therefore income) builds up, before slowly returning to steady state.  This reflects consumption smoothing via the permanent-income logic embedded in the Euler equation.
+                    
+                        \item \textbf{Labour ($n_t$):} Increases on impact because the higher wage (from higher $z_t$) raises the marginal benefit of working (substitution effect).  For $\sigma=1$ and $\phi=1$, the substitution effect dominates the wealth effect, so hours rise.  Labour returns to steady state as TFP reverts.
+                    
+                        \item \textbf{Capital ($k_t$):} Rises gradually — investment is positive above its steady-state level, so the capital stock accumulates over time.  The capital response peaks later than output and is more persistent, since capital is a slow-moving stock variable subject to gradual depreciation ($\delta=0.025$).
+                    
+                        \item \textbf{Wages ($w_t$):} Track TFP closely because $w_t = (1-\alpha)\,z_t\,(k_t/n_t)^{\alpha}$.  On impact wages jump up with $z_t$; over time the rising capital-to-labour ratio provides an additional but smaller boost before wages revert to steady state.
+                    \end{itemize}
+                    
+                \end{solution}
+    
+            \end{enumerate}
+
+    \subsection{Comparatives}
+    
+        Next, we want to analyze how different values of the structural parameters affect the model dynamics. 
+        \begin{enumerate}
+            \item[3.] In the same figure, plot the IRFs for a 1\% positive productivity shock for the same variables as above for \textit{(i)} $\phi = 1$, and, \textit{(ii)} $\phi = 5$. Interpret your findings given the interpretation of $\phi$.
+
+                \begin{solution}
+
+                    \begin{figure}[H]
+                        \centering
+                        \includegraphics[width=0.95\linewidth]{images/irfs_phi_comparison.pdf}
+                        \caption{Impulse responses to a 1\% positive TFP shock: $\phi=1$ (baseline) vs $\phi=5$ (low Frisch elasticity).}
+                        \label{fig:irfs_phi_comparison}
+                    \end{figure}
+
+                    The parameter $\phi$ is the \textbf{inverse Frisch elasticity of labour supply}.  A higher $\phi$ means that labour supply is \emph{less elastic}: rworkers are less willing to adjust their hours in response to wage changes.
+                    
+                    \begin{itemize}
+                        \item \textbf{Labour ($n_t$):} The most visible difference.  With $\phi=5$, the labour response is substantially muted compared to $\phi=1$.  Workers are reluctant to change hours because the disutility of labour rises sharply with $n$.
+                    
+                        \item \textbf{Output ($y_t$):} Also responds less with $\phi=5$, because the muted labour response limits the amplification of the productivity shock.  Since $y = z\,k^{\alpha}\,n^{1-\alpha}$, a smaller $n$ response directly reduces the output response.
+                    
+                        \item \textbf{Consumption ($c_t$):} lower peak with $\phi = 5$ (less extra output to consume and invest).  However, the difference is smaller than for output, since consumption smoothing (Euler equation) operates similarly in both cases.
+                    
+                        \item \textbf{Capital ($k_t$):} Similar pattern but smaller amplitude with $\phi = 5$; less output means less savings/investment.
+                    
+                        \item \textbf{Wages ($w_t$):} With $\phi=5$ the wage response can be slightly \emph{larger} on impact because labour barely responds, so the capital-per-worker ratio changes less and the full productivity gain is reflected in wages.
+                    \end{itemize}
+                    
+                    \textbf{Intuition:} The Frisch elasticity ($1/\phi$) governs the intensive margin of labour supply.  A low Frisch elasticity ($\phi$ large) shuts down the labour channel through which TFP shocks are amplified.  This is a key mechanism in the RBC debate: the model requires reasonably elastic labour supply to match the observed volatility of hours worked.
+
+                    The crossing in the IRFs reflects differences in adjustment speed for different elasticities. Higher Frisch elasticity $\phi=1$ causes larger short-run fluctuations but faster convergence.
+                    
+                \end{solution}
+        
+            \item[4.] In a new figure, plot the IRFs for a 1\% positive productivity shock for the same variables as above for \textit{(i)} $\sigma = 1$, and, \textit{(ii)} $\sigma = 10$. Interpret your findings given the interpretation of $\sigma$.
+
+                \begin{solution}
+
+                    \begin{figure}[H]
+                        \centering
+                        \includegraphics[width=0.95\linewidth]{images/irfs_sigma_comparison.pdf}
+                        \caption{Impulse responses to a 1\% positive TFP shock: $\sigma=1$ (log utility) vs $\sigma=10$ (low EIS).}
+                        \label{fig:irfs_sigma_comparison}
+                    \end{figure}
+
+                    The parameter $\sigma$ is the \textbf{inverse elasticity of inter-temporal substitution (EIS)}.  A higher $\sigma$ implies a lower EIS, meaning households have a stronger preference for consumption smoothing over time.
+
+                    \begin{itemize}
+                        \item \textbf{Consumption ($c_t$):} With $\sigma = 10$ (very low EIS), households are extremely reluctant to deviate from a smooth consumption path.  The consumption response is much smaller on impact and nearly flat compared to the baseline.  With $\sigma=1$ (log utility, EIS$\,=1$), consumption responds more freely and displays the characteristic hump shape.
+
+                        \item \textbf{Labour ($n_t$):}  This is the most striking difference.  The labour supply equation is $c^{-\sigma}w = n^{\phi}$.  With $\sigma=10$, the marginal utility of consumption $c^{-\sigma}$ is extremely sensitive to even small increases in $c$.  After a positive TFP shock, $c$ rises (even if only slightly due to smoothing), causing $c^{-\sigma}$ to \emph{drop sharply}.  Although the wage $w$ also rises, the collapse in $c^{-\sigma}$ dominates, so that the product $c^{-\sigma}w$ actually \emph{falls}, and therefore $n$ must \emph{decrease}.  In other words, the \textbf{income/wealth effect dominates the substitution effect}: households feel wealthier and choose to work \emph{less}, despite higher wages.  This is a qualitative reversal compared to the $\sigma=1$ case, where labour rises on impact.
+
+                        \item \textbf{Output ($y_t$):} Responds substantially less with $\sigma = 10$.  While the direct TFP effect still pushes output up, the decline in labour partially offsets it.  Since $y = z\,k^{\alpha}\,n^{1-\alpha}$, the fall in $n$ dampens the output response considerably.
+
+                        \item \textbf{Capital ($k_t$) and Investment:} With $\sigma = 10$, households save more of the extra output (rather than consuming it) because they prefer a smoother consumption path.  The capital accumulation response is similar in magnitude and slightly more persistent.
+
+                        \item \textbf{Wages ($w_t$):} Both cases show a qualitatively similar wage response (increase on impact, gradual decay), but the level is higher with $\sigma=10$ because the capital-to-labour ratio rises more (since $n$ falls while $k$ accumulates).
+                    \end{itemize}
+
+                    \textbf{Intuition:} The EIS ($1/\sigma$) controls how willing agents are to shift consumption across time in response to changes in the interest rate. In other words, low EIS reflects the response to a TFP shock for more patient agents, that value a smoother consumption path and the persistence of effects.  With a very low EIS ($\sigma$ large), the consumption Euler equation requires a very large change in the real interest rate to induce even a small tilt in the consumption profile.  This results in more consumption smoothing and a larger investment/savings response.  Crucially, the high $\sigma$ also amplifies the wealth effect in the labour supply decision: since the marginal utility of consumption drops steeply with any consumption increase, households choose to enjoy more leisure rather than supply additional hours, even when wages are high.
+                    
+                \end{solution}
+        
+        \end{enumerate}
+
+
+    \subsection{Introducing New Shocks}
+
+        In this final part, you will introduce a new type of shocks to the model and analyze its impact. Specifically, we introduce a shock to the disutility of labor, $\varphi_t$. Preferences about consumption and leisure are hence given by:
+        \[
+        \left( \frac{c_t^{1-\sigma}}{1 - \sigma} - \varphi_t \frac{n_t^{1+\phi}}{1 + \phi} \right),
+        \]
+        where $\varphi_t$ is exogenous and evolves according to:
+        \[
+        \ln \varphi_t = \rho_{\varphi} \ln \varphi_{t-1} + \varsigma_t,
+        \]
+        where $\rho_{\varphi} = 0.5$ and $\varsigma_t$ is iid $\sim \mathcal{N}(0, \sigma^2_\eta)$.\footnote{Note that this implies that, in steady state, $\overline{\varphi} = 1$. Hence, the set-up in Part 1 of the exercise is a nested case, where $\varsigma_t = 0, \forall t$ and $\varphi_0 = 1$. }
+       
+        \begin{enumerate}
+            \item[5.] Implement the new shock in your Dynare model. Make sure to declare the new shock and adjust the model equations accordingly. Use reasonable values for \( \rho_\varphi \), \( \sigma_\eta \) and \( \rho_\varphi \).
+        
+            \textit{[HINT: For implementing the additional shocks in Dynare, use the \texttt{varexo} command to declare the new shocks and adjust the model equations accordingly.]}
+
+                \begin{solution}
+
+                    The implementation requires the following modifications to the baseline Dynare code:
+                    
+                    \begin{enumerate}
+                        \item[(a)] \textbf{Declare $\varphi_t$ as a new endogenous variable:}
+\begin{lstlisting}[language=matlab]
+var ... vphi;
+\end{lstlisting}
+                    
+                        \item[(b)] \textbf{Declare the innovation $\varsigma_t$ as a new exogenous variable:}
+\begin{lstlisting}[language=matlab]
+varexo eps eta;
+\end{lstlisting}
+                    
+                        \item[(c)] \textbf{Add the persistence parameter:}
+\begin{lstlisting}[language=matlab]
+parameters ... rho_vphi;
+rho_vphi = 0.5;
+\end{lstlisting}
+                    
+                        \item[(d)] \textbf{Modify the labour supply equation.} The household FOC w.r.t.\ $n_t$ with the new utility function gives
+                        \[
+                        \varphi_t\,n_t^{\phi} = c_t^{-\sigma}\,w_t
+                        \]
+                        In Dynare:
+\begin{lstlisting}[language=matlab]
+vphi*n^(phi) = c^(-sigma)*w;
+\end{lstlisting}
+                    
+                        \item[(e)] \textbf{Add the AR(1) process for $\varphi_t$:}
+\begin{lstlisting}[language=matlab]
+log(vphi) = rho_vphi*log(vphi(-1)) + eta;
+\end{lstlisting}
+                    
+                        \item[(f)] \textbf{Steady state:} Since $\ln\bar{\varphi} = 0$ in steady state, we have $\bar{\varphi}=1$, and all other steady-state values are unchanged. Add \texttt{vphi = 1;} to the \texttt{steady\_state\_model} block.
+                    
+                        \item[(g)] \textbf{Declare the shock variance:}
+\begin{lstlisting}[language=matlab]
+    shocks;
+    var eps = 0.01^2;
+    var eta = 0.01^2;   % 1% shock to labor disutility
+    end;
+\end{lstlisting}
+                    \end{enumerate}
+                    
+                    The Euler equation and all other model equations remain unchanged.
+                    
+                \end{solution}
+        
+            \item[6.] Run a new set of IRFs for a 1\% positive realization of the new shock. Plot the IRFs for output \( y_t \), consumption \( c_t \), labor \( n_t \), capital \( k_t \) and wages \( w_t \). Discuss.
+
+                \begin{solution}
+
+                    The IRFs to a 1\% positive shock to $\varphi_t$ are generated by running the file \texttt{ps3e3\_laborshock.mod} (or the driver script) and are saved to \texttt{ps3/output/irfs\_laborshock.pdf}.
+
+                    \begin{figure}[H]
+                        \centering
+                        \includegraphics[width=0.95\linewidth]{images/irfs_laborshock.pdf}
+                        \caption{Impulse responses to a 1\% positive labour disutility shock ($\varphi_t$).}
+                        \label{fig:irfs_laborshock}
+                    \end{figure}
+
+                    \medskip
+                    \textbf{Qualitative description of the responses to a 1\% positive labour-disutility shock:}
+                    
+                    A positive shock to $\varphi_t$ \emph{increases} the disutility of working.  This acts as a \textbf{negative labour supply shock}: at any given wage, households wish to supply fewer hours.
+                    
+                    \begin{itemize}
+                        \item \textbf{Labour ($n_t$):} \emph{Falls} on impact.  The higher disutility of labour induces workers to reduce hours.  This is the direct and primary effect of the shock.
+                    
+                        \item \textbf{Output ($y_t$):} \emph{Falls} on impact.  With capital predetermined ($k_{t-1}$ fixed) and labour declining, output necessarily drops: $y = z\,k^{\alpha}\,n^{1-\alpha}$.
+                    
+                        \item \textbf{Wages ($w_t$):} \emph{Rise} on impact.  With less labour and the same capital stock, the marginal product of labour $w = (1-\alpha)\,z\,(k/n)^{\alpha}$ increases because the capital-to-labour ratio rises.
+                    
+                        \item \textbf{Consumption ($c_t$):} \emph{Falls}, but by less than output.  The household dissaves (reduces investment) to smooth consumption in the face of lower output.  
+                    
+                        \item \textbf{Capital ($k_t$):} \emph{Falls} gradually.  Lower output and the desire to smooth consumption lead to lower investment, so the capital stock slowly declines.  The capital response is persistent, extending well beyond the direct effect of the shock (which has $\rho_{\varphi}=0.5$, moderate persistence).
+                    \end{itemize}
+                    
+                    \textbf{Comparison with TFP shock.}
+                    The labour-disutility shock generates a \emph{negative co-movement} between output and wages (output falls while wages rise) and between output and consumption (to the extent consumption smoothing weakens the co-movement).  This contrasts sharply with the TFP shock, which induces \emph{positive co-movement} among all key macroeconomic aggregates — a hallmark of standard RBC models.  Labour-disutility shocks are therefore sometimes used to model labour market disturbances (e.g., preference shifts, pandemic-related changes in willingness to work) that generate stagflationary dynamics.
+                    
+                \end{solution}
+        
+        \end{enumerate}
+
+\printbibliography
+
+\end{document}
