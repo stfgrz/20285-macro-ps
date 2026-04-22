@@ -1,0 +1,220 @@
+
+%%%%    TO INCLUDE/EXCLUDE THE SOLUTIONS, 
+%       COMMENT OUT AT THE END OF EACH QUESTION.
+
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[margin=3cm]{geometry}
+%\usepackage[onehalfspacing]{setspace}
+\usepackage{amsmath,graphicx}
+\graphicspath{{figures/}}
+\usepackage{microtype}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{subcaption}
+\usepackage[hidelinks]{hyperref}
+%\usepackage{chngcntr}
+\usepackage[justification=centering]{caption}
+\setlength{\parindent}{0em}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+    }
+\begin{document}
+
+
+
+\title{Advanced Macroeconomics (cod. 20285) \\ \textbf{Problem set 4}}
+% \title{Advanced Macroeconomics (cod. 20285) \\ Solutions to Problem set 4}
+
+\date{A.Y. 2025--26}
+
+\author{Instructors: Antonella Trigari\\
+Teaching Assistant: Henri Graul}
+\maketitle
+\begin{itemize}
+\item Due date: May $3^{rd}$, by \textbf{23:59} CEST;
+
+\item Write your solutions with a word processor (\LaTeX$\,$would be preferred);
+
+\item \textbf{Grading} is based on \textbf{either Exercise 1 or 2} (randomly chosen) and \textbf{Exercise 3};
+
+\item \textbf{Optional} questions will \textbf{not be graded}. They serve as additional practice exercises; 
+
+\item Please submit your solutions to \href{mailto:henri.graul@unibocconi.it}{henri.graul@unibocconi.it};
+
+\item Submit only \textbf{one} pdf for each group, don't forget to specify the names of the members of the group on the first page. Please also \textbf{indicate your names in the document title}, i.e. for example "PS4Graul/Trigari.pdf".     
+\end{itemize}
+
+\bigskip
+
+	
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \include{2025/PS/PS 4/ex3_sol}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+
+
+\section*{OPTIONAL EXERCISES}
+
+Note that the notation in these exercises might differ slightly from that used in the lectures.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section*{Exercise 4: Optimal monetary policy under Price Indexation}
+
+In this exercise, we will analyse how partial price indexation by firms impacts optimal monetary policy design. In this case, the second-order approximation to the household's welfare losses takes the form:
+\begin{equation*}
+    \frac{1}{2} \mathbb{E}_0 \left[ \sum_{t=0}^{\infty} \beta^t (\vartheta x_t^2 + \{ \pi_t  - \zeta \pi_{t-1} \}^2 )\right],
+\end{equation*}
+where $\zeta$ denotes the degree of price indexation to past inflation.
+
+The equation describing the evolution of inflation is now given by:
+\begin{equation*}
+    \pi_t - \zeta \pi_{t-1} = \kappa x_t + \beta \mathbb{E}_t [\pi_{t+1} - \zeta \pi_t] + u_t,
+\end{equation*}
+where $u_t$ represents an exogenous i.i.d cost-push shock.
+
+\begin{enumerate}
+    \item Briefly explain the relationship between $x_t, \widetilde{y}_t$ and $u_t$. Why are we using $x_t$ when studying optimal monetary policy? Next, compare the Phillips curve in this exercise with the one you obtained in Exercise 1.5. Under what condition are they congruent?
+    
+    \item Determine the optimal policy under discretion. Specifically, we assume that for simplicity, the monetary authority seeks to minimize each
+period \textit{only} the short-term losses, $\vartheta x_t^2 + \{ \pi_t  - \zeta \pi_{t-1} \}^2$. This implies that the central bank does not set-up a dynamic problem, given that past inflation is a state variable in this setting. Hence it faces the following constrained optimization problem: 
+\begin{equation*}
+    \min_{x_t, \pi_t} \vartheta x_t^2 + \{ \pi_t  - \zeta \pi_{t-1} \}^2
+\end{equation*}
+s.t.
+$$\mathrm{s.t.}\quad\begin{cases}
+\pi_t - \zeta \pi_{t-1} = \kappa x_t + \beta \mathbb{E}_t [\pi_{t+1} - \zeta \pi_t] + u_t \\
+\pi_{t-1} \;\text{given}
+\end{cases} $$
+
+
+
+\item Determine the optimal policy under commitment. 
+\item Discuss how the degree of indexation $\zeta$ affects the optimal responses
+to a transitory cost-push shock under the previous two scenarios.
+\item \textit{[Extra Optional:} Determine optimal policy under discretion \textit{without} the simplifying assumption made in 2.2.]
+\end{enumerate}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\include{2025/PS/PS 4/ex4_sol}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\section*{Exercise 5: Government Spending Shocks and Optimal Monetary Policy}
+
+Consider an economy in which the government has a time-varying \textit{exogenous} share of purchases in output $\gamma _{t}$:
+
+\begin{equation*}
+G_{t}=\gamma _{t}Y_{t}, 
+\end{equation*}
+where $\gamma$ evolves exogenously, with $\gamma_t<1$.
+
+
+The economy's resource constraint reads:
+\begin{equation*}
+Y_{t}=C_t+G_{t}.
+\end{equation*}
+The production function reads:
+\begin{equation*}
+Y_{t}=A_{t}N_{t},
+\end{equation*}%
+where $A_{t}$ is labor productivity, evolving exogenously as usual.
+
+The representative household maximizes the intertemporal utility
+
+\begin{equation*}
+\mathbb{E}_{0} \sum_{t=0}^{\infty }\beta ^{t}\left \{ \frac{%
+C_{t}^{1-\sigma }}{1-\sigma }-\frac{N_{t}^{1+\varphi }}{1+\varphi }
+\right \}
+\end{equation*}%
+under a standard sequence of budget constraints. Assume $\sigma \geq 1$ and $\varphi \geq 0$.
+
+
+
+\begin{enumerate}
+\item[1.]  Formulate the social planner’s problem and derive the first-order conditions for efficiency. Derive an expression for the efficient level of output, denoted as $Y_{t}^{e}$. What are its determinants? In particular, what is the effect of a rise in $\gamma_{t}$? 
+
+\item [2.] Assume now that the economy is characterized by imperfect competition and price stickiness à la Calvo, and define $\varepsilon$ as the elasticity of substitution between varieties. Write the expression for the marginal cost and use it, along with the price-setting condition from profit maximization and the labor supply condition from household optimization, to derive the expression for the natural level of output, $Y^n_t$. What are the determinants of $Y^n_t$? What is the effect of a rise in $\gamma_{t}$? Discuss.
+
+\item [3.] Compare the expressions for the efficient level of output, $Y^e_t$, and the natural level of output, $Y^n_t$, by taking their ratio. Do they align? If not, explain why. 
+
+\textit{[Hint: Your comparison should be based on two key variables: the markup and the government spending share.]}
+
+\item[4.] Assume now that in the steady state $Y^n=Y^e$. As shown from your answer to point 3, this requires $1-\gamma=1/\mathcal{M}$ or, equivalently, $\gamma=1/\varepsilon$. 
+
+Define two alternative measures of the output gap:
+\begin{equation}
+x_{t}\equiv \log Y_t-\log Y^e_t=y_{t}-y_{t}^{e}  \label{xe},
+\end{equation}
+\begin{equation}
+\tilde{y_{t}}\equiv \log Y_t-\log Y^e_t=y_{t}-y_{t}^{n}\label{yn}.
+\end{equation}
+
+Let a welfare-based loss function of the central bank be of the general form:
+\begin{equation}
+\mathbb{E}_{0} \sum_{t=0}^{\infty }\beta ^{t}\left \{ \pi
+_{t}^{2}+\omega \left( \text{\textit{output gap}}_{t}\right) ^{2}
+\right \},  \label{loss}
+\end{equation}
+
+subject to a Phillips curve constraint given by:
+\begin{equation}
+\pi _{t}=\beta \mathbb{E}_{t}\pi _{t+1} + \kappa  \left( \text{\textit{output
+gap}}_{t} \right).  \label{nkpc2}
+\end{equation}
+
+
+Which measure of the output gap should appear in the Phillips curve, (\ref{xe}) or (\ref{yn})? Which one should be used in the loss function? Provide an explanation.
+
+%\textit{[Hint: For the rest of the exercise, assume the presence of a wage-bill subsidy, meaning we are analyzing an undistorted steady state.]}
+
+\item[5.] Derive an expression for the gap, if any, between the efficient and natural levels of output, 
+$u_{t}$, defined as $u_{t}\equiv \kappa (y_{t}^{e}-y_{t}^{n})$. Determine whether a shock to government spending (to $\gamma _{t}$) can be interpreted as a cost-push shock.
+
+\item[6.] Characterize the effects of a cost-push shock, $u_t$, under the optimal discretionary policy. Is there a stabilization bias? Is the policy time-consistent? 
+
+
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%\include{2025/PS/PS 4/ex5_sol}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\end{document}
+
+
+
+
