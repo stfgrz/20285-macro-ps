@@ -1,0 +1,584 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  12pt,
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Exercise 3: The Phillips Curve},
+  pdfauthor={Stefano Graziosi},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+\usepackage{siunitx}
+
+    \newcolumntype{d}{S[
+      table-align-text-before=false,
+      table-align-text-after=false,
+      input-symbols={-,\*+()}
+    ]}
+  
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{Exercise 3: The Phillips Curve}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{Problem Set 4 --- Macroeconomics (20285)}
+\author{Stefano Graziosi}
+\date{April 22, 2026}
+
+\begin{document}
+\maketitle
+
+\newpage
+
+\hypertarget{section-3.1-the-classic-phillips-curve}{%
+\section{Section 3.1 --- The Classic Phillips
+Curve}\label{section-3.1-the-classic-phillips-curve}}
+
+\hypertarget{question-1-backward-looking-inflation-expectations}{%
+\subsection{Question 1: Backward-Looking Inflation
+Expectations}\label{question-1-backward-looking-inflation-expectations}}
+
+\textbf{Answer:} The backward-looking measure
+\(\tilde{E}_t[\pi_{t+1}] = \frac{1}{4}(\pi_{t-1} + \pi_{t-2} + \pi_{t-3} + \pi_{t-4})\)
+embodies an \emph{adaptive expectations} hypothesis: agents form their
+forecast of next-period inflation by simply averaging the four most
+recent quarterly inflation outcomes. Because it is a four-quarter moving
+average, this series is mechanically smoother than actual inflation ---
+it dampens transitory spikes and responds only gradually to persistent
+shifts. The measure implicitly assumes that agents use \emph{only} past
+own-inflation to forecast, ignoring all other potentially informative
+variables (monetary policy announcements, survey data, commodity prices,
+etc.). This is a strong assumption, and it means the measure will
+systematically lag behind turning points in actual inflation and may
+fail to capture the forward-looking component of expectations that
+drives pricing decisions.
+
+\newpage
+
+\hypertarget{question-2-full-sample-phillips-curve-scatterplot}{%
+\subsection{Question 2: Full-Sample Phillips Curve
+Scatterplot}\label{question-2-full-sample-phillips-curve-scatterplot}}
+
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.9\linewidth]{ps4e3_files/figure-latex/q2-scatterplot-1} 
+
+}
+
+\caption{Full-sample accelerationist Phillips curve: inflation surprise vs.\ unemployment rate.}\label{fig:q2-scatterplot}
+\end{figure}
+
+\begin{table}[!h]
+\centering\centering
+\caption{\label{tab:q2-regression}OLS: Inflation Surprise on Unemployment (Full Sample)}
+\centering
+\fontsize{10}{12}\selectfont
+\begin{tabular}[t]{lc}
+\toprule
+  & Full Sample\\
+\midrule
+(Intercept) & \num{1.020}***\\
+ & (\num{0.220})\\
+u & \num{-0.172}***\\
+ & (\num{0.036})\\
+\midrule
+Num.Obs. & \num{260}\\
+R2 & \num{0.081}\\
+R2 Adj. & \num{0.077}\\
+\bottomrule
+\multicolumn{2}{l}{\rule{0pt}{1em}* p $<$ 0.1, ** p $<$ 0.05, *** p $<$ 0.01}\\
+\end{tabular}
+\end{table}
+
+\textbf{Answer:} The dependent variable
+\(y_t = \pi_t - \tilde{E}_t[\pi_{t+1}]\) measures the \emph{inflation
+surprise} --- the deviation of realised inflation from backward-looking
+expected inflation. A negative slope coefficient on \(u_t\) is
+consistent with the Phillips curve: when unemployment is high, inflation
+tends to come in \emph{below} expectations. Over the full sample,
+however, the slope is modest and the \(R^2\) is low, reflecting the
+well-known instability of the reduced-form Phillips curve. The
+relationship is statistically significant but economically weak: much of
+the variation in inflation surprises is driven by supply shocks,
+expectation shifts, and regime changes that are not captured by a simple
+bivariate regression on unemployment.
+
+\newpage
+
+\hypertarget{question-3-subperiod-phillips-curves}{%
+\subsection{Question 3: Subperiod Phillips
+Curves}\label{question-3-subperiod-phillips-curves}}
+
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.9\linewidth]{ps4e3_files/figure-latex/q3-subperiods-1} 
+
+}
+
+\caption{Phillips curve by subperiod, each with its own OLS fit.}\label{fig:q3-subperiods}
+\end{figure}
+
+\begin{table}[!h]
+\centering
+\caption{\label{tab:q3-coefficients}OLS slope of the Phillips curve by subperiod}
+\centering
+\fontsize{10}{12}\selectfont
+\begin{tabular}[t]{lrrrrr}
+\toprule
+Period & Intercept & Slope ($\hat{\kappa}$) & SE(Slope) & $R^2$ & $N$\\
+\midrule
+1960–1986 & 2.306 & -0.373 & 0.057 & 0.294 & 104\\
+1987–2007 & 0.636 & -0.112 & 0.069 & 0.031 & 84\\
+2008–2019 & 0.084 & -0.024 & 0.075 & 0.002 & 48\\
+2020–2025 & 0.048 & 0.017 & 0.144 & 0.001 & 24\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Answer:} The subperiod analysis reveals a striking
+\emph{flattening} of the Phillips curve over time. During 1960--1986 ---
+a period encompassing both the Great Inflation and the Volcker
+disinflation --- the slope is steeply negative, reflecting large swings
+in both unemployment and inflation surprises. The Great Moderation era
+(1987--2007) shows a much flatter relationship: well-anchored
+expectations meant that unemployment fluctuations had diminished
+pass-through to inflation. The post-GFC period (2008--2019) is flatter
+still, consistent with the ``missing disinflation'' puzzle ---
+unemployment rose dramatically during and after the Great Recession, yet
+inflation barely fell below expectations, suggesting that expectations
+anchoring (possibly to the Fed's 2\% target) rendered the traditional
+trade-off nearly moot. Finally, the COVID era (2020--2025) saw a
+\emph{re-steepening}: massive supply shocks and demand stimulus produced
+both extreme labour-market tightness and large inflation surprises,
+temporarily restoring a visible negative relationship. This pattern is
+consistent with the idea that the Phillips curve is non-linear and
+appears flat when expectations are well-anchored and shocks are
+moderate, but becomes steep when large shocks push the economy far from
+equilibrium.
+
+\newpage
+
+\hypertarget{section-3.2-household-expectations-coibion-gorodnichenko-2015}{%
+\section{Section 3.2 --- Household Expectations (Coibion \&
+Gorodnichenko
+2015)}\label{section-3.2-household-expectations-coibion-gorodnichenko-2015}}
+
+\hypertarget{question-4-comparing-the-two-expectations-series}{%
+\subsection{Question 4: Comparing the Two Expectations
+Series}\label{question-4-comparing-the-two-expectations-series}}
+
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.9\linewidth]{ps4e3_files/figure-latex/q4-comparison-1} 
+
+}
+
+\caption{Backward-looking vs.\ Michigan Survey household inflation expectations.}\label{fig:q4-comparison}
+\end{figure}
+
+\textbf{Answer:} Several key differences emerge between the
+backward-looking measure \(\tilde{E}_t[\pi_{t+1}]\) and the Michigan
+Survey of Consumers (MSC) 1-year-ahead median expectation
+\(E^{MSC}_t[\pi_{t+4}]\):
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Level:} The MSC median expectation tends to run \emph{above}
+  the backward-looking measure, particularly during the low-inflation
+  period after 2000. Households systematically perceive and expect
+  higher inflation than is recorded by the PCE index, a well-documented
+  finding in the survey literature.
+\item
+  \textbf{Volatility:} The backward-looking measure, being a
+  four-quarter moving average of actual inflation, is mechanically
+  smooth. The MSC median is somewhat more volatile and can move abruptly
+  in response to salient price signals (e.g., gasoline prices).
+\item
+  \textbf{Co-movement with actual inflation:} Both series co-move with
+  actual inflation at low frequencies, but the MSC expectations diverge
+  notably during the post-GFC period --- they \emph{rose} in 2009--2011
+  even as actual (PCE) inflation was falling, a key insight exploited by
+  Coibion \& Gorodnichenko (2015).
+\end{itemize}
+
+The \emph{median} (rather than the mean) is preferred for household
+expectations because survey response distributions are typically
+right-skewed and fat-tailed. A small fraction of respondents
+consistently report extreme values (e.g., 20--50\% expected inflation),
+which disproportionately inflate the mean. The median is robust to these
+outliers and provides a more representative summary of the central
+tendency of household beliefs.
+
+\newpage
+
+\hypertarget{question-5-phillips-curve-with-msc-expectations}{%
+\subsection{Question 5: Phillips Curve with MSC
+Expectations}\label{question-5-phillips-curve-with-msc-expectations}}
+
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.9\linewidth]{ps4e3_files/figure-latex/q5-msc-phillips-1} 
+
+}
+
+\caption{Phillips curve using MSC household expectations.}\label{fig:q5-msc-phillips}
+\end{figure}
+
+\begin{table}[!h]
+\centering\centering
+\caption{\label{tab:q5-regression}OLS: Inflation Surprise (MSC) on Unemployment}
+\centering
+\fontsize{10}{12}\selectfont
+\begin{tabular}[t]{lc}
+\toprule
+  & MSC expectations\\
+\midrule
+(Intercept) & \num{-0.778}***\\
+ & (\num{0.273})\\
+u & \num{0.039}\\
+ & (\num{0.044})\\
+\midrule
+Num.Obs. & \num{192}\\
+R2 & \num{0.004}\\
+R2 Adj. & \num{-0.001}\\
+\bottomrule
+\multicolumn{2}{l}{\rule{0pt}{1em}* p $<$ 0.1, ** p $<$ 0.05, *** p $<$ 0.01}\\
+\end{tabular}
+\end{table}
+
+\textbf{Answer:} When household expectations from the Michigan Survey
+are used instead of backward-looking expectations, the Phillips curve
+slope \(\hat{\kappa}\) is \emph{negative and statistically significant},
+with a notably larger magnitude and higher \(R^2\) than in the
+full-sample regression of Q2. This replicates the central finding of
+Coibion \& Gorodnichenko (2015, Figure 6 Panel B): the Phillips curve is
+``alive'' once we measure expectations correctly.
+
+The key mechanism behind the ``missing disinflation'' puzzle is that
+household inflation expectations \emph{rose} during the 2009--2011
+period, even as the economy entered a severe recession and actual
+inflation remained subdued. Because \(\pi_t - E^{MSC}_t\) was sharply
+\emph{negative} during this period --- households expected inflation to
+be high but it came in low --- the Phillips curve is in fact consistent
+with the data: the inflation surprise was large and negative, as the PC
+predicts when unemployment is elevated. The ``puzzle'' arises only when
+backward-looking expectations are used, which mechanically track falling
+actual inflation and therefore fail to generate the negative surprise.
+
+\newpage
+
+\hypertarget{question-6-simultaneity-bias-and-ols-identification}{%
+\subsection{Question 6: Simultaneity Bias and OLS
+Identification}\label{question-6-simultaneity-bias-and-ols-identification}}
+
+\textbf{Answer:} A fundamental identification problem afflicts all the
+OLS regressions estimated above: \textbf{simultaneity (reverse
+causality)}. Inflation expectations and unemployment are \emph{jointly
+determined} --- aggregate demand shocks simultaneously raise inflation
+(or expectations thereof) and lower unemployment, while monetary policy
+responses to inflation and employment conditions shift the economy along
+both dimensions. OLS of inflation on unemployment therefore conflates
+movements \emph{along} the Phillips curve (driven by supply shocks,
+which we want to identify) with shifts \emph{of} the Phillips curve
+(driven by demand shocks and policy responses).
+
+McLeay \& Tenreyro (2020, \emph{Review of Economics and Statistics})
+formalise this argument. They show that when the central bank conducts
+\emph{optimal monetary policy} --- adjusting interest rates to stabilise
+inflation in response to unemployment gaps --- the policy reaction
+function induces a spurious positive correlation between inflation and
+unemployment in equilibrium. This endogeneity biases the OLS estimate of
+the Phillips curve slope toward zero (or even toward a positive sign).
+The PC is identified \emph{only} off supply-side shocks or when an
+instrumental variable for monetary policy is available.
+
+Relating this back to our estimates:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Q2 (backward-looking):} The near-zero slope is \emph{most}
+  susceptible to this bias. Backward-looking expectations move slowly
+  and essentially proxy for lagged inflation, so the regression captures
+  a mix of demand- and supply-driven variation, with the Fed's
+  stabilisation policy washing out much of the PC signal.
+\item
+  \textbf{Q5 (MSC expectations):} Somewhat less biased because household
+  survey expectations capture \emph{forward-looking} information that
+  partially controls for demand-shock-induced expectation shifts.
+  However, simultaneity remains --- demand booms raise both MSC
+  expectations and employment, confounding the estimate.
+\item
+  The only clean identification requires either an \emph{instrument} for
+  monetary policy (e.g., narrative shocks à la Romer \& Romer) or an
+  instrument for slack (e.g., Bartik-style local labour-market
+  instruments, as in Gitti 2024).
+\end{itemize}
+
+\newpage
+
+\hypertarget{section-3.3-non-linear-phillips-curves}{%
+\section{Section 3.3 --- Non-linear Phillips
+Curves}\label{section-3.3-non-linear-phillips-curves}}
+
+\hypertarget{question-7-summary-of-benigno-eggertsson-2024}{%
+\subsection{Question 7: Summary of Benigno \& Eggertsson
+(2024)}\label{question-7-summary-of-benigno-eggertsson-2024}}
+
+\textbf{Answer:} Benigno \& Eggertsson (2024) argue that the standard
+\emph{linear} New Keynesian Phillips curve misses a critical feature of
+the inflation--labour-market-tightness relationship: it is
+\textbf{non-linear, exhibiting a convex (or kinked) shape}.
+Specifically, they document a ``slanted-L'' pattern in the data:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{At low tightness} (high unemployment, low \(V/U\)), additional
+  slack has \emph{little} disinflationary effect --- the Phillips curve
+  is nearly flat. This explains the ``missing disinflation'' of
+  2009--2015: despite very high unemployment, inflation did not fall
+  substantially because the economy was on the flat portion of the
+  curve.
+\item
+  \textbf{At high tightness} (low unemployment, high \(V/U\)), small
+  increases in tightness generate \emph{large} inflation increases ---
+  the curve becomes steep, nearly vertical. This explains the rapid
+  inflation surge of 2021--2022: the economy quickly moved onto the
+  steep portion of the curve.
+\end{itemize}
+
+The key theoretical insight is that the non-linearity arises from labour
+market matching frictions and the asymmetric nature of wage adjustment.
+In a tight labour market, firms must bid aggressively for scarce
+workers, and wage increases pass through quickly to prices. In a slack
+labour market, downward nominal wage rigidity limits the disinflationary
+effect of high unemployment. Crucially, Benigno \& Eggertsson argue that
+\emph{no structural break or shift in the Phillips curve is needed} to
+explain both the ``missing disinflation'' and the ``inflation surge''
+--- both phenomena arise naturally from the non-linear shape of a
+\emph{stable} underlying relationship.
+
+\newpage
+
+\hypertarget{question-8-replicating-benigno-eggertsson-2024-figure-1}{%
+\subsection{Question 8: Replicating Benigno \& Eggertsson (2024) Figure
+1}\label{question-8-replicating-benigno-eggertsson-2024-figure-1}}
+
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.9\linewidth]{ps4e3_files/figure-latex/q8-nonlinear-1} 
+
+}
+
+\caption{Non-linear Phillips curve: PCE inflation vs.\ labour-market tightness ($V/U$).}\label{fig:q8-nonlinear}
+\end{figure}
+
+\textbf{Answer:} The scatterplot reveals the characteristic
+\textbf{``slanted-L'' shape} described by Benigno \& Eggertsson (2024).
+For \(V/U\) ratios below roughly 0.5--0.6 (the 2000s and post-GFC
+period), the relationship is essentially flat --- inflation hovers in a
+narrow range around 1--2\% regardless of tightness. However, above a
+threshold tightness level (approximately \(V/U > 0.8\)), inflation rises
+steeply and non-linearly. The near-vertical portion of the curve
+corresponds almost entirely to the 2021--2022 period, when the \(V/U\)
+ratio spiked to unprecedented levels (\$\textgreater\$1.5) alongside
+year-over-year PCE inflation exceeding 6\%.
+
+This pattern contrasts sharply with the \textbf{linear Phillips curve},
+which would predict a uniform, moderate negative relationship between
+slack and inflation across the entire range. The linear specification
+would substantially overpredict disinflation during the slack post-GFC
+period and underpredict inflation during the 2021--2022 boom. The
+non-linear relationship shows that inflation is relatively insensitive
+to tightness when the labour market has ample slack (firms can fill
+vacancies without large wage increases), but becomes highly sensitive
+when tightness exceeds a critical threshold (firms must compete
+aggressively for scarce workers). As the post-2022 observations show,
+the unwinding of tightness brought inflation back down, tracing the
+curve in reverse.
+
+\newpage
+
+\hypertarget{question-9-summary-of-gitti-2024}{%
+\subsection{Question 9: Summary of Gitti
+(2024)}\label{question-9-summary-of-gitti-2024}}
+
+\textbf{Answer:} Gitti (2024) addresses a key \textbf{endogeneity
+concern} that plagues the OLS scatterplot in Q8: the
+vacancy-unemployment ratio \(V/U\) is endogenous to inflation because
+demand shocks simultaneously raise both labour-market tightness and
+prices. Her identification strategy uses a \textbf{Bartik-style
+(shift-share) instrumental variable}: she exploits the fact that local
+labour markets are differentially exposed to national industry-level
+vacancy shocks. By interacting pre-determined local industry employment
+shares (the ``shares'') with national industry-level vacancy changes
+(the ``shifts''), she constructs an instrument that captures exogenous
+variation in local tightness that is plausibly uncorrelated with local
+demand shocks.
+
+This approach relates directly to Q8: the OLS scatterplot is subject to
+the \textbf{same simultaneity bias} discussed in Q6. During demand
+booms, both tightness and inflation rise \emph{simultaneously},
+inflating the apparent slope of the tightness--inflation relationship.
+Conversely, during recessions, both decline together. The OLS estimates
+therefore confound the causal effect of tightness on inflation with the
+common response of both variables to demand conditions.
+
+Gitti's IV strategy recovers a \textbf{cleaner causal estimate} of the
+tightness--inflation relationship, which she finds to be:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Non-linear}, consistent with the slanted-L shape documented by
+  Benigno \& Eggertsson (2024);
+\item
+  \textbf{Quantitatively different} from OLS --- the IV estimates
+  suggest the true causal relationship is steeper in the tight-market
+  region than OLS implies (because OLS averages over demand- and
+  supply-driven variation);
+\item
+  \textbf{Robust} to controlling for local demand conditions and to
+  various specification checks on the instrument's validity.
+\end{enumerate}
+
+Her results thus provide rigorous causal support for the non-linear
+Phillips curve hypothesis and demonstrate that naive OLS estimates ---
+whether using unemployment (Q2, Q5) or tightness (Q8) --- are biased by
+simultaneity.
+
+\newpage
+
+\hypertarget{appendix}{%
+\section{Appendix}\label{appendix}}
+
+\begin{verbatim}
+R version 4.4.2 (2024-10-31)
+Platform: aarch64-apple-darwin20
+Running under: macOS 26.3.1
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0
+
+locale:
+[1] C.UTF-8/C.UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8
+
+time zone: Europe/Rome
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] dotenv_1.0.3       kableExtra_1.4.0   scales_1.4.0       modelsummary_2.5.0
+ [5] fredr_2.1.0        lubridate_1.9.4    forcats_1.0.0      stringr_1.5.1     
+ [9] dplyr_1.2.0        purrr_1.0.4        readr_2.1.5        tidyr_1.3.1       
+[13] tibble_3.3.1       ggplot2_4.0.2      tidyverse_2.0.0   
+
+loaded via a namespace (and not attached):
+ [1] gtable_0.3.6        bayestestR_0.17.0   xfun_0.52          
+ [4] insight_1.4.4       lattice_0.22-6      tzdb_0.5.0         
+ [7] vctrs_0.7.2         tools_4.4.2         generics_0.1.4     
+[10] datawizard_1.3.0    curl_6.2.2          parallel_4.4.2     
+[13] pkgconfig_2.0.3     Matrix_1.7-3        tinytable_0.15.2   
+[16] checkmate_2.3.2     data.table_1.18.0   RColorBrewer_1.1-3 
+[19] S7_0.2.1            lifecycle_1.0.5     compiler_4.4.2     
+[22] farver_2.1.2        textshaping_1.0.0   tinytex_0.54       
+[25] codetools_0.2-20    htmltools_0.5.8.1   yaml_2.3.10        
+[28] pillar_1.11.1       crayon_1.5.3        parallelly_1.43.0  
+[31] nlme_3.1-167        tidyselect_1.2.1    digest_0.6.37      
+[34] performance_0.15.3  future_1.40.0       stringi_1.8.4      
+[37] listenv_0.9.1       labeling_0.4.3      splines_4.4.2      
+[40] rprojroot_2.1.1     fastmap_1.2.0       grid_4.4.2         
+[43] here_1.0.2          cli_3.6.5           magrittr_2.0.4     
+[46] future.apply_1.11.3 withr_3.0.2         backports_1.5.0    
+[49] bit64_4.6.0-1       timechange_0.3.0    rmarkdown_2.29     
+[52] httr_1.4.7          globals_0.17.0      bit_4.5.0.1        
+[55] zoo_1.8-15          hms_1.1.3           evaluate_1.0.3     
+[58] knitr_1.49          parameters_0.28.3   lmtest_0.9-40      
+[61] viridisLite_0.4.3   mgcv_1.9-1          rlang_1.1.7        
+[64] glue_1.8.0          xml2_1.3.6          svglite_2.2.2      
+[67] rstudioapi_0.17.1   vroom_1.6.5         jsonlite_1.8.9     
+[70] R6_2.6.1            tables_0.9.33       systemfonts_1.3.1  
+\end{verbatim}
+
+\end{document}
