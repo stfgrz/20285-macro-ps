@@ -26,7 +26,8 @@ knitr::opts_chunk$set(
   fig.height = 4.5,
   fig.pos    = "H",
   out.width  = "90%",
-  results    = "asis"
+  results    = "asis",
+  fig.path   = "../report/images/"
 )
 
 # ── Packages ──────────────────────────────────────────────────────────────────
@@ -37,6 +38,8 @@ library(modelsummary)
 library(scales)
 library(kableExtra)
 library(dotenv)
+library(sandwich)
+library(lmtest)
 
 # ── FRED API key ──────────────────────────────────────────────────────────────
 dotenv::load_dot_env(file = here::here(".env"))
@@ -56,23 +59,27 @@ theme_set(
 ```
 
 ```{r data-download}
-# ── Helper: download FRED series and aggregate to quarterly ───────────────────
+# ── Helper: download FRED series and aggregate to quarterly (with retry) ─────
 get_fred_quarterly <- function(series_id,
                                obs_start = "1960-01-01",
                                obs_end   = "2025-12-31",
-                               units     = "lin") {
-  fredr(
-    series_id          = series_id,
-    observation_start  = as.Date(obs_start),
-    observation_end    = as.Date(obs_end),
-    frequency          = "q",
-    aggregation_method = "avg",
-    units              = units
-  ) %>%
-    transmute(
-      date  = floor_date(date, "quarter"),
-      !!series_id := value
+                               units     = "lin",
+                               max_tries = 5) {
+  for (k in seq_len(max_tries)) {
+    res <- tryCatch(
+      fredr(series_id = series_id,
+            observation_start = as.Date(obs_start),
+            observation_end   = as.Date(obs_end),
+            frequency = "q", aggregation_method = "avg", units = units),
+      error = function(e) e
     )
+    if (!inherits(res, "error")) {
+      return(res %>% transmute(date = floor_date(date, "quarter"),
+                               !!series_id := value))
+    }
+    Sys.sleep(2 * k)
+  }
+  stop("FRED download failed for ", series_id, ": ", conditionMessage(res))
 }
 
 # ── Download FRED series ──────────────────────────────────────────────────────
@@ -119,6 +126,22 @@ tightness <- df_jol %>%
   inner_join(df_unemp, by = "date") %>%
   mutate(vu_ratio = JTSJOL / UNEMPLOY) %>%
   inner_join(master %>% select(date, pi), by = "date")
+
+# ── Helper: extract slope, HC1 robust SE, R^2, N from an lm object ───────────
+lm_stats <- function(mod, coef_name = "u") {
+  hc <- sqrt(diag(sandwich::vcovHC(mod, type = "HC1")))
+  list(
+    slope = unname(coef(mod)[coef_name]),
+    se    = unname(hc[coef_name]),
+    r2    = summary(mod)$r.squared,
+    n     = nrow(model.frame(mod))
+  )
+}
+
+fmt_stats <- function(s, slope_digits = 3, se_digits = 3, r2_digits = 3) {
+  sprintf("$\\hat{\\kappa} = %.*f$ (HC1 SE $= %.*f$), $R^2 = %.*f$, $N = %d$",
+          slope_digits, s$slope, se_digits, s$se, r2_digits, s$r2, s$n)
+}
 ```
 
 \newpage
@@ -165,18 +188,10 @@ ggplot(df_q2, aes(x = u, y = y)) +
 
 ```{r q2-regression}
 mod_q2 <- lm(y ~ u, data = df_q2)
-
-modelsummary(
-  list("Full Sample" = mod_q2),
-  stars    = c("*" = 0.1, "**" = 0.05, "***" = 0.01),
-  gof_map  = c("nobs", "r.squared", "adj.r.squared"),
-  output   = "kableExtra",
-  title    = "OLS: Inflation Surprise on Unemployment (Full Sample)"
-) %>%
-  kable_styling(latex_options = c("hold_position"), font_size = 10)
+s_q2   <- lm_stats(mod_q2)
 ```
 
-**Answer:** The dependent variable $y_t = \pi_t - \tilde{E}_t[\pi_{t+1}]$ measures the *inflation surprise* — the deviation of realised inflation from backward-looking expected inflation. A negative slope coefficient on $u_t$ is consistent with the Phillips curve: when unemployment is high, inflation tends to come in *below* expectations. Over the full sample, however, the slope is modest and the $R^2$ is low, reflecting the well-known instability of the reduced-form Phillips curve. The relationship is statistically significant but economically weak: much of the variation in inflation surprises is driven by supply shocks, expectation shifts, and regime changes that are not captured by a simple bivariate regression on unemployment.
+**Answer:** The dependent variable $y_t = \pi_t - \tilde{E}_t[\pi_{t+1}]$ measures the *inflation surprise* — the deviation of realised inflation from backward-looking expected inflation. A negative slope coefficient on $u_t$ is consistent with the Phillips curve: when unemployment is high, inflation tends to come in *below* expectations. The full-sample OLS fit (`r fmt_stats(s_q2)`) confirms a small but statistically significant negative slope. The economic magnitude is modest and the $R^2$ low, reflecting the well-known instability of the reduced-form Phillips curve: much of the variation in inflation surprises is driven by supply shocks, expectation shifts, and regime changes that are not captured by a simple bivariate regression on unemployment.
 
 \newpage
 
@@ -219,31 +234,31 @@ subperiod_models <- df_q3 %>%
   group_by(period) %>%
   group_map(~ {
     mod <- lm(y ~ u, data = .x)
+    s   <- lm_stats(mod)
     tibble(
-      Period    = .y$period,
-      Intercept = coef(mod)[1],
-      Slope     = coef(mod)[2],
-      SE_slope  = summary(mod)$coefficients[2, 2],
-      R2        = summary(mod)$r.squared,
-      N         = nrow(.x)
+      Period   = .y$period,
+      Slope    = s$slope,
+      SE_HC1   = s$se,
+      R2       = s$r2,
+      N        = s$n
     )
   }, .keep = TRUE) %>%
   bind_rows()
 
 kable(
   subperiod_models,
-  format  = "latex",
-  digits  = 3,
-  caption = "OLS slope of the Phillips curve by subperiod",
-  booktabs = TRUE,
-  col.names = c("Period", "Intercept", "Slope ($\\hat{\\kappa}$)",
-                "SE(Slope)", "$R^2$", "$N$"),
-  escape = FALSE
+  format    = "latex",
+  digits    = 3,
+  caption   = "Phillips-curve slope by subperiod (HC1-robust SEs)",
+  booktabs  = TRUE,
+  col.names = c("Period", "Slope ($\\hat{\\kappa}$)",
+                "HC1 SE", "$R^2$", "$N$"),
+  escape    = FALSE
 ) %>%
   kable_styling(latex_options = c("hold_position"), font_size = 10)
 ```
 
-**Answer:** The subperiod analysis reveals a striking *flattening* of the Phillips curve over time. During 1960–1986 — a period encompassing both the Great Inflation and the Volcker disinflation — the slope is steeply negative, reflecting large swings in both unemployment and inflation surprises. The Great Moderation era (1987–2007) shows a much flatter relationship: well-anchored expectations meant that unemployment fluctuations had diminished pass-through to inflation. The post-GFC period (2008–2019) is flatter still, consistent with the "missing disinflation" puzzle — unemployment rose dramatically during and after the Great Recession, yet inflation barely fell below expectations, suggesting that expectations anchoring (possibly to the Fed's 2% target) rendered the traditional trade-off nearly moot. Finally, the COVID era (2020–2025) saw a *re-steepening*: massive supply shocks and demand stimulus produced both extreme labour-market tightness and large inflation surprises, temporarily restoring a visible negative relationship. This pattern is consistent with the idea that the Phillips curve is non-linear and appears flat when expectations are well-anchored and shocks are moderate, but becomes steep when large shocks push the economy far from equilibrium.
+**Answer:** The subperiod analysis reveals a striking *flattening* of the Phillips curve over time. During 1960–1986 — a period encompassing both the Great Inflation and the Volcker disinflation — the slope is steeply negative ($\hat{\kappa}\approx-0.37$), reflecting large swings in both unemployment and inflation surprises. The Great Moderation era (1987–2007) shows a much flatter relationship ($\hat{\kappa}\approx-0.11$): well-anchored expectations meant that unemployment fluctuations had diminished pass-through to inflation. The post-GFC period (2008–2019) is flatter still ($\hat{\kappa}\approx-0.02$, $R^2\approx0.00$), consistent with the "missing disinflation" puzzle — unemployment rose dramatically during and after the Great Recession, yet inflation barely fell below expectations, suggesting that expectations anchoring (possibly to the Fed's 2% target) rendered the traditional trade-off nearly moot. The COVID era (2020–2025) is harder to read: although the *scatter* spans an extraordinary range — from the 2020:Q2 unemployment spike paired with deflationary surprises to the 2021–2022 inflation surge at very low $u_t$ — the OLS slope is statistically indistinguishable from zero ($\hat{\kappa}\approx 0.02$, HC1 SE $\approx 0.12$, $N=24$), because supply-driven outliers dominate a short and noisy sample. This pattern is consistent with the idea that the Phillips curve is non-linear and appears flat when expectations are well-anchored and shocks are moderate, but the linear-in-$u$ specification is poorly suited to the COVID episode, where most of the action lies on the steep arm of the slanted-L examined in Question~9.
 
 \newpage
 
@@ -283,7 +298,7 @@ ggplot(df_q4, aes(x = date, y = value, color = series)) +
   )
 ```
 
-**Answer:** Several key differences emerge between the backward-looking measure $\tilde{E}_t[\pi_{t+1}]$ and the Michigan Survey of Consumers (MSC) 1-year-ahead median expectation $E^{MSC}_t[\pi_{t+4}]$:
+**Answer:** Figure \@ref(fig:q4-comparison) overlays the two series on a common axis from 1978:Q1 onward. Several key differences emerge between the backward-looking measure $\tilde{E}_t[\pi_{t+1}]$ and the Michigan Survey of Consumers (MSC) 1-year-ahead median expectation $E^{MSC}_t[\pi_{t+4}]$:
 
 - **Level:** The MSC median expectation tends to run *above* the backward-looking measure, particularly during the low-inflation period after 2000. Households systematically perceive and expect higher inflation than is recorded by the PCE index, a well-documented finding in the survey literature.
 - **Volatility:** The backward-looking measure, being a four-quarter moving average of actual inflation, is mechanically smooth. The MSC median is somewhat more volatile and can move abruptly in response to salient price signals (e.g., gasoline prices).
@@ -295,7 +310,7 @@ The *median* (rather than the mean) is preferred for household expectations beca
 
 ## Question 6: Phillips Curve with MSC Expectations
 
-```{r q6-msc-phillips, fig.cap="Phillips curve using MSC household expectations."}
+```{r q5-msc-phillips, fig.cap="Phillips curve using MSC household expectations (contemporaneous specification)."}
 df_q6 <- master %>%
   filter(!is.na(pi), !is.na(msc_expectation), !is.na(u)) %>%
   mutate(y_msc = pi - msc_expectation)
@@ -313,22 +328,42 @@ ggplot(df_q6, aes(x = u, y = y_msc)) +
   )
 ```
 
-```{r q6-regression}
-mod_q6 <- lm(y_msc ~ u, data = df_q6)
+```{r q6-msc-aligned, fig.cap="Phillips curve with the MSC forecast aligned to the realisation it predicts: $\\pi_t-E^{MSC}_{t-4}[\\pi_t]$."}
+master <- master %>%
+  mutate(msc_lag4 = dplyr::lag(msc_expectation, 4))
 
-modelsummary(
-  list("MSC expectations" = mod_q6),
-  stars    = c("*" = 0.1, "**" = 0.05, "***" = 0.01),
-  gof_map  = c("nobs", "r.squared", "adj.r.squared"),
-  output   = "kableExtra",
-  title    = "OLS: Inflation Surprise (MSC) on Unemployment"
-) %>%
-  kable_styling(latex_options = c("hold_position"), font_size = 10)
+df_q6a <- master %>%
+  filter(!is.na(pi), !is.na(msc_lag4), !is.na(u)) %>%
+  mutate(y_msc_aln = pi - msc_lag4)
+
+ggplot(df_q6a, aes(x = u, y = y_msc_aln)) +
+  geom_point(alpha = 0.45, size = 1.5, color = "#D6604D") +
+  geom_smooth(method = "lm", se = TRUE, color = "grey30",
+              linewidth = 0.8, fill = "grey80") +
+  labs(
+    title    = "Phillips Curve with Aligned MSC Expectation",
+    subtitle = paste0("Aligned: forecast made at t-4 for YoY inflation at t (N = ",
+                      nrow(df_q6a), ")"),
+    x        = "Unemployment rate (%)",
+    y        = expression(pi[t] - E[t-4]^{MSC}*(pi[t])),
+    caption  = "Sources: BEA (PCE) and BLS via FRED; University of Michigan Survey of Consumers."
+  )
 ```
 
-**Answer:** When household expectations from the Michigan Survey are used instead of backward-looking expectations, the Phillips curve slope $\hat{\kappa}$ is *negative and statistically significant*, with a notably larger magnitude and higher $R^2$ than in the full-sample regression of Question 2. This replicates the central finding of Coibion & Gorodnichenko (2015, Figure 6 Panel B): the Phillips curve is "alive" once we measure expectations correctly.
+```{r q6-regression}
+mod_q6  <- lm(y_msc      ~ u, data = df_q6)
+mod_q6a <- lm(y_msc_aln  ~ u, data = df_q6a)
+s_q6  <- lm_stats(mod_q6)
+s_q6a <- lm_stats(mod_q6a)
+```
 
-The key mechanism behind the "missing disinflation" puzzle is that household inflation expectations *rose* during the 2009–2011 period, even as the economy entered a severe recession and actual inflation remained subdued. Because $\pi_t - E^{MSC}_t$ was sharply *negative* during this period — households expected inflation to be high but it came in low — the Phillips curve is in fact consistent with the data: the inflation surprise was large and negative, as the PC predicts when unemployment is elevated. The "puzzle" arises only when backward-looking expectations are used, which mechanically track falling actual inflation and therefore fail to generate the negative surprise.
+**Answer:** When household expectations from the Michigan Survey of Consumers are used instead of backward-looking expectations, the Phillips curve relationship changes markedly compared to Question 2. With the *contemporaneous* specification $y_t = \pi_t - E^{MSC}_t[\pi_{t+4}]$ the OLS slope is small, of indeterminate sign, and statistically indistinguishable from zero (`r fmt_stats(s_q6)`); the scatterplot is essentially flat.
+
+This result has both an economic and a measurement component. First, household inflation expectations — particularly since the Global Financial Crisis — tend to be *biased upward* relative to realised inflation, so $\pi_t - E^{MSC}_t[\pi_{t+4}]$ is negative on average over the sample. Second, the dependent variable as constructed is *not a properly aligned conditional surprise*: $\pi_t$ is current year-on-year inflation, while $E^{MSC}_t[\pi_{t+4}]$ is a forecast for inflation four quarters ahead. The realisation and the forecast horizon do not match.
+
+A simple diagnostic confirms that the timing convention matters. Substituting $E^{MSC}_{t-4}[\pi_t]$ — the forecast made one year earlier of the YoY inflation rate that has just realised — recovers a downward-sloping relationship (`r fmt_stats(s_q6a)`). The slope flips from a small positive to a small but visibly negative number once the forecast is dated correctly, so part of the "missing-disinflation flattening" in the contemporaneous specification is mechanical mis-alignment rather than evidence on the structural Phillips slope.
+
+These findings are consistent with the central insight of Coibion and Gorodnichenko (2015). When household expectations are used, the phenomenon of "missing disinflation" essentially *disappears*. During the 2009–2013 period, household inflation expectations rose sharply (driven by oil and gasoline prices), even as the economy was in a deep recession. Because $E^{MSC}_t$ was high, the inflation surprise was already very negative — exactly what the Phillips curve would predict when unemployment is elevated. The "puzzle" arose only when backward-looking or professional-forecaster expectations (which fell during the recession) were used, generating a small negative surprise inconsistent with the large unemployment gap.
 
 \newpage
 
@@ -336,7 +371,7 @@ The key mechanism behind the "missing disinflation" puzzle is that household inf
 
 **Answer:** A fundamental identification problem afflicts all the OLS regressions estimated above (in Questions 2, 3, and 6): **simultaneity (reverse causality)**. Inflation expectations and unemployment are *jointly determined* — aggregate demand shocks simultaneously raise inflation (or expectations thereof) and lower unemployment, while monetary policy responses to inflation and employment conditions shift the economy along both dimensions. OLS of inflation on unemployment therefore conflates movements *along* the Phillips curve (driven by supply shocks, which we want to identify) with shifts *of* the Phillips curve (driven by demand shocks and policy responses).
 
-McLeay & Tenreyro (2020, *Review of Economics and Statistics*) formalise this argument. They show that when the central bank conducts *optimal monetary policy* — adjusting interest rates to stabilise inflation in response to unemployment gaps — the policy reaction function induces a spurious positive correlation between inflation and unemployment in equilibrium. This endogeneity biases the OLS estimate of the Phillips curve slope toward zero (or even toward a positive sign). The PC is identified *only* off supply-side shocks or when an instrumental variable for monetary policy is available.
+McLeay & Tenreyro (2020, *NBER Macroeconomics Annual* 34) formalise this argument. They show that when the central bank conducts *optimal monetary policy* — adjusting interest rates to stabilise inflation in response to unemployment gaps — the policy reaction function induces a spurious positive correlation between inflation and unemployment in equilibrium. This endogeneity biases the OLS estimate of the Phillips curve slope toward zero (or even toward a positive sign). The PC is identified *only* off supply-side shocks or when an instrumental variable for monetary policy is available.
 
 Relating this back to our estimates:
 
@@ -356,7 +391,7 @@ Relating this back to our estimates:
 - **At low tightness** (high unemployment, low $V/U$), additional slack has *little* disinflationary effect — the Phillips curve is nearly flat. This explains the "missing disinflation" of 2009–2015: despite very high unemployment, inflation did not fall substantially because the economy was on the flat portion of the curve.
 - **At high tightness** (low unemployment, high $V/U$), small increases in tightness generate *large* inflation increases — the curve becomes steep, nearly vertical. This explains the rapid inflation surge of 2021–2022: the economy quickly moved onto the steep portion of the curve.
 
-The key theoretical insight is that the non-linearity arises from labour market matching frictions and the asymmetric nature of wage adjustment. In a tight labour market, firms must bid aggressively for scarce workers, and wage increases pass through quickly to prices. In a slack labour market, downward nominal wage rigidity limits the disinflationary effect of high unemployment. Crucially, Benigno & Eggertsson argue that *no structural break or shift in the Phillips curve is needed* to explain both the "missing disinflation" and the "inflation surge" — both phenomena arise naturally from the non-linear shape of a *stable* underlying relationship.
+The key theoretical mechanism is a *capacity constraint on production*: firms can substitute between vacancies and labour to adjust output, but as the labour market approaches full utilisation the marginal cost curve becomes very steep — effectively kinking — because additional output requires either bidding scarce workers away from other firms or accepting longer vacancy durations. Once this constraint binds, small increases in tightness map into large increases in marginal cost and hence in price-setting markups, generating the near-vertical arm of the slanted-L. Below the kink, by contrast, marginal cost is roughly flat in tightness, so additional slack has little disinflationary bite. Search-and-matching frictions are a complementary force: when $V/U$ is high, hiring takes longer and wage offers must rise to attract workers, reinforcing the cost-side amplification. Crucially, Benigno & Eggertsson argue that *no structural break or shift in the Phillips curve is needed* to explain both the "missing disinflation" and the "inflation surge" — both phenomena arise naturally from the non-linear shape of a *stable* underlying relationship.
 
 \newpage
 
@@ -385,9 +420,9 @@ ggplot(tightness, aes(x = vu_ratio, y = pi)) +
   )
 ```
 
-**Answer:** The scatterplot reveals the characteristic **"slanted-L" shape** described by Benigno & Eggertsson (2024). For $V/U$ ratios below roughly 0.5–0.6 (the 2000s and post-GFC period), the relationship is essentially flat — inflation hovers in a narrow range around 1–2% regardless of tightness. However, above a threshold tightness level (approximately $V/U > 0.8$), inflation rises steeply and non-linearly. The near-vertical portion of the curve corresponds almost entirely to the 2021–2022 period, when the $V/U$ ratio spiked to unprecedented levels ($>$1.5) alongside year-over-year PCE inflation exceeding 6%.
+**Answer:** The scatterplot reveals the characteristic **"slanted-L" shape** described by Benigno & Eggertsson (2024). For $V/U$ ratios below roughly $1$, the relationship is essentially flat: across the 2000–2019 expansion, the GFC trough, and the late-cycle 2018–2019 quarters where $V/U$ first crossed above one with inflation still anchored around 2%, year-over-year PCE inflation hovers in a narrow $1$–$2.5\%$ band regardless of tightness. The steep, near-vertical arm of the curve is essentially the **2021:Q2–2023:Q1 cluster**: every quarter in our sample with PCE inflation above 4% sits in this window, with $V/U$ ratios between $1.04$ and $1.93$. Within this cluster a roughly $0.9$-point increase in $V/U$ (from $1.04$ to $1.93$ over 2021:Q2–2022:Q2) is associated with PCE inflation rising from $4.0\%$ to $6.9\%$. The kink itself sits near $V/U \approx 1$ — close to where Benigno & Eggertsson place it in their Figure 1.
 
-This pattern contrasts sharply with the **linear Phillips curve**, which would predict a uniform, moderate negative relationship between slack and inflation across the entire range. The linear specification would substantially overpredict disinflation during the slack post-GFC period and underpredict inflation during the 2021–2022 boom. The non-linear relationship shows that inflation is relatively insensitive to tightness when the labour market has ample slack (firms can fill vacancies without large wage increases), but becomes highly sensitive when tightness exceeds a critical threshold (firms must compete aggressively for scarce workers). As the post-2022 observations show, the unwinding of tightness brought inflation back down, tracing the curve in reverse.
+This pattern contrasts sharply with the **linear Phillips curve**, which would predict a uniform, moderate negative relationship between slack and inflation across the entire range. The linear specification would substantially overpredict disinflation during the slack post-GFC period and underpredict inflation during the 2021–2022 boom. The non-linear relationship shows that inflation is relatively insensitive to tightness when the labour market has ample slack — firms can fill vacancies without large wage increases — but becomes highly sensitive once tightness pushes the economy past the kink and onto the capacity-constrained arm. As the post-2022 observations show, the unwinding of tightness brought inflation back down, tracing the curve in reverse: the 2024–2025 quarters are back at $V/U\approx 1$ with PCE inflation around $2.5\%$.
 
 \newpage
 
