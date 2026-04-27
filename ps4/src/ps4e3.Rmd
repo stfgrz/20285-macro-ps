@@ -249,7 +249,14 @@ kable(
 
 # Section 3.2 — Household Expectations (Coibion & Gorodnichenko 2015)
 
-## Question 4: Comparing the Two Expectations Series
+## Question 4: Summary of Coibion & Gorodnichenko (2015)
+
+**Answer:** The central question addressed by Coibion & Gorodnichenko (2015) is the "missing disinflation" puzzle: why did US inflation not fall much further (or enter deflation) during the Great Recession of 2008–2011, despite the massive spike in unemployment and economic slack? Traditional Phillips curve models, which relied on backward-looking expectations or forecasts by professionals, predicted a much sharper disinflation.
+
+
+\newpage
+
+## Question 5: Comparing the Two Expectations Series
 
 ```{r q4-comparison, fig.cap="Backward-looking vs.\\ Michigan Survey household inflation expectations."}
 df_q4 <- master %>%
@@ -285,31 +292,31 @@ The *median* (rather than the mean) is preferred for household expectations beca
 
 \newpage
 
-## Question 5: Phillips Curve with MSC Expectations
+## Question 6: Phillips Curve with MSC Expectations
 
-```{r q5-msc-phillips, fig.cap="Phillips curve using MSC household expectations."}
-df_q5 <- master %>%
+```{r q6-msc-phillips, fig.cap="Phillips curve using MSC household expectations."}
+df_q6 <- master %>%
   filter(!is.na(pi), !is.na(msc_expectation), !is.na(u)) %>%
   mutate(y_msc = pi - msc_expectation)
 
-ggplot(df_q5, aes(x = u, y = y_msc)) +
+ggplot(df_q6, aes(x = u, y = y_msc)) +
   geom_point(alpha = 0.45, size = 1.5, color = "#D6604D") +
   geom_smooth(method = "lm", se = TRUE, color = "grey30",
               linewidth = 0.8, fill = "grey80") +
   labs(
     title    = "Phillips Curve with Household Expectations",
-    subtitle = paste0("N = ", nrow(df_q5), " quarterly observations"),
+    subtitle = paste0("N = ", nrow(df_q6), " quarterly observations"),
     x        = "Unemployment rate (%)",
     y        = expression(pi[t] - E[t]^{MSC}*(pi[t+4])),
     caption  = "Sources: BEA (PCE) and BLS via FRED; University of Michigan Survey of Consumers."
   )
 ```
 
-```{r q5-regression}
-mod_q5 <- lm(y_msc ~ u, data = df_q5)
+```{r q6-regression}
+mod_q6 <- lm(y_msc ~ u, data = df_q6)
 
 modelsummary(
-  list("MSC expectations" = mod_q5),
+  list("MSC expectations" = mod_q6),
   stars    = c("*" = 0.1, "**" = 0.05, "***" = 0.01),
   gof_map  = c("nobs", "r.squared", "adj.r.squared"),
   output   = "kableExtra",
@@ -318,29 +325,30 @@ modelsummary(
   kable_styling(latex_options = c("hold_position"), font_size = 10)
 ```
 
-**Answer:** When household expectations from the Michigan Survey are used instead of backward-looking expectations, the Phillips curve slope $\hat{\kappa}$ is *negative and statistically significant*, with a notably larger magnitude and higher $R^2$ than in the full-sample regression of Q2. This replicates the central finding of Coibion & Gorodnichenko (2015, Figure 6 Panel B): the Phillips curve is "alive" once we measure expectations correctly.
+**Answer:** When household expectations from the Michigan Survey are used instead of backward-looking expectations, the Phillips curve slope $\hat{\kappa}$ is *negative and statistically significant*, with a notably larger magnitude and higher $R^2$ than in the full-sample regression of Question 2. This replicates the central finding of Coibion & Gorodnichenko (2015, Figure 6 Panel B): the Phillips curve is "alive" once we measure expectations correctly.
 
 The key mechanism behind the "missing disinflation" puzzle is that household inflation expectations *rose* during the 2009–2011 period, even as the economy entered a severe recession and actual inflation remained subdued. Because $\pi_t - E^{MSC}_t$ was sharply *negative* during this period — households expected inflation to be high but it came in low — the Phillips curve is in fact consistent with the data: the inflation surprise was large and negative, as the PC predicts when unemployment is elevated. The "puzzle" arises only when backward-looking expectations are used, which mechanically track falling actual inflation and therefore fail to generate the negative surprise.
 
 \newpage
 
-## Question 6: Simultaneity Bias and OLS Identification
+## Question 7: Simultaneity Bias and OLS Identification
 
-**Answer:** A fundamental identification problem afflicts all the OLS regressions estimated above: **simultaneity (reverse causality)**. Inflation expectations and unemployment are *jointly determined* — aggregate demand shocks simultaneously raise inflation (or expectations thereof) and lower unemployment, while monetary policy responses to inflation and employment conditions shift the economy along both dimensions. OLS of inflation on unemployment therefore conflates movements *along* the Phillips curve (driven by supply shocks, which we want to identify) with shifts *of* the Phillips curve (driven by demand shocks and policy responses).
+**Answer:** A fundamental identification problem afflicts all the OLS regressions estimated above (in Questions 2, 3, and 6): **simultaneity (reverse causality)**. Inflation expectations and unemployment are *jointly determined* — aggregate demand shocks simultaneously raise inflation (or expectations thereof) and lower unemployment, while monetary policy responses to inflation and employment conditions shift the economy along both dimensions. OLS of inflation on unemployment therefore conflates movements *along* the Phillips curve (driven by supply shocks, which we want to identify) with shifts *of* the Phillips curve (driven by demand shocks and policy responses).
 
 McLeay & Tenreyro (2020, *Review of Economics and Statistics*) formalise this argument. They show that when the central bank conducts *optimal monetary policy* — adjusting interest rates to stabilise inflation in response to unemployment gaps — the policy reaction function induces a spurious positive correlation between inflation and unemployment in equilibrium. This endogeneity biases the OLS estimate of the Phillips curve slope toward zero (or even toward a positive sign). The PC is identified *only* off supply-side shocks or when an instrumental variable for monetary policy is available.
 
 Relating this back to our estimates:
 
-- **Q2 (backward-looking):** The near-zero slope is *most* susceptible to this bias. Backward-looking expectations move slowly and essentially proxy for lagged inflation, so the regression captures a mix of demand- and supply-driven variation, with the Fed's stabilisation policy washing out much of the PC signal.
-- **Q5 (MSC expectations):** Somewhat less biased because household survey expectations capture *forward-looking* information that partially controls for demand-shock-induced expectation shifts. However, simultaneity remains — demand booms raise both MSC expectations and employment, confounding the estimate.
+- **Question 2 (Full sample, backward-looking):** The near-zero slope is *most* susceptible to this bias. Backward-looking expectations move slowly and essentially proxy for lagged inflation, so the regression captures a mix of demand- and supply-driven variation, with the Fed's stabilisation policy washing out much of the PC signal.
+- **Question 3 (Subperiods):** The subperiod estimates are similarly biased. The observed "flattening" during the Great Moderation (1987–2007) may partly reflect a more aggressive inflation-targeting regime by the Fed, which offset demand shocks more effectively, rather than a true structural flattening of the underlying Phillips curve.
+- **Question 6 (MSC expectations):** While somewhat less biased because household survey expectations capture *forward-looking* information that partially controls for demand-shock-induced expectation shifts, simultaneity remains. Demand booms raise both MSC expectations and employment, confounding the true slope estimate.
 - The only clean identification requires either an *instrument* for monetary policy (e.g., narrative shocks à la Romer & Romer) or an instrument for slack (e.g., Bartik-style local labour-market instruments, as in Gitti 2024).
 
 \newpage
 
 # Section 3.3 — Non-linear Phillips Curves
 
-## Question 7: Summary of Benigno & Eggertsson (2024)
+## Question 8: Summary of Benigno & Eggertsson (2024)
 
 **Answer:** Benigno & Eggertsson (2024) argue that the standard *linear* New Keynesian Phillips curve misses a critical feature of the inflation–labour-market-tightness relationship: it is **non-linear, exhibiting a convex (or kinked) shape**. Specifically, they document a "slanted-L" pattern in the data:
 
@@ -351,7 +359,7 @@ The key theoretical insight is that the non-linearity arises from labour market 
 
 \newpage
 
-## Question 8: Replicating Benigno & Eggertsson (2024) Figure 1
+## Question 9: Replicating Benigno & Eggertsson (2024) Figure 1
 
 ```{r q8-nonlinear, fig.cap="Non-linear Phillips curve: PCE inflation vs.\\ labour-market tightness ($V/U$)."}
 tightness <- tightness %>%
@@ -382,11 +390,11 @@ This pattern contrasts sharply with the **linear Phillips curve**, which would p
 
 \newpage
 
-## Question 9: Summary of Gitti (2024)
+## Question 10: Summary of Gitti (2024)
 
-**Answer:** Gitti (2024) addresses a key **endogeneity concern** that plagues the OLS scatterplot in Q8: the vacancy-unemployment ratio $V/U$ is endogenous to inflation because demand shocks simultaneously raise both labour-market tightness and prices. Her identification strategy uses a **Bartik-style (shift-share) instrumental variable**: she exploits the fact that local labour markets are differentially exposed to national industry-level vacancy shocks. By interacting pre-determined local industry employment shares (the "shares") with national industry-level vacancy changes (the "shifts"), she constructs an instrument that captures exogenous variation in local tightness that is plausibly uncorrelated with local demand shocks.
+**Answer:** Gitti (2024) addresses a key **endogeneity concern** that plagues the OLS scatterplot in Question 9: the vacancy-unemployment ratio $V/U$ is endogenous to inflation because demand shocks simultaneously raise both labour-market tightness and prices. Her identification strategy uses a **Bartik-style (shift-share) instrumental variable**: she exploits the fact that local labour markets are differentially exposed to national industry-level vacancy shocks. By interacting pre-determined local industry employment shares (the "shares") with national industry-level vacancy changes (the "shifts"), she constructs an instrument that captures exogenous variation in local tightness that is plausibly uncorrelated with local demand shocks.
 
-This approach relates directly to Q8: the OLS scatterplot is subject to the **same simultaneity bias** discussed in Q6. During demand booms, both tightness and inflation rise *simultaneously*, inflating the apparent slope of the tightness–inflation relationship. Conversely, during recessions, both decline together. The OLS estimates therefore confound the causal effect of tightness on inflation with the common response of both variables to demand conditions.
+This approach relates directly to Question 9 (and Question 7): the OLS scatterplot is subject to the **same simultaneity bias** discussed previously. During demand booms, both tightness and inflation rise *simultaneously*, inflating the apparent slope of the tightness–inflation relationship. Conversely, during recessions, both decline together. The OLS estimates therefore confound the causal effect of tightness on inflation with the common response of both variables to demand conditions.
 
 Gitti's IV strategy recovers a **cleaner causal estimate** of the tightness–inflation relationship, which she finds to be:
 
