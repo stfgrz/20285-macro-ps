@@ -253,6 +253,7 @@ kable(
 
 **Answer:** The central question addressed by Coibion & Gorodnichenko (2015) is the "missing disinflation" puzzle: why did US inflation not fall much further (or enter deflation) during the Great Recession of 2008–2011, despite the massive spike in unemployment and economic slack? Traditional Phillips curve models, which relied on backward-looking expectations or forecasts by professionals, predicted a much sharper disinflation.
 
+Their key finding is that the Phillips curve is actually "alive and well" once you use the *correct* measure of inflation expectations. They document that household inflation expectations (as measured by the Michigan Survey of Consumers) closely track salient prices, particularly oil and gasoline. During the 2009–2011 period, a surge in global oil prices pushed household inflation expectations higher, even as the broader economy remained in a severe slump. When these survey-based expectations are used in an expectations-augmented Phillips curve, the implied negative inflation surprise ($\pi_t - E^{MSC}_t$) matches the high unemployment rate perfectly. This fully explains the missing disinflation without needing to assume that the underlying slope of the Phillips curve had flattened.
 
 \newpage
 
