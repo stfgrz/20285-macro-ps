@@ -72,7 +72,21 @@
         \textit{[Hint: Set up the first-order condition by differentiating the profit function with respect to \( P_t^* \). Remember to substitute the demand function and use the stochastic discount factor for nominal payoffs.]}
     
             \begin{solution}
-    
+Substituting the demand function in the profit function, we get:
+\begin{align*}
+    \max_{P_t^*} \sum_{k=0}^{N-1} \mathbb{E}_t \left\{ Q_{t,t+k} \left( \frac{1}{P_{t+k}} \right) \left( P_t^* \left( \frac{P_t^*}{P_{t+k}} \right)^{-\epsilon} C_{t+k} - \Psi_{t+k}\left(\left( \frac{P_t^*}{P_{t+k}} \right)^{-\epsilon} C_{t+k}\right) \right) \right\}.
+\end{align*}
+Now, we can take the first order condition with respect to $P_t^*$:
+\begin{align*}
+    \sum_{k=0}^{N-1} \mathbb{E}_t \left \{ Q_{t,t+k} \left( \frac{1}{P_{t+k}} \right) \left( P_{t+k}^\varepsilon (1-\varepsilon) (P_t^*)^{-\varepsilon}C_{t+k}- \psi_{t+k} P_{t+k}^\varepsilon (-\varepsilon) (P_t^*)^{-\varepsilon-1} C_{t+k} \right)\right \}=0.
+\end{align*}
+Rearranging the expression and substituting back the demand expression:
+\begin{align*}
+     \sum_{k=0}^{N-1} \mathbb{E}_t \left \{ Q_{t,t+k} \left( \frac{1}{P_{t+k}} \right) \left((1-\varepsilon)Y_{t+k|t} + \varepsilon \psi_{t+k} \frac{1}{P_t^*} Y_{t+k|t} \right)\right \}=0  \\
+     \sum_{k=0}^{N-1} \mathbb{E}_t \left \{  \left( \frac{1}{P_{t+k}} \right) Q_{t,t+k} Y_{t+k|t}\left((1-\varepsilon)P_t^* + \varepsilon \psi_{t+k} \right)\right \}=0 \\
+     \sum_{k=0}^{N-1} \mathbb{E}_t \left\{ \left( \frac{1}{P_{t+k}} \right) Q_{t,t+k} Y_{t+k|t} \left( P_t^* - \mathcal{M} \psi_{t+k} \right) \right\} = 0,
+\end{align*}
+where, in the second line, we multiplied both sides by $P_t^*$, while in the third line we divided both sides by $1-\varepsilon$ and defined $\mathcal{M}=\frac{\varepsilon}{\varepsilon-1}$.
                 
                 
             \end{solution}
@@ -88,15 +102,83 @@
         \textit{[Hint: Approximate the optimal price around a zero-inflation steady state by log-linearizing the price-setting rule. This will involve taking logarithms and expectations.]}
     
             \begin{solution}
-    
-                
-                
+First, notice that, in a steady state with zero inflation, output and prices are constant, and the price setting rule gives:
+\begin{align*}
+    \sum_{k=0}^{N-1} \frac{1}{P} \beta^k \frac{u'(C)}{u'(C)} Y (P- \mathcal{M} \psi) =0,
+\end{align*}
+which implies:
+\[
+\frac{Y}{P}(P-\mathcal{M}\psi) \sum_{k=0}^{N-1}\beta ^k=0.
+\]
+We can get rid of the first factor and solve the geometric sum:
+\[
+(P-\mathcal{M}\psi) \frac{1-\beta^{N}}{1-\beta}=0 \implies P=\mathcal{M}\psi.
+\]
+Now, notice that we can express each variable as a function of its log-deviation from the steady state:
+\[
+\hat x_t= \log X_t - \log X \implies X_t=Xe^{\hat x_t},
+\]
+hence:
+\begin{align*}
+    \sum_{k=0}^{N-1} \mathbb{E}_t \left \{ \beta ^k \frac{Y}{P} e^{\hat q_{t,t+k}+\hat y_{t+k|t}-\hat p_{t+k}}(Pe^{\hat p_t^*}-\mathcal{M}\psi e^{\hat \psi _{t+k}})\right \}=0.
+\end{align*}
+We can expand the last expression to get:
+\begin{align*}
+    \sum_{k=0}^{N-1} \mathbb{E}_t \left \{ \beta ^k Y e^{\hat q_{t,t+k}+\hat y_{t+k|t}-\hat p_{t+k}+\hat p_t^*} \right \} = \sum_{k=0}^{N-1} \mathbb{E}_t \left \{ \beta^k \frac{Y}{P}\mathcal{M}\psi e^{\hat q_{t,t+k}+\hat y_{t+k|t}-\hat p_{t+k}+\hat \psi_{t+k}}  \right\}.
+\end{align*}
+Recalling that $P=\mathcal{M}\psi$, the expression simplifies to:
+\begin{align*}
+    \sum_{k=0}^{N-1} \mathbb{E}_t \left \{ \beta ^k e^{\hat q_{t,t+k}+\hat y_{t+k|t}-\hat p_{t+k}+\hat p_t^*} \right \} = \sum_{k=0}^{N-1} \mathbb{E}_t \left \{ \beta^k e^{\hat q_{t,t+k}+\hat y_{t+k|t}-\hat p_{t+k}+\hat \psi_{t+k}}  \right\}.
+\end{align*}
+              Now, we can take the first order Taylor expension around the steady state $\hat x=0$:
+              \begin{align*}
+                  \sum_{k=0}^{N-1} \mathbb{E}_t \{ \beta^k(1+\hat q_{t,t+k}+\hat y_{t+k|t}-\hat p_{t+k}+\hat p_t^*)\} \approx \sum_{k=0}^{N-1}\mathbb{E}_t \{ \beta^k (1+\hat q_{t,t+k}+\hat y_{t+k|t}-\hat p_{t+k}+\hat \psi_{t+k}).
+              \end{align*}
+Taking everything to the left-hand side, we have:
+\[
+\sum_{k=0}^{N-1} \mathbb{E}_t \{ \beta^k(\hat p_t^*-\hat \psi_{t+k}) \} =0.
+\]
+We can split again the sum and simplify:
+\begin{align*}
+    \hat p_t^*\sum_{k=0}^{N-1} \beta^k- \sum_{k=0}^{N-1} \beta ^k \mathbb{E}_t [\hat \psi_{t+k}]=0.
+\end{align*}
+Now, we know that $\hat p_t^* = p_t^*-p$ and $\hat \psi_t= \varphi_t-\varphi$, therefore:
+\begin{align*}
+    (p_t^*-p) \frac{1-\beta^N}{1-\beta}=\sum_{k=0}^{N-1}\beta^k \mathbb{E}_t [\varphi_{t+k}-\varphi]=\sum_{k=0}^{N-1}\beta^k \mathbb{E}_t [\varphi_{t+k}]-\varphi \frac{1-\beta^N}{1-\beta} .
+\end{align*}
+Moreover, from the steady state relation, we know that:
+\[
+p= \log P=\log \mathcal{M} \psi =\log \mathcal{M}+\log \psi =\mu +\varphi,
+\]
+and so:
+\begin{align*}
+    p_t^*&=\sum_{k=0}^{N-1}\frac{(1-\beta)\beta^k}{1-\beta^N}\mathbb{E}_t[\varphi_{t+k}]+p-\varphi \\
+    & = \mu +\sum_{k=0}^{N-1} \omega _k \mathbb{E}_t [\varphi_{t+k}].
+\end{align*}
+Therefore, with the Taylor model of staggered price setting, the price $p_t^*$ set by each firm depends positively on the mark-up under flexible prices $\mathcal{M}$, on the current nominal marginal cost $\varphi_t$, and on the (discounted) expected nominal marginal costs for the following $N-1$ periods, in which the firm will not be able to reset the price.
             \end{solution}
     
         \item How does the Taylor model’s price-setting rule differ from the one generated by the Calvo model? Discuss the economic intuition behind these differences, focusing on the implications for inflation persistence. How do they compare in terms of tractability? 
     
             \begin{solution}
-    
+The Taylor and Calvo models generate similar price-setting rules in the sense that, in both cases, the reset price is a markup over a weighted average of current and expected future nominal marginal costs. The key difference is how long the newly chosen price is expected to remain in place.
+
+In the Taylor model, a firm that resets at time $t$ knows with certainty that its price will remain fixed for exactly $N$ periods. For this reason, its optimal reset price depends on a finite weighted average of marginal costs over the next $N$ periods:
+\[
+p_t^*=\mu+\sum_{k=0}^{N-1}\omega_k E_t[\varphi_{t+k}].
+\]
+The horizon is finite because the firm knows exactly when it will be allowed to re-optimise.
+
+In the Calvo model, instead, each firm can reset its price in any given period only with probability $1-\theta$. The duration of a price spell is therefore random. A firm resetting at time $t$ must take into account that the price may remain in place for many periods, so the optimal reset price depends on an infinite discounted sum of expected future marginal costs:
+\[
+p_t^*=\mu+(1-\beta\theta)\sum_{k=0}^{\infty}(\beta\theta)^k E_t[\varphi_{t+k}].
+\]
+
+Under Taylor pricing, firms face no uncertainty about the length of the price spell, so they choose a price that is optimal over a fixed horizon. Under Calvo pricing, firms do not know when they will next be able to adjust, so they place weight on marginal costs arbitrarily far in the future, although with geometrically declining weights.
+
+This difference also matters for inflation persistence. In the Calvo model, because some firms may remain stuck with the same price for a long and uncertain time, the effects of a shock are spread over an indefinite horizon. This tends to make aggregate inflation more persistent. In the Taylor model, by contrast, the price chosen at time $t$ is known to expire after $N$ periods, so the effect of a shock is transmitted only through a finite number of cohorts and disappears more quickly. For this reason, price adjustment is in general less persistent than in the Calvo model.
+
+The two models also differ in tractability. The Calvo model is usually easier to handle analytically because its probabilistic structure leads to a recursive structure. The Taylor model is more transparent in terms of timing, since price durations are fixed and firms can be grouped into $N$ cohorts, but it is less convenient analytically because one must keep track of those cohorts explicitly. 
                 
                 
             \end{solution}
@@ -113,8 +195,26 @@
         \textit{[Hint: Argue why we have symmetric pricing for firms within each cohort and derive the relationship between the log price level \( p_t \) and the optimal reset prices \( p_{t-k}^* \).]}
     
             \begin{solution}
-    
-                
+In the Taylor model, at every period $t$, only a fraction $1/N$ of firms reset their price. Equivalently, in the remaining firms that didn't set the price at time $t$, we have a fraction $1/N$ that have reset it at $t-1$, and so on.  Now, since firms that reset the price in the same period optimizes through the same first order condition (which is not firm-specific), and applying the Law of Large numbers, we can write:
+
+\begin{align*}
+    P_t^{1-\varepsilon}&=\frac{1}{N}(P_t^*)^{1-\varepsilon}+\frac{1}{N} (P_{t-1}^*)^{1-\varepsilon} + \dots + \frac{1}{N} (P_{t-(N-1)}^*)^{1-\varepsilon} \\
+    &= \frac{1}{N} \sum_{k=0}^{N-1}(P_{t-k}^*)^{1-\varepsilon}
+\end{align*}
+
+We can now express this relation as a function of log-deviations from a zero-inflation steady state:
+\begin{align*}
+    P^{1-\varepsilon}e^{(1-\varepsilon)\hat p_t}=\frac{1}{N} \sum_{k=0}^{N-1}P^{1-\varepsilon}e^{(1-\varepsilon)\hat p_{t-k}^*}.
+\end{align*}
+Taking the first order Taylor expansion around the zero-inflation steady state:
+\begin{align*}
+    1+(1-\varepsilon)\hat p_t \approx \frac{1}{N}\sum_{k=0}^{N-1} (1+(1-\varepsilon)\hat p_{t-k}^*).
+\end{align*}
+Simplifying, we get:
+\[
+\hat p_t=\frac{1}{N}\sum_{k=0}^{N-1}\hat p_{t-k}^* \implies p_t-\log P = \frac{1}{N}\sum_{k=0}^{N-1}(p_{t-k}^*-\log P) \implies p_t=\frac{1}{N}\sum_{k=0}^{N-1}p_{t-k}^*,
+\]
+that is the desired expression. 
                 
             \end{solution}
     
@@ -136,8 +236,33 @@
         \item Provide an intuitive explanation of the two equations above.
     
             \begin{solution}
+    The first equation describes the optimal reset price for the firm:
+    \[
+    p^*_t = (1 - \beta \theta) \sum_{\ell=0}^\infty (\beta \theta)^\ell \mathbb{E}_t [p_{t+\ell} + \gamma \widehat{mc}_{t + \ell }].
+    \]
+    In particular, we can see that the equation is clearly forward-looking. The intuition is the following: since firms know that they could not be able to change their price in the future, they consider also their optimal future prices. Moreover, firms also consider the future marginal costs. Hence, the optimal today reset price is a weighted average of future prices and marginal costs, with weights that sum up to one:
+    \[
+    (1-\beta \theta)\sum_{\ell =0}^\infty (\beta \theta) ^\ell = (1-\beta \theta)\frac{1}{1-\beta \theta}=1.
+    \]
+    We can see that:
+    \begin{itemize}
+        \item If firms expect higher prices in the future $p_{t+\ell}$, then they want to raise prices today, otherwise they risk to remain stucked at a too low price.
+        \item If firms expect higher marginal costs in the future $\widehat{mc}_{t+\ell}$, then they want to raise the reset price today, because the product is expected to be more expensive tomorrow.
+        \item $\gamma$ tells us how strongly today reset price reacts to future marginal cost.
+        \item $\theta^\ell$ is the probability that today's price will remain the same until period $\ell$. 
+    \end{itemize}
+    The second equation is just the aggregate price level:
+    \[
+    p_t = (1 - \theta) \sum_{\ell=0}^\infty \theta^\ell p^*_{t-\ell}.
+    \]
+    As we can see, today aggregate price level is simply the weighted average of current and past reset prices. Following the intuition of Exercise 1, we have:
+    \begin{itemize}
+        \item a fraction of firms $1-\theta$ that resets the price today,
+        \item a fraction of firms $(1-\theta)\theta$ that have resetted the price yesterday,
+        \item a fraction of firms $(1-\theta)\theta^2$ that have resetted the price two periods ago, and so on.
+    \end{itemize}
     
-                
+    
                 
             \end{solution}
     
@@ -151,7 +276,41 @@
         \]
     
             \begin{solution}
-    
+ Take the optimal reset-price equation:   
+\[
+    p^*_t = (1 - \beta \theta) \sum_{\ell=0}^\infty (\beta \theta)^\ell \mathbb{E}_t [p_{t+\ell} + \gamma \widehat{mc}_{t + \ell }].
+    \]
+Then, iterate it 1-period ahead:
+\[
+    p^*_{t+1} = (1 - \beta \theta) \sum_{\ell=0}^\infty (\beta \theta)^\ell \mathbb{E}_{t+1} [p_{t+1+\ell} + \gamma \widehat{mc}_{t+1 + \ell }],
+    \]
+and note that, by the general law of iterated expectations:
+\begin{align*}
+\mathbb{E}_t p^*_{t+1} &= \mathbb{E}_t (1 - \beta \theta) \sum_{\ell=0}^\infty (\beta \theta)^\ell \mathbb{E}_{t+1} [p_{t+1+\ell} + \gamma \widehat{mc}_{t+1 + \ell }] \\
+&= (1 - \beta \theta) \sum_{\ell=0}^\infty (\beta \theta)^\ell \mathbb{E}_{t} [p_{t+1+\ell} + \gamma \widehat{mc}_{t+1 + \ell }].
+\end{align*}
+Now, we can go back to the optimal reset price today:
+\begin{align*}
+    p^*_t &= (1 - \beta \theta) \sum_{\ell=0}^\infty (\beta \theta)^\ell \mathbb{E}_t [p_{t+\ell} + \gamma \widehat{mc}_{t + \ell }] \\
+    &= (1-\beta \theta) (p_t+\gamma \widehat{mc}_t)+(1-\beta \theta) \sum_{\ell=1}^\infty (\beta \theta)^\ell \mathbb{E}_t[p_{t+\ell}+\gamma \widehat{mc}_{t+\ell}] \\
+    &= (1-\beta \theta)(p_t+\gamma \widehat{mc}_t)+(1-\beta\theta)\sum_{\ell=0}^\infty (\beta\theta)^{\ell+1}\mathbb{E}_t[p_{t+1+\ell}+\gamma \widehat{mc}_{t+1+\ell}] \\
+    &=(1-\beta \theta)(p_t+\gamma \widehat{mc}_t)+(\beta \theta) (1-\beta\theta)\sum_{\ell=0}^\infty (\beta\theta)^{\ell}\mathbb{E}_t[p_{t+1+\ell}+\gamma \widehat{mc}_{t+1+\ell}] \\
+    &= (1-\beta \theta)(p_t+\gamma \widehat{mc}_t) + \beta \theta \mathbb{E}_t p_{t+1}^*,
+\end{align*}
+that is the desired expression.
+
+Similarly, take the price-level equation for period $t-1$:
+\[
+p_{t-1}=(1-\theta)\sum_{\ell=0}^\infty \theta^\ell p_{t-1-\ell}^*.
+\]
+Then:
+\begin{align*}
+    p_{t}&=(1-\theta)\sum_{\ell=0}^\infty \theta^\ell p_{t-\ell}^* \\
+    &= (1-\theta) p_t^*+(1-\theta) \sum_{\ell=1}^\infty \theta^\ell p_{t-\ell}^* \\
+    &= (1-\theta)p_t^*+(1-\theta)\sum_{\ell=0}^\infty \theta^{\ell+1}p_{t-1-\ell}^* \\
+    &= (1-\theta)p_t^*+\theta (1-\theta)\sum_{\ell=0}^\infty \theta^{\ell}p_{t-1-\ell}^* \\
+    &= (1-\theta)p_t^*+\theta p_{t-1}.
+\end{align*}
                 
                 
             \end{solution}
@@ -163,8 +322,39 @@
         using that $\widehat{mc}_t = \left( \sigma + \frac{\alpha + \phi}{1 - \alpha}  \right) \widetilde{y}_t$, and where $\kappa = \gamma \left( \sigma + \frac{\alpha + \phi}{1 - \alpha}  \right) \left( \frac{(1 - \theta)(1 - \beta \theta)}{\theta}    \right)$
     
             \begin{solution}
-    
-                
+First, notice that:
+\begin{align*}
+    p_t=(1-\theta)p_t^* +\theta p_{t-1} \implies p_t^*=\frac{p_t-\theta p_{t-1}}{1-\theta},
+\end{align*}
+and, similarly:
+\begin{align*}
+    \mathbb{E}_tp_{t+1}=(1-\theta)\mathbb{E}_tp_{t+1}^* +\theta p_{t} \implies \mathbb{E}_tp_{t+1}^*=\frac{\mathbb{E}_tp_{t+1}-\theta p_{t}}{1-\theta}
+\end{align*}
+Therefore, the optimal reset price equation becomes:
+\begin{align*}
+    \frac{p_t-\theta p_{t-1}}{1-\theta}=(1-\beta\theta)(p_t+\gamma \widehat{mc}_t)+\beta \theta \frac{ \mathbb{E}_tp_{t+1}-\theta p_t}{1-\theta}.
+\end{align*}
+Now, notice that:
+\begin{align*}
+    \pi_t= p_t-p_{t-1} \iff p_{t-1}=p_t-\pi_t,
+\end{align*}
+and
+\begin{align*}
+    \mathbb{E}_t\pi_{t+1}=\mathbb{E}_t p_{t+1}-p_t \iff \mathbb{E}_tp_{t+1}=p_t+\mathbb{E}_t\pi_{t+1}.
+\end{align*}
+Hence:
+\begin{align*}
+    p_t-\theta p_{t-1}=(1-\theta)(1-\beta \theta)(p_t+\gamma \widehat{mc}_t)+\beta \theta (\mathbb{E}_t p_{t+1}-\theta p_t)
+\end{align*}
+that is:
+\begin{align*}
+    p_t-\theta(p_t-\pi_t)&=(1-\theta)(1-\beta \theta)(p_t + \gamma \widehat{mc}_t)+\beta \theta (\mathbb{E}_t \pi_{t+1}+p_t-\theta p_t) \\
+    (1-\theta)p_t+\theta \pi_t&=(1-\theta)(1-\beta \theta)p_t + (1-\theta)(1-\beta \theta)\gamma \widehat{mc}_t+\beta \theta \mathbb{E}_t \pi_{t+1}+\beta \theta(1-\theta)p_t \\
+    \theta\pi_t&=(1-\theta)(1-\beta \theta) \gamma \widehat{mc}_t +\beta \theta \mathbb{E}_t \pi_{t+1} \\
+    \pi_t&=\beta \mathbb{E}_t \pi_{t+1}+\frac{(1-\theta)(1-\beta \theta)}{\theta}\gamma \left( \sigma + \frac{\alpha+\phi}{1-\alpha} \right) \tilde{y}_t \\
+    \pi_t &= \beta \mathbb{E}_t \pi_{t+1}+ \kappa \tilde{y}_t,
+\end{align*}
+that is the desired expression.
                 
             \end{solution}
             
@@ -185,7 +375,11 @@
         \item Explain the intuition for the new reset-price equation.
 
             \begin{solution}
-
+As we said before, without indexation, a firm that resets the price today chooses a  price knowing that it may remain stuck with that same price for several periods. Therefore, it sets $p_t^*$ as a weighted average of te future prices it would like to charge $p_{t+\ell}+\gamma \widehat{mc}_{t+\ell}$. With indexation, instead, if the firm cannot reset today, its price gets automatically updated with inflation. Therefore, the firm has to take into account this fact and the reset price equation adds an extra term, namely $p_{t+\ell-1}-p_{t-1}$, that is the cumulative indexation between $t$ and $t+\ell$. Indeed, notice that:
+\begin{align*}
+    \pi_t+ \pi_{t+1}+ \dots + \pi_{t+\ell-1}&= p_t-p_{t-1}+ p_{t+1}-p_t + \dots +p_{t+\ell-1}-p_{t+\ell-2} \\
+    &= p_{t+\ell-1}-p_{t-1}.
+\end{align*}
             
             
             \end{solution}
@@ -195,7 +389,54 @@
             \textit{[Hint: Start by putting the reset-price equation in a simpler recursive form.]} 
 
             \begin{solution}
+Equivalently to what we did before, let's write:
+\begin{align*}
+     p^*_t &= (1 - \beta \theta) \sum_{\ell=0}^\infty (\beta \theta)^\ell \mathbb{E}_t [p_{t+\ell} - (p_{t+\ell-1} - p_{t-1}) +  \gamma \widehat{mc}_{t+\ell}] \\
+     &=(1-\beta \theta) (p_t+\gamma \widehat{mc}_t)+(1-\beta \theta) \sum_{\ell =1}^\infty (\beta \theta)^\ell  \mathbb{E}_t [p_{t+\ell} - (p_{t+\ell-1} - p_{t-1}) +  \gamma \widehat{mc}_{t+\ell}] \\
+     &=(1-\beta \theta) (p_t+\gamma \widehat{mc}_t)+(1-\beta \theta) \sum_{\ell =0}^\infty (\beta \theta)^{\ell+1}  \mathbb{E}_t [p_{t+\ell+1} - (p_{t+\ell} - p_{t-1}) +  \gamma \widehat{mc}_{t+\ell+1}] \\
+     &=(1-\beta \theta) (p_t+\gamma \widehat{mc}_t)-\beta \theta(p_t-p_{t-1})+\beta \theta (1-\beta \theta) \sum_{\ell =0}^\infty (\beta \theta)^{\ell}  \mathbb{E}_t [p_{t+\ell+1} - (p_{t+\ell} - p_{t}) +  \gamma \widehat{mc}_{t+\ell+1}] \\
+     &=(1-\beta \theta)(p_t+\gamma\widehat{mc}_t)-\beta \theta\pi_t +\beta \theta \mathbb{E}_t p_{t+1}^*.
+\end{align*}
+From the price level equation, we know that:
+\begin{align*}
+    p_t^* =\frac{p_t-\theta(p_{t-1}+\pi_{t-1})}{1-\theta},
+\end{align*}
+and, one period ahead:
+\[
+\mathbb{E}_tp_{t+1}^* =\frac{\mathbb{E}_tp_{t+1}-\theta(p_{t}+\pi_{t})}{1-\theta}.
+\]
+Therefore:
+\begin{align*}
+    \frac{p_t-\theta(p_{t-1}+\pi_{t-1})}{1-\theta}& = (1-\beta \theta)(p_t+\gamma \widehat{mc}_t)-\beta \theta\pi_t +\beta \theta \frac{\mathbb{E}_tp_{t+1}-\theta(p_{t}+\pi_{t})}{1-\theta} \\
+    p_t-\theta(p_{t-1}+\pi_{t-1})&=(1-\theta)(1-\beta \theta)(p_t+\gamma \widehat{mc}_t)-\beta \theta (1-\theta) \pi_t +\beta \theta (\mathbb{E}_tp_{t+1}-\theta(p_{t}+\pi_{t}))
+\end{align*}
+Recall that:
+\begin{align*}
+    p_{t-1}&=p_t-\pi_t, \\
+    \mathbb{E}_t p_{t+1}&= p_t+\mathbb{E}_t \pi_{t+1}.
+\end{align*}
+Then:
+\begin{align*}
+    p_t-\theta(p_t-\pi_t+\pi_{t-1})&=(1-\theta)(1-\beta\theta)p_t +(1-\theta)(1-\beta\theta) \gamma \widehat{mc}_t\\&-\beta \theta(1-\theta) \pi_t +\beta \theta (p_t+\mathbb{E}_t\pi_{t+1}-\theta (p_t+\pi_t)) \\
+    (1-\theta) p_t +\theta(\pi_t-\pi_{t-1})&= (1-\theta)(1-\beta\theta)p_t +(1-\theta)(1-\beta\theta)\gamma \widehat{mc}_t\\&-\beta \theta(1-\theta) \pi_t+\beta \theta (1-\theta)p_t+\beta \theta (\mathbb{E}_t \pi_{t+1}-\theta \pi_t) \\
+    \theta (\pi_t-\pi_{t-1}) &= (1-\theta)(1-\beta\theta)\gamma  \widehat{mc}_t -\beta \theta(1-\theta) \pi_t +\beta \theta (\mathbb{E}_t\pi_{t+1}-\theta \pi_t) \\
+    \pi_t-\pi_{t-1} &= \kappa \tilde{y}_t -\beta(1-\theta)\pi_t+\beta \mathbb{E}_t \pi_{t+1}-\beta \theta \pi_t \\
+    \pi_t -\pi_{t-1}&= \kappa \tilde{y}_t +\beta (\mathbb{E}_t \pi_{t+1}-\pi_t)
+\end{align*}
+or, equivalently:
+\begin{align*}
+    \pi_t= \frac{1}{1+\beta}\pi_{t-1}+\frac{\beta}{1+\beta} \mathbb{E}_t \pi_{t+1}+\frac{\kappa}{1+\beta}\tilde{y}_t
+\end{align*}
+The main difference with the standard NK Phillips curve is the presence of a backward looking term: $\pi_{t-1}$. Hence, inflation becomes intrinsically more persistent: even if marginal cost falls today, inflation does not jump down immediately, because part of pricing is mechanically tied to last period’s inflation.
 
+Moreover, the forward looking inflation component is still here, $\mathbb{E}_t\pi_{t+1}$, but the coefficient in front of it is different:
+\[
+\frac{\beta}{1+\beta}< \beta. 
+\]
+In other words, the forward looking component matters less. Moreover, also the slope of the PC is lower:
+\[
+\frac{\kappa}{1+\beta}<\kappa.
+\]
             
             
         \end{solution}
